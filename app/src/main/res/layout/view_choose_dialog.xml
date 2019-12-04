@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:background="@drawable/record_dailog"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingDefaultResource">
+    <RadioGroup
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:id="@+id/group"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:textColor="#d1d2d1"
+            android:id="@+id/radio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="文本控件"/>
+        <RadioButton
+            android:textColor="#d1d2d1"
+            android:id="@+id/radio2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="时间控件"/>
+        <RadioButton
+            android:textColor="#d1d2d1"
+            android:id="@+id/radio3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日期控件"/>
+
+    </RadioGroup>
+    <View
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        style="@style/LineView"
+        android:layout_marginTop="@dimen/padding"></View>
+    <EditText
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:id="@+id/edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:background="@null"
+        android:gravity="top"
+        android:hint="请输入条目标题"
+        android:imeOptions="flagNoExtractUi"
+        android:maxLines="10"
+        android:textColor="#d1d2d1"
+        android:textColorHint="@color/record_hint" />
+    <Button
+        android:id="@+id/dialog_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/confirm_shape"
+        android:text="保存"
+        android:textColor="@color/tag"
+        android:textSize="18sp" />
+</LinearLayout>

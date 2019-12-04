@@ -35,19 +35,6 @@
             android:layout_height="wrap_content"
             android:rowCount="1">
         </GridLayout>
-        <!--文本编辑控件 -->
-        <EditText
-            android:visibility="gone"
-            style="@style/TextViewBack"
-            android:id="@+id/edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding"
-            android:gravity="center_vertical"
-            android:hint="请输入"
-            android:imeOptions="flagNoExtractUi"
-            android:maxLines="10"
-            android:textColorHint="@color/record_hint" />
         <!--文本显示控件 -->
         <TextView
             android:visibility="gone"

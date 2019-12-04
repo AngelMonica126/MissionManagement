@@ -17,38 +17,48 @@ import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
 import cn.monica.missionimpossible.R;
+import cn.monica.missionimpossible.bean.TitleViewStruct;
+import cn.monica.missionimpossible.bean.TitleViewType;
+import cn.monica.missionimpossible.myinterface.OnDatePickerDialogInterface;
 import cn.monica.missionimpossible.myinterface.OnTimePickerDialogInterface;
+import cn.monica.missionimpossible.myinterface.OnTitleViewDeletelistener;
 import cn.monica.missionimpossible.util.DialogHelper;
 import cn.monica.missionimpossible.util.ToastUtil;
+import cn.monica.missionimpossible.view.TitleShowView;
 import cn.monica.missionimpossible.view.TitleView;
 import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
 
-public class TestActivity extends ActionBarActivity {
+public class TestActivity extends ActionBarActivity implements OnTitleViewDeletelistener{
     LinearLayout linearLayout;
     Button button;
+ TitleView titleView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_main);
         linearLayout = (LinearLayout) findViewById(R.id.layout);
         button = (Button) findViewById(R.id.bt);
-        TitleView titleView = new TitleView(this);
-        linearLayout.addView(titleView);
-        titleView.setType(1);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createDialog();
-            }
-        });
+//        titleView = new TitleView(this, this,"Monica");
+//        linearLayout.addView(titleView);
+//
+//        titleView.setType(TitleViewType.TimePicker);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.M)
+//            @Override
+//            public void onClick(View view) {
+//                Log.e("douhua",titleView.getInfo().getInfo());
+//            }
+//        });
+      TitleShowView titleView = new TitleShowView(this, new TitleViewStruct(TitleViewType.TimePicker,"Monica","ssssss"));
+      linearLayout.addView(titleView);
+
     }
-    private void createDialog() {
-        DialogHelper.getInstance().createTimePickerDialog(this, new OnTimePickerDialogInterface() {
-            @Override
-            public void Save(int hours, int minutes) {
-                Log.e("DOUHUA",hours+" "+minutes);
-            }
-        });
+
+
+    @Override
+    public void delete(TitleView view) {
+        linearLayout.removeView(view);
+
     }
 }
