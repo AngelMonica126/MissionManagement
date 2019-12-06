@@ -30,22 +30,21 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp">
-
-                    <ImageView
-
-                        android:id="@+id/mark"
+                    android:layout_height="wrap_content">
+                    <ImageButton
+                        android:id="@+id/add_bt"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_centerVertical="true"
+                        android:scaleType="fitCenter"
+                        android:background="@color/colorTranplant"
                         android:src="@drawable/add_record_mark" />
-
                     <EditText
                         android:id="@+id/record_title"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/mark"
+                        android:layout_toRightOf="@id/add_bt"
                         android:background="@null"
                         android:hint="请输入标题"
                         android:imeOptions="flagNoExtractUi"
@@ -55,9 +54,6 @@
 
                 </RelativeLayout>
 
-                <View style="@style/LineView"></View>
-
-
                 <LinearLayout
                     android:orientation="vertical"
                     android:id="@+id/view"
@@ -66,7 +62,6 @@
                     android:layout_height="wrap_content">
 
                 </LinearLayout>
-
 
 
                 <View

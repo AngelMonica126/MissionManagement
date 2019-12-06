@@ -55,6 +55,11 @@
         android:maxLines="10"
         android:textColor="#d1d2d1"
         android:textColorHint="@color/record_hint" />
+    <View
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        style="@style/LineView"
+        android:layout_marginTop="@dimen/padding"></View>
     <Button
         android:id="@+id/dialog_confirm"
         android:layout_width="match_parent"

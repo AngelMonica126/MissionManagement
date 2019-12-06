@@ -92,9 +92,22 @@ public class DialogHelper {
                 if(TextUtils.isEmpty(editText.getText().toString()))
                     ToastUtil.makeToast(context,"请输入标题");
                 else
-                {
-                    TitleViewType type= TitleViewType.values()[group.getCheckedRadioButtonId()];
+                {   int id = 0;
+                    switch (group.getCheckedRadioButtonId())
+                    {
+                        case R.id.radio1:
+                            id = 0;
+                            break;
+                        case R.id.radio2:
+                            id = 1;
+                            break;
+                        case R.id.radio3:
+                            id = 2;
+                            break;
+                    }
+                    TitleViewType type= TitleViewType.values()[id];
                     onViewChooseListener.save(type,editText.getText().toString().trim());
+                    alertDialog.dismiss();
                 }
 
             }

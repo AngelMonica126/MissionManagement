@@ -39,7 +39,6 @@
         <TextView
             android:visibility="gone"
             android:text="Monica"
-            style="@style/TextViewBack"
             android:id="@+id/textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +56,6 @@
             android:layout_below="@+id/dialog_tag_top"
             android:orientation="horizontal">
             <TextView
-                style="@style/TextViewBack"
                 android:id="@+id/time_textview"
                 android:layout_width="0dp"
                 android:textSize="18sp"
@@ -85,7 +83,6 @@
             android:layout_below="@+id/dialog_tag_top"
             android:orientation="horizontal">
             <TextView
-                style="@style/TextViewBack"
                 android:id="@+id/date_textview"
                 android:layout_width="0dp"
                 android:textSize="18sp"

@@ -4,6 +4,8 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="add_record">添加记录</string>
+    <string name="browse_view">选择模板</string>
+    <string name="add_view">添加控件</string>
     <string name="host_page">主页</string>
     <string name="record_browse">记录浏览</string>
 </resources>

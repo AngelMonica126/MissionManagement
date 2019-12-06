@@ -18,6 +18,7 @@ public class ContentValueUtil {
     public static final String HOSTPAGE = "hostpage";
     public static final String ADDRECORD = "addrecord";
     public static final String RECORDBROWSE = "recordbrowse";
+    public static final String ADDVIEW = "addview";
     public static final String LOCK = "lock";
 //    private String thumbnailBigPath;
 //    private String originalPath;

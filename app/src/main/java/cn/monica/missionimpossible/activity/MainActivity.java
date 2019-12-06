@@ -39,9 +39,11 @@ import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.engine.SimpleRxGalleryFinal;
 import cn.monica.missionimpossible.fragment.AddRecordFragment;
+import cn.monica.missionimpossible.fragment.AddViewFragment;
 import cn.monica.missionimpossible.fragment.ChooseClassFragment;
 import cn.monica.missionimpossible.fragment.RecordBrowseFragment;
 import cn.monica.missionimpossible.fragment.RecordInfoFragment;
+import cn.monica.missionimpossible.fragment.ViewBrowseFragment;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.ImmerseUtil;
 import cn.monica.missionimpossible.util.SpUtil;
@@ -73,7 +75,8 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     public static int topId = R.drawable.main_top;
     public static String color = "#d23b20";
     public static TextView topTitle;
-    private AddRecordFragment addRecordFragment;
+    private ViewBrowseFragment viewBrowseFragment;
+    private AddViewFragment addViewFragment;
     private ChooseClassFragment chooseClassFragment;
     private RecordBrowseFragment recordBrowseFragment;
     private Toast toast = null;
@@ -205,8 +208,9 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, chooseClassFragment)
                 .commit();
-        addRecordFragment = AddRecordFragment.newInstance(this.res);
-        recordBrowseFragment = recordBrowseFragment.newInstance(this.res);
+        viewBrowseFragment = ViewBrowseFragment.newInstance(this.res);
+        recordBrowseFragment = RecordBrowseFragment.newInstance(this.res);
+        addViewFragment = AddViewFragment.newInstance(this.res);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         gridLayout = (GridLayout) findViewById(R.id.left_drawer);
@@ -231,6 +235,8 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         list.add(menuItem1);
         SlideMenuItem menuItem2 = new SlideMenuItem(ContentValueUtil.RECORDBROWSE, R.drawable.record_browse);
         list.add(menuItem2);
+        SlideMenuItem menuItem3 = new SlideMenuItem(ContentValueUtil.ADDVIEW, R.drawable.add_view);
+        list.add(menuItem3);
     }
 
     private void setActionBar() {
@@ -307,6 +313,8 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
                 return replaceAddRecordFragment(screenShotable, position);
             case ContentValueUtil.RECORDBROWSE:
                 return replaceRecordBrowseFragment(screenShotable, position);
+            case ContentValueUtil.ADDVIEW:
+                return replaceAddViewFragment(screenShotable, position);
             default:
                 return screenShotable;
         }
@@ -334,26 +342,48 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         return recordBrowseFragment;
     }
 
-    private ScreenShotable replaceAddRecordFragment(ScreenShotable screenShotable, int position) {
-        if (res == R.drawable.record_bk)
-            return addRecordFragment;
-        res = R.drawable.record_bk;
-        topId = R.drawable.other_top;
+    private ScreenShotable replaceAddViewFragment(ScreenShotable screenShotable, int position) {
+        if (res == R.drawable.view_bk)
+            return addViewFragment;
+        res = R.drawable.view_bk;
+        topId = R.drawable.view_top;
         color = "#122c24";
-        topTitle.setText(R.string.add_record);
+        topTitle.setText(R.string.add_view);
         ImmerseUtil.setImmerse(this, color);
         toolbar.setBackgroundResource(topId);
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        addRecordFragment = AddRecordFragment.newInstance(res);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, addRecordFragment).commit();
+        addViewFragment = AddViewFragment.newInstance(res);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, addViewFragment).commit();
 
         Animator  animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.setDuration(yalantis.com.sidemenu.util.ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
         animator.addListener(this);
         animator.start();
-        return addRecordFragment
+        return addViewFragment
+                ;
+    }
+    private ScreenShotable replaceAddRecordFragment(ScreenShotable screenShotable, int position) {
+        if (res == R.drawable.view_browse_bk)
+            return viewBrowseFragment;
+        res = R.drawable.view_browse_bk;
+        topId = R.drawable.view_browse_top;
+        color = "#085959";
+        topTitle.setText(R.string.browse_view);
+        ImmerseUtil.setImmerse(this, color);
+        toolbar.setBackgroundResource(topId);
+        View view = findViewById(R.id.content_frame);
+        int finalRadius = Math.max(view.getWidth(), view.getHeight());
+        viewBrowseFragment = ViewBrowseFragment.newInstance(res);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, viewBrowseFragment).commit();
+
+        Animator  animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
+        animator.setInterpolator(new AccelerateInterpolator());
+        animator.setDuration(yalantis.com.sidemenu.util.ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
+        animator.addListener(this);
+        animator.start();
+        return viewBrowseFragment
                 ;
     }
 

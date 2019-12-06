@@ -39,11 +39,13 @@ public class TitleView extends RelativeLayout {
     public TitleView(Context context) {
         this(context,null);
     }
-    public TitleView(Context context, OnTitleViewDeletelistener onTitleViewDeletelistener,String titleText) {
+    public TitleView(Context context, String titleText,TitleViewType type,OnTitleViewDeletelistener onTitleViewDeletelistener) {
         this(context,null,0);
         this.onTitleViewDeletelistener = onTitleViewDeletelistener;
         this.titleText = titleText;
+        this.type = type;
         title.setText(titleText);
+        setType(type);
     }
     public TitleView(Context context, AttributeSet attrs) {
         this(context, attrs,0);

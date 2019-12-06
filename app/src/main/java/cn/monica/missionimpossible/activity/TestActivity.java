@@ -29,16 +29,11 @@ import cn.monica.missionimpossible.view.TitleView;
 import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
 
-public class TestActivity extends ActionBarActivity implements OnTitleViewDeletelistener{
-    LinearLayout linearLayout;
-    Button button;
- TitleView titleView;
+public class TestActivity extends ActionBarActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_main);
-        linearLayout = (LinearLayout) findViewById(R.id.layout);
-        button = (Button) findViewById(R.id.bt);
+        setContentView(R.layout.add_view_fragment);
 //        titleView = new TitleView(this, this,"Monica");
 //        linearLayout.addView(titleView);
 //
@@ -50,15 +45,7 @@ public class TestActivity extends ActionBarActivity implements OnTitleViewDelete
 //                Log.e("douhua",titleView.getInfo().getInfo());
 //            }
 //        });
-      TitleShowView titleView = new TitleShowView(this, new TitleViewStruct(TitleViewType.TimePicker,"Monica","ssssss"));
-      linearLayout.addView(titleView);
 
     }
 
-
-    @Override
-    public void delete(TitleView view) {
-        linearLayout.removeView(view);
-
-    }
 }

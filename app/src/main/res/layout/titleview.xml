@@ -37,8 +37,8 @@
         </GridLayout>
         <!--文本编辑控件 -->
         <EditText
+            android:background="@null"
             android:visibility="gone"
-            style="@style/TextViewBack"
             android:id="@+id/edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,12 +47,12 @@
             android:hint="请输入"
             android:imeOptions="flagNoExtractUi"
             android:maxLines="10"
+            android:textColor="#d1d2d1"
             android:textColorHint="@color/record_hint" />
         <!--文本显示控件 -->
         <TextView
             android:visibility="gone"
             android:text="Monica"
-            style="@style/TextViewBack"
             android:id="@+id/textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,7 +70,6 @@
             android:layout_below="@+id/dialog_tag_top"
             android:orientation="horizontal">
             <TextView
-                style="@style/TextViewBack"
                 android:id="@+id/time_textview"
                 android:layout_width="0dp"
                 android:textSize="18sp"
@@ -98,7 +97,6 @@
             android:layout_below="@+id/dialog_tag_top"
             android:orientation="horizontal">
             <TextView
-                style="@style/TextViewBack"
                 android:id="@+id/date_textview"
                 android:layout_width="0dp"
                 android:textSize="18sp"
