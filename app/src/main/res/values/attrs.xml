@@ -16,6 +16,11 @@
     <declare-styleable name="TitleView">
         <attr name="type" format="integer"></attr>
     </declare-styleable>
+    <declare-styleable name="TitleShowView">
+        <attr name="tstype" format="integer"></attr>
+        <attr name="tstitle" format="string"></attr>
+        <attr name="tsinfo" format="string"></attr>
+    </declare-styleable>
     <!--public static final int SquareMenu_fabColor = 0;-->
     <!--public static final int SquareMenu_fabSize = 1;-->
     <!--public static final int SquareMenu_iconM1 = 3;-->

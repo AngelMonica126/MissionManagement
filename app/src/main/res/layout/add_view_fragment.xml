@@ -53,21 +53,104 @@
                         android:textColorHint="@color/record_hint" />
 
                 </RelativeLayout>
+                <TextView
+                    style="@style/TextViewBack"
+                    android:layout_marginTop="@dimen/padding"
+                    android:text="备注" />
 
+                <View
+                    style="@style/LineView"
+                    android:layout_marginTop="@dimen/padding"></View>
+
+                <EditText
+                    android:id="@+id/remarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="请输入备注"
+                    android:imeOptions="flagNoExtractUi"
+                    android:maxLines="10"
+                    android:textColor="#d1d2d1"
+                    android:textColorHint="@color/record_hint" />
                 <LinearLayout
                     android:orientation="vertical"
                     android:id="@+id/view"
                     android:layout_marginTop="@dimen/padding"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-
                 </LinearLayout>
 
 
+                <cn.monica.missionimpossible.view.TitleShowView
+                    app:tstype="1"
+                    app:tstitle="提醒时间"
+                    app:tsinfo="请选择提醒时间"
+                    android:id="@+id/add_view_fragment_remind_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    ></cn.monica.missionimpossible.view.TitleShowView>
+
+                <cn.monica.missionimpossible.view.TitleShowView
+                    app:tstype="1"
+                    app:tstitle="截止时间"
+                    app:tsinfo="请选择截止时间"
+                    android:id="@+id/add_view_fragment_deadline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                ></cn.monica.missionimpossible.view.TitleShowView>
                 <View
                     style="@style/LineView"
                     android:layout_marginTop="@dimen/padding"></View>
 
+                <TextView
+                    android:id="@+id/mark_tv"
+                    style="@style/TextViewBack"
+                    android:layout_marginTop="@dimen/padding"
+                    android:text="标签选择" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="@dimen/padding">
+
+                    <co.lujun.androidtagview.TagContainerLayout
+                        android:id="@+id/record_tag"
+                        style="@style/Tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        app:container_max_lines="1" />
+
+                    <ImageButton
+                        style="@style/FunctionButton"
+                        android:id="@+id/tag_bt"
+                        android:layout_alignParentRight="true"
+                        />
+
+                </RelativeLayout>
+                <View
+                    style="@style/LineView"
+                    android:layout_marginTop="@dimen/padding"></View>
+                <TextView
+                    style="@style/TextViewBack"
+                    android:layout_marginTop="@dimen/padding"
+                    android:text="优先级选择" />
+                <View
+                    style="@style/LineView"
+                    android:layout_marginTop="@dimen/padding"></View>
+                <RatingBar
+                    android:rating = "1"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    ></RatingBar>
+                <View
+                    style="@style/LineView"
+                    android:layout_marginTop="@dimen/padding"></View>
                 <TextView
                     android:id="@+id/picture_describe"
                     style="@style/TextViewBack"
@@ -89,46 +172,6 @@
                         android:layout_height="wrap_content"
                         android:rowCount="1"></GridLayout>
                 </HorizontalScrollView>
-
-                <View
-                    style="@style/LineView"
-                    android:layout_marginTop="@dimen/padding"></View>
-
-                <TextView
-                    android:id="@+id/mark_tv"
-                    style="@style/TextViewBack"
-                    android:layout_marginTop="@dimen/padding"
-                    android:text="标签选择" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding">
-
-                    <co.lujun.androidtagview.TagContainerLayout
-                        android:id="@+id/record_tag"
-                        style="@style/Tag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="10dp"
-                        app:container_max_lines="1" />
-
-                    <ImageButton
-                        android:id="@+id/tag_bt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:background="@color/colorTranplant"
-                        android:src="@drawable/tag_change" />
-
-                </RelativeLayout>
-
-                <View
-                    style="@style/LineView"
-                    android:layout_marginTop="@dimen/padding"></View>
-
                 <Button
                     android:id="@+id/record_confirm"
                     android:layout_width="match_parent"

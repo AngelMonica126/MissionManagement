@@ -38,6 +38,7 @@ import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.engine.SimpleRxGalleryFinal;
+import cn.monica.missionimpossible.engine.ViewManager;
 import cn.monica.missionimpossible.fragment.AddRecordFragment;
 import cn.monica.missionimpossible.fragment.AddViewFragment;
 import cn.monica.missionimpossible.fragment.ChooseClassFragment;
@@ -162,7 +163,6 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,}, 1);
             }
         }
-
     }
 
     private void initData() {
@@ -170,7 +170,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         SugarContext.init(getApplicationContext());
         SchemaGenerator schemaGenerator = new SchemaGenerator(this);
         schemaGenerator.createDatabase(new SugarDb(this).getDB());
-        RecordManager.getInstance().init(getApplicationContext());
+//        ViewManager.getInstance().init(getApplicationContext());
         scale = this.getResources().getDisplayMetrics().density;
     }
 
@@ -187,8 +187,6 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     }
 
     private void initIconChooser() {
-
-
     }
 
     private void setImmsere() {
@@ -266,14 +264,12 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
                 if (slideOffset > 0.6 && gridLayout.getChildCount() == 0)
                     viewAnimator.showMenuContent();
             }
-
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
-
     }
 
     @Override
@@ -338,7 +334,6 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         animator.setDuration(yalantis.com.sidemenu.util.ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
         animator.addListener(this);
         animator.start();
-
         return recordBrowseFragment;
     }
 
@@ -355,14 +350,12 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
         addViewFragment = AddViewFragment.newInstance(res);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, addViewFragment).commit();
-
         Animator  animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.setDuration(yalantis.com.sidemenu.util.ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
         animator.addListener(this);
         animator.start();
-        return addViewFragment
-                ;
+        return addViewFragment;
     }
     private ScreenShotable replaceAddRecordFragment(ScreenShotable screenShotable, int position) {
         if (res == R.drawable.view_browse_bk)

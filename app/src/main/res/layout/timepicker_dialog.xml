@@ -3,8 +3,17 @@
     android:orientation="vertical" android:layout_width="wrap_content"
     android:background="@drawable/record_dailog"
     android:layout_height="wrap_content">
+    <DatePicker
+        android:layout_gravity="center"
+        android:id="@+id/dialog_date"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </DatePicker>
     <TimePicker
-        android:id="@+id/time"
+        android:visibility="gone"
+        android:id="@+id/dialog_time"
         android:timePickerMode="spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -19,7 +28,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/confirm_shape"
-        android:text="保存"
+        android:text="确认"
         android:textColor="@color/tag"
         android:textSize="18sp" />
 </LinearLayout>

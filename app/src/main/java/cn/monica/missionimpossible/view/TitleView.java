@@ -6,7 +6,6 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.bean.TitleViewStruct;
 import cn.monica.missionimpossible.bean.TitleViewType;
-import cn.monica.missionimpossible.myinterface.OnDatePickerDialogInterface;
 import cn.monica.missionimpossible.myinterface.OnTimePickerDialogInterface;
 import cn.monica.missionimpossible.myinterface.OnTitleViewDeletelistener;
 import cn.monica.missionimpossible.util.DialogHelper;
@@ -29,9 +27,6 @@ public class TitleView extends RelativeLayout {
     private  TextView time_textview;
     private  ImageButton time_button;
     private  LinearLayout time_picker;
-    private  TextView date_textview;
-    private  ImageButton date_button;
-    private  LinearLayout date_picker;
     private  ImageButton delete;
     private  EditText   editText;
     private TitleViewType type;
@@ -71,19 +66,8 @@ public class TitleView extends RelativeLayout {
             public void onClick(View view) {
                 DialogHelper.getInstance().createTimePickerDialog(context, new OnTimePickerDialogInterface() {
                     @Override
-                    public void Save(int hours, int minutes) {
-                        time_textview.setText(hours+":"+minutes);
-                    }
-                });
-            }
-        });
-        date_button.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogHelper.getInstance().createDatePickerDialog(context, new OnDatePickerDialogInterface() {
-                    @Override
-                    public void Save(int year, int mouth, int day) {
-                        date_textview.setText(year+"/"+mouth+"/"+day);
+                    public void Save(int year, int mouth, int day, int hours, int minutes) {
+                        time_textview.setText(year+"-"+mouth+"-"+day+" "+hours+":"+minutes);
                     }
                 });
             }
@@ -91,21 +75,14 @@ public class TitleView extends RelativeLayout {
     }
 
     private void initUI(Context context) {
-        View view = (View) View.inflate(context, R.layout.titleview, this);
+        View view = (View) View.inflate(context, R.layout.title_view, this);
         title = (TextView) view.findViewById(R.id.title);
-
         delete = (ImageButton) view.findViewById(R.id.item_delete);
         editText = (EditText) view.findViewById(R.id.edittext);
-
         textview = (TextView) view.findViewById(R.id.textview);
-
         time_textview = (TextView) view.findViewById(R.id.time_textview);
         time_button = (ImageButton) view.findViewById(R.id.time_button);
         time_picker = (LinearLayout) view.findViewById(R.id.time_picker);
-
-        date_textview = (TextView) view.findViewById(R.id.date_textview);
-        date_button = (ImageButton) view.findViewById(R.id.date_button);
-        date_picker = (LinearLayout) view.findViewById(R.id.date_picker);
     }
     public void setType(TitleViewType type)
     {
@@ -117,9 +94,6 @@ public class TitleView extends RelativeLayout {
                 break;
             case TimePicker:
                 time_picker.setVisibility(VISIBLE);
-                break;
-            case DatePicker:
-                date_picker.setVisibility(VISIBLE);
                 break;
         }
     }
@@ -133,9 +107,6 @@ public class TitleView extends RelativeLayout {
                 break;
             case TimePicker:
                 info = time_textview.getText().toString().trim();
-                break;
-            case DatePicker:
-                info = date_textview.getText().toString().trim();
                 break;
         }
         return new TitleViewStruct(type,title.getText().toString().trim(),info);

@@ -28,12 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="时间控件"/>
-        <RadioButton
-            android:textColor="#d1d2d1"
-            android:id="@+id/radio3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="日期控件"/>
 
     </RadioGroup>
     <View

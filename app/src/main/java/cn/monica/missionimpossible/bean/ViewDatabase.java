@@ -11,6 +11,7 @@ import java.io.Serializable;
 
 public class ViewDatabase extends SugarRecord implements Serializable {
     @Unique
+    private Long id;
     private String name;
     private String info;
     private String title;

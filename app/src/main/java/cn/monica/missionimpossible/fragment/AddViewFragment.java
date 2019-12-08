@@ -46,6 +46,7 @@ import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.DialogHelper;
 import cn.monica.missionimpossible.util.FileUtil;
 import cn.monica.missionimpossible.util.ToastUtil;
+import cn.monica.missionimpossible.view.TitleShowView;
 import cn.monica.missionimpossible.view.TitleView;
 import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
@@ -64,6 +65,8 @@ public class AddViewFragment extends Fragment implements ScreenShotable {
     private LinearLayout view;
     private GridLayout gridLayout;
     private EditText record_title;
+    private TitleShowView add_view_fragment_remind_time;
+    private TitleShowView add_view_fragment_deadline;
     public static AddViewFragment newInstance(int resId) {
         AddViewFragment addRecordFragment = new AddViewFragment();
         Bundle bundle = new Bundle();
@@ -125,7 +128,6 @@ public class AddViewFragment extends Fragment implements ScreenShotable {
     }
 
     private String getViews() {
-
         JSONArray array = new JSONArray();
         try {
         for(TitleView titleView:titleViews)
@@ -145,9 +147,11 @@ public class AddViewFragment extends Fragment implements ScreenShotable {
     }
 
     private void clearFragment() {
+        gridLayout.removeAllViews();
         createImageButton();
         titleViews.clear();
         view.removeAllViews();
+        record_title.setText("");
     }
 
 
@@ -157,6 +161,8 @@ public class AddViewFragment extends Fragment implements ScreenShotable {
         view = (LinearLayout) rootView.findViewById(R.id.view);
         gridLayout = (GridLayout) rootView.findViewById(R.id.record_gridlayout);
         record_title = (EditText) rootView.findViewById(R.id.record_title);
+        add_view_fragment_remind_time  = (TitleShowView) rootView.findViewById(R.id.add_view_fragment_remind_time);
+        add_view_fragment_deadline = (TitleShowView) rootView.findViewById(R.id.add_view_fragment_deadline) ;
         createImageButton();
     }
 
