@@ -54,4 +54,20 @@
         <item name="container_background_color">@color/tag_back</item>
         <item name="tag_max_length">8</item>
     </style>
+    <style name="Step">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="nts_color">#009688</item>
+        <item name="nts_size">15sp</item>
+        <item name="nts_weight">3dp</item>
+        <item name="nts_factor">2.5</item>
+<!--        <item name="nts_titles">@array/titles</item>-->
+        <item name="nts_type">point</item>
+        <item name="nts_gravity">top</item>
+        <item name="nts_typeface">fonts/typeface.otf</item>
+        <item name="nts_corners_radius">1.5dp</item>
+        <item name="nts_animation_duration">300</item>
+        <item name="nts_active_color">#009688</item>
+        <item name="nts_inactive_color">#c4c4c4</item>
+    </style>
 </resources>

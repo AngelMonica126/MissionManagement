@@ -58,10 +58,6 @@
                     android:layout_marginTop="@dimen/padding"
                     android:text="备注" />
 
-                <View
-                    style="@style/LineView"
-                    android:layout_marginTop="@dimen/padding"></View>
-
                 <EditText
                     android:id="@+id/remarks"
                     android:layout_width="match_parent"
@@ -138,10 +134,9 @@
                     style="@style/TextViewBack"
                     android:layout_marginTop="@dimen/padding"
                     android:text="优先级选择" />
-                <View
-                    style="@style/LineView"
-                    android:layout_marginTop="@dimen/padding"></View>
+
                 <RatingBar
+                    android:isIndicator="true"
                     android:rating = "1"
                     android:numStars="5"
                     android:stepSize="1"
@@ -157,10 +152,6 @@
                     android:layout_marginTop="@dimen/padding"
                     android:text="图片描述" />
 
-                <View
-                    style="@style/LineView"
-                    android:layout_marginTop="@dimen/padding"></View>
-
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -172,6 +163,20 @@
                         android:layout_height="wrap_content"
                         android:rowCount="1"></GridLayout>
                 </HorizontalScrollView>
+                <View
+                    style="@style/LineView"
+                    android:layout_marginTop="@dimen/padding"></View>
+                <TextView
+                    style="@style/TextViewBack"
+                    android:layout_marginTop="@dimen/padding"
+                    android:text="完成情况" />
+                <com.gigamole.navigationtabstrip.NavigationTabStrip
+                    style="@style/Step"
+                    app:nts_titles="@array/titles"
+                    ></com.gigamole.navigationtabstrip.NavigationTabStrip>
+                <View
+                    style="@style/LineView"
+                    android:layout_marginTop="@dimen/padding"></View>
                 <Button
                     android:id="@+id/record_confirm"
                     android:layout_width="match_parent"
@@ -182,7 +187,6 @@
                     android:text="保存"
                     android:textColor="@color/tag"
                     android:textSize="18sp" />
-
             </LinearLayout>
         </ScrollView>
     </FrameLayout>

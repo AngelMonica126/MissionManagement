@@ -334,7 +334,6 @@ public class CreateTemplateFragment extends Fragment implements ScreenShotable, 
 
     private void initUI(View rootView) {
         record_title = (EditText) rootView.findViewById(R.id.record_title);
-        record_describe = (EditText) rootView.findViewById(R.id.record_describe);
         confirm = (Button) rootView.findViewById(R.id.record_confirm);
         tag_bt = (ImageButton) rootView.findViewById(R.id.tag_bt);
         gridLayout = (GridLayout) rootView.findViewById(R.id.record_gridlayout);

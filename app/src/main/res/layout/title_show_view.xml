@@ -38,12 +38,14 @@
         <!--文本显示控件 -->
         <TextView
             android:visibility="gone"
-            android:text="Monica"
+            android:text="请输入文字"
             android:id="@+id/textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding"
             android:gravity="top"
+            android:textColor="#d1d2d1"
+            android:textSize="18sp"
             android:imeOptions="flagNoExtractUi"
             />
         <!--时间选择控件 -->

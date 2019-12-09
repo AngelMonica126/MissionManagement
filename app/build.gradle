@@ -8,6 +8,10 @@ repositories {
     maven {
         url "https://maven.google.com"
     }
+    mavenCentral()
+    maven {
+        url  'http://dl.bintray.com/gigamole/maven/'
+    }
 
 }
 android {
@@ -53,4 +57,5 @@ dependencies {
     compile 'com.nantaphop:hoverTouchView:0.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     compile 'com.andrognito.patternlockview:patternlockview:1.0.0'
+    compile 'com.github.devlight.navigationtabstrip:navigationtabstrip:+'
 }

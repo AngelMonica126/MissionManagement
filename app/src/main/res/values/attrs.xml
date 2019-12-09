@@ -13,18 +13,14 @@
     <declare-styleable name="MyThumbnail">
         <attr name="originalPath" format="string"></attr>
     </declare-styleable>
-    <declare-styleable name="TitleView">
-        <attr name="type" format="integer"></attr>
-    </declare-styleable>
     <declare-styleable name="TitleShowView">
         <attr name="tstype" format="integer"></attr>
         <attr name="tstitle" format="string"></attr>
         <attr name="tsinfo" format="string"></attr>
     </declare-styleable>
-    <!--public static final int SquareMenu_fabColor = 0;-->
-    <!--public static final int SquareMenu_fabSize = 1;-->
-    <!--public static final int SquareMenu_iconM1 = 3;-->
-    <!--public static final int SquareMenu_iconM2 = 4;-->
-    <!--public static final int SquareMenu_iconM3 = 5;-->
-    <!--public static final int SquareMenu_menuOpenDirection = 2;-->
+    <declare-styleable name="TitleView">
+        <attr name="ttype" format="integer"></attr>
+        <attr name="ttitle" format="string"></attr>
+        <attr name="tinfo" format="string"></attr>
+    </declare-styleable>
 </resources>

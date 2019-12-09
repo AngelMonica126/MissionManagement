@@ -84,7 +84,6 @@ public class RecordInfoFragment extends Fragment implements ScreenShotable, MyTh
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         this.containerView = view.findViewById(R.id.container);
     }
 

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.JsonReader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +37,12 @@ import cn.finalteam.rxgalleryfinal.rxbus.event.ImageMultipleResultEvent;
 import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.bean.FileBean;
 import cn.monica.missionimpossible.RecordDatabase;
+import cn.monica.missionimpossible.bean.ViewDatabase;
 import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.FileUtil;
 import cn.monica.missionimpossible.util.ToastUtil;
+import cn.monica.missionimpossible.view.TitleView;
 import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
@@ -46,6 +53,7 @@ import yalantis.com.sidemenu.interfaces.ScreenShotable;
  */
 
 public class AddRecordFragment extends Fragment implements ScreenShotable, View.OnClickListener, View.OnLongClickListener {
+    private static ViewDatabase data;
     private View containerView;
     private ImageButton imageButton;
     private ImageButton tag_bt;
@@ -53,7 +61,6 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
     private Button confirm;
     private TagContainerLayout mTagContainerLayout;
     private EditText record_title;
-    private EditText record_describe;
     protected int res;
     private Bitmap bitmap;
     private float scale;
@@ -66,13 +73,12 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
     private final int maxTagSize = 3;
     private List<FileBean> fileBeanList;
     private List<MediaBean> mediaBeanList;
-    private int id = 817624;
-
-    public static AddRecordFragment newInstance(int resId) {
+    public static AddRecordFragment newInstance(int resId, ViewDatabase viewDatabase) {
         AddRecordFragment addRecordFragment = new AddRecordFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Integer.class.getName(), resId);
         addRecordFragment.setArguments(bundle);
+        data = viewDatabase;
         return addRecordFragment;
     }
 
@@ -114,17 +120,6 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
             }
         });
     }
-//    private Long id;
-//    private String name;
-//    private int priority;
-//    private int stage;
-//    private int late_visit_day;
-//    private int create_day;
-//    private int visit_times;
-//    private int right_times;
-//    private int vague_times;
-//    private int error_times;
-//    private int carry_level;
 
     private void saveInfo() {
         String name = "v" + CalenderUtil.getInstance().getDateName();
@@ -151,9 +146,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
 
     private void clearFragment() {
         picture_describe.setText(desText + "(" + 0 + "/" + maxSize + ")");
-        record_describe.setText(markText + "(" + 0 + "/" + maxTagSize + ")");
         record_title.setText("");
-        record_describe.setText("");
         gridLayout.removeAllViews();
         createImageButton();
         mTagContainerLayout.removeAllTags();
@@ -174,10 +167,10 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
     }
 
     private void saveDescribe(String name) {
-        name = name + ContentValueUtil.DESCRIBE;
-        String info = record_describe.getText().toString().trim();
-        File file = new File(getContext().getFilesDir(), name);
-        FileUtil.writeFile(file, info);
+//        name = name + ContentValueUtil.DESCRIBE;
+//        String info = record_describe.getText().toString().trim();
+//        File file = new File(getContext().getFilesDir(), name);
+//        FileUtil.writeFile(file, info);
     }
 
     private void savePicture(String name) {
@@ -193,7 +186,6 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
             thumbnailSB.append(fileBean.getThumbnailBigPath());
             thumbnailSB.append(ContentValueUtil.DIVIDE);
         }
-
         File thumbnailFile = new File(getContext().getFilesDir(), thumbnailBigPath);
         FileUtil.writeFile(thumbnailFile, thumbnailSB.toString().trim());
 
@@ -351,7 +343,6 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
 
     private void initUI(View rootView) {
         record_title = (EditText) rootView.findViewById(R.id.record_title);
-        record_describe = (EditText) rootView.findViewById(R.id.record_describe);
         confirm = (Button) rootView.findViewById(R.id.record_confirm);
         tag_bt = (ImageButton) rootView.findViewById(R.id.tag_bt);
         gridLayout = (GridLayout) rootView.findViewById(R.id.record_gridlayout);
@@ -359,8 +350,28 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         picture_describe.setText(desText + "(" + 0 + "/" + maxSize + ")");
         mark_tv = (TextView) rootView.findViewById(R.id.mark_tv);
         mark_tv.setText(markText + "(" + 0 + "/" + maxTagSize + ")");
-        createImageButton();
         mTagContainerLayout = (TagContainerLayout) rootView.findViewById(R.id.record_tag);
+        setInfo();
+        createImageButton();
+        setViewDatebase();
+    }
+
+    private void setInfo() {
+        record_title.setText(data.getTitle());
+    }
+
+    private void setViewDatebase() {
+        try {
+            JSONArray array = new JSONArray(data.getInfo());
+            for(int i = 0 ;i<array.length(); i++)
+            {
+                JSONObject jsonObject = array.getJSONObject(i);
+                int type = jsonObject.getInt("type");
+                String title = jsonObject.getString("title");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

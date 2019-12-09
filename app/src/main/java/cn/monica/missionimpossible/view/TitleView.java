@@ -1,6 +1,7 @@
 package cn.monica.missionimpossible.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
@@ -19,9 +20,7 @@ import cn.monica.missionimpossible.myinterface.OnTitleViewDeletelistener;
 import cn.monica.missionimpossible.util.DialogHelper;
 
 public class TitleView extends RelativeLayout {
-    private String titleText;
     private  Context context;
-    private  OnTitleViewDeletelistener onTitleViewDeletelistener;
     private  TextView title;
     private  TextView textview;
     private  TextView time_textview;
@@ -29,18 +28,15 @@ public class TitleView extends RelativeLayout {
     private  LinearLayout time_picker;
     private  ImageButton delete;
     private  EditText   editText;
-    private TitleViewType type;
-
+    private TitleViewStruct struct;
     public TitleView(Context context) {
-        this(context,null);
-    }
-    public TitleView(Context context, String titleText,TitleViewType type,OnTitleViewDeletelistener onTitleViewDeletelistener) {
         this(context,null,0);
-        this.onTitleViewDeletelistener = onTitleViewDeletelistener;
-        this.titleText = titleText;
-        this.type = type;
-        title.setText(titleText);
-        setType(type);
+    }
+    public TitleView(Context context, TitleViewStruct struct) {
+        this(context,null,0);
+        this.struct = struct;
+        title.setText(this.struct.getTitle());
+        setType(this.struct.getType());
     }
     public TitleView(Context context, AttributeSet attrs) {
         this(context, attrs,0);
@@ -51,15 +47,14 @@ public class TitleView extends RelativeLayout {
         this.context = context;
         initUI(context);
         setOnclick();
+        if(attrs==null) return;
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TitleView);
+        TitleViewType type= TitleViewType.values()[a.getInteger(R.styleable.TitleView_ttype,0)];
+        setType(type);
+        title.setText(a.getString(R.styleable.TitleView_ttitle));
     }
 
     private void setOnclick() {
-        delete.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onTitleViewDeletelistener.delete(TitleView.this);
-            }
-        });
         time_button.setOnClickListener(new OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -86,7 +81,6 @@ public class TitleView extends RelativeLayout {
     }
     public void setType(TitleViewType type)
     {
-        this.type = type;
         switch (type)
         {
             case EditText:
@@ -100,7 +94,7 @@ public class TitleView extends RelativeLayout {
     public TitleViewStruct getInfo()
     {
         String info = null;
-        switch (type)
+        switch (this.struct.getType())
         {
             case EditText:
                 info = editText.getText().toString().trim();
@@ -109,6 +103,6 @@ public class TitleView extends RelativeLayout {
                 info = time_textview.getText().toString().trim();
                 break;
         }
-        return new TitleViewStruct(type,title.getText().toString().trim(),info);
+        return new TitleViewStruct(this.struct.getType(),title.getText().toString().trim(),info);
     }
 }

@@ -1,5 +1,6 @@
 package cn.monica.missionimpossible.fragment;
 
+import android.animation.Animator;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,9 +22,11 @@ import cn.monica.missionimpossible.adapter.RecordAdapter;
 import cn.monica.missionimpossible.adapter.ViewAdapter;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
+import cn.monica.missionimpossible.engine.ViewManager;
 import cn.monica.missionimpossible.util.ImmerseUtil;
 import cn.monica.missionimpossible.util.MyInterface;
 import cn.monica.missionimpossible.util.ProgressDialogUtil;
+import io.codetail.animation.ViewAnimationUtils;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 
@@ -31,9 +35,8 @@ public class ViewBrowseFragment extends Fragment implements ScreenShotable {
     protected int res;
     private Bitmap bitmap;
     private ListView browse_lv;
-    private RecordInfoFragment recordInfoFragment;
     private ViewAdapter myAdapter;
-
+    private AddRecordFragment addRecordFragment;
     public static ViewBrowseFragment newInstance(int resId) {
         ViewBrowseFragment hostPageFragment = new ViewBrowseFragment();
         Bundle bundle = new Bundle();
@@ -69,22 +72,22 @@ public class ViewBrowseFragment extends Fragment implements ScreenShotable {
         browse_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                replaceRecordInfoFragment(position);
+                replaceAddInfoFragment(position);
             }
         });
     }
 
-    public ScreenShotable replaceRecordInfoFragment(int position) {
-        MainActivity.res = R.drawable.record_info_bk;
-        MainActivity.topId = R.drawable.record_info_top;
-        MainActivity.color = "#2D7869";
-        MainActivity.topTitle.setText(R.string.record_browse);
+    public ScreenShotable replaceAddInfoFragment(int position) {
+        MainActivity.res = R.drawable.view_bk;
+        MainActivity.topId = R.drawable.view_top;
+        MainActivity.color = "#122c24";
+        MainActivity.topTitle.setText(R.string.add_record);
         ImmerseUtil.setImmerse(getActivity(), MainActivity.color);
         MainActivity.toolbar.setBackgroundResource(MainActivity.topId);
-        recordInfoFragment = RecordInfoFragment.newInstance(this.res, RecordManager.getInstance().getRecordDatabases().get(position));
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, recordInfoFragment).commit();
-        return recordInfoFragment;
-    }
+        addRecordFragment = AddRecordFragment.newInstance(this.res, ViewManager.getInstance().getViews().get(position));
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, addRecordFragment).commit();
+        return addRecordFragment;
+     }
 
     private void initUI(View rootView) {
         browse_lv = (ListView) rootView.findViewById(R.id.browse_lv);

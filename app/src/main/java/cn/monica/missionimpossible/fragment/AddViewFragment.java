@@ -61,7 +61,7 @@ public class AddViewFragment extends Fragment implements ScreenShotable {
     protected int res;
     private Bitmap bitmap;
     private float scale;
-    private List<TitleView>titleViews;
+    private List<TitleShowView>titleViews;
     private LinearLayout view;
     private GridLayout gridLayout;
     private EditText record_title;
@@ -108,15 +108,15 @@ public class AddViewFragment extends Fragment implements ScreenShotable {
     }
 
     private void AddView(TitleViewType type, String title) {
-        TitleView titleView = new TitleView(getContext(),title,type, new OnTitleViewDeletelistener() {
+        TitleShowView titleShowView = new TitleShowView(getContext(),new TitleViewStruct(type,title,null), new OnTitleViewDeletelistener() {
             @Override
-            public void delete(TitleView v) {
+            public void delete(TitleShowView v) {
                 view.removeView(v);
                 titleViews.remove(view);
             }
         });
-        view.addView(titleView);
-        titleViews.add(titleView);
+        view.addView(titleShowView);
+        titleViews.add(titleShowView);
     }
 
     private void saveInfo() {
@@ -130,14 +130,14 @@ public class AddViewFragment extends Fragment implements ScreenShotable {
     private String getViews() {
         JSONArray array = new JSONArray();
         try {
-        for(TitleView titleView:titleViews)
+        for(TitleShowView titleView:titleViews)
         {
             TitleViewStruct struct = titleView.getInfo();
             JSONObject object = new JSONObject();
             TitleViewType msgType = struct.getType();
-
             int type = msgType.ordinal();
-            object.put(type+"",struct.getTitle());
+            object.put("type",type);
+            object.put("title",struct.getTitle());
             array.put(object);
         }
         } catch (JSONException e) {

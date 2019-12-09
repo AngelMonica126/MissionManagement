@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:background="@drawable/splashbackground"
     android:id="@+id/layout"
     android:layout_height="match_parent">
-    <Button
-        android:id="@+id/bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></Button>
+    <com.gigamole.navigationtabstrip.NavigationTabStrip
+        android:id="@+id/strip"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:nts_color="#009688"
+        app:nts_size="15sp"
+        app:nts_weight="3dp"
+        app:nts_factor="2.5"
+        app:nts_titles="@array/titles"
+        app:nts_type="point"
+        app:nts_gravity="top"
+        app:nts_typeface="fonts/typeface.otf"
+        app:nts_corners_radius="1.5dp"
+        app:nts_animation_duration="300"
+        app:nts_active_color="#009688"
+        app:nts_inactive_color="#c4c4c4"/>
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,20 +14,22 @@ import java.sql.Struct;
 import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.bean.TitleViewStruct;
 import cn.monica.missionimpossible.bean.TitleViewType;
+import cn.monica.missionimpossible.myinterface.OnTitleViewDeletelistener;
 
 public class TitleShowView extends RelativeLayout {
+    private  OnTitleViewDeletelistener onTitleViewDeletelistener;
     private  TitleViewStruct struct;
-    private  Context context;
     private  TextView title;
     private  TextView textview;
-    private  TextView time_textview;
     private  LinearLayout time_picker;
+    private ImageButton item_delete;
 
     public TitleShowView(Context context) {
         this(context,null,0);
     }
-    public TitleShowView(Context context,  TitleViewStruct struct) {
+    public TitleShowView(Context context, TitleViewStruct struct, OnTitleViewDeletelistener onTitleViewDeletelistener) {
         this(context,null,0);
+        this.onTitleViewDeletelistener = onTitleViewDeletelistener;
         if(struct==null) return;
         this.struct = struct;
         setInfo();
@@ -38,11 +41,9 @@ public class TitleShowView extends RelativeLayout {
         {
             case EditText:
                 textview.setVisibility(VISIBLE);
-                textview.setText(struct.getInfo());
                 break;
             case TimePicker:
                 time_picker.setVisibility(VISIBLE);
-                time_textview.setText(struct.getInfo());
                 break;
         }
     }
@@ -53,7 +54,6 @@ public class TitleShowView extends RelativeLayout {
 
     public TitleShowView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context = context;
         initUI(context);
         if(attrs==null) return;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TitleShowView);
@@ -66,7 +66,18 @@ public class TitleShowView extends RelativeLayout {
         View view = (View) View.inflate(context, R.layout.title_show_view, this);
         title = (TextView) view.findViewById(R.id.title);
         textview = (TextView) view.findViewById(R.id.textview);
-        time_textview = (TextView) view.findViewById(R.id.time_textview);
         time_picker = (LinearLayout) view.findViewById(R.id.time_picker);
+        item_delete = (ImageButton)view.findViewById(R.id.item_delete);
+        item_delete.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(onTitleViewDeletelistener!=null)
+                    onTitleViewDeletelistener.delete(TitleShowView.this);
+            }
+        });
+    }
+    public TitleViewStruct getInfo()
+    {
+        return  this.struct;
     }
 }
