@@ -12,16 +12,6 @@
             style="@style/TextViewBack"
             android:layout_marginTop="@dimen/padding"
             android:text="文字描述" />
-        <ImageButton
-            android:id="@+id/item_delete"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@color/colorTranplant"
-            android:scaleType="fitCenter"
-            android:src="@drawable/add_record_mark" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"

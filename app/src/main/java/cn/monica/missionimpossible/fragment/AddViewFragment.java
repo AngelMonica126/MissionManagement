@@ -5,9 +5,7 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,40 +14,26 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.gigamole.navigationtabstrip.NavigationTabStrip;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.finalteam.rxgalleryfinal.RxGalleryFinal;
-import cn.finalteam.rxgalleryfinal.bean.MediaBean;
-import cn.finalteam.rxgalleryfinal.imageloader.ImageLoaderType;
-import cn.finalteam.rxgalleryfinal.rxbus.RxBusResultDisposable;
-import cn.finalteam.rxgalleryfinal.rxbus.event.ImageMultipleResultEvent;
 import cn.monica.missionimpossible.R;
-import cn.monica.missionimpossible.RecordDatabase;
-import cn.monica.missionimpossible.bean.FileBean;
 import cn.monica.missionimpossible.bean.TitleViewStruct;
 import cn.monica.missionimpossible.bean.TitleViewType;
 import cn.monica.missionimpossible.bean.ViewDatabase;
 import cn.monica.missionimpossible.myinterface.OnTitleViewDeletelistener;
 import cn.monica.missionimpossible.myinterface.OnViewChooseListener;
 import cn.monica.missionimpossible.util.CalenderUtil;
-import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.DialogHelper;
-import cn.monica.missionimpossible.util.FileUtil;
 import cn.monica.missionimpossible.util.ToastUtil;
 import cn.monica.missionimpossible.view.TitleShowView;
-import cn.monica.missionimpossible.view.TitleView;
-import co.lujun.androidtagview.TagContainerLayout;
-import co.lujun.androidtagview.TagView;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 
@@ -67,6 +51,7 @@ public class AddViewFragment extends Fragment implements ScreenShotable {
     private EditText record_title;
     private TitleShowView add_view_fragment_remind_time;
     private TitleShowView add_view_fragment_deadline;
+    private NavigationTabStrip navigationTabStrip;
     public static AddViewFragment newInstance(int resId) {
         AddViewFragment addRecordFragment = new AddViewFragment();
         Bundle bundle = new Bundle();
@@ -120,7 +105,7 @@ public class AddViewFragment extends Fragment implements ScreenShotable {
     }
 
     private void saveInfo() {
-        String name = "monica" + CalenderUtil.getInstance().getDateName();
+        String name = R.string.angel + CalenderUtil.getInstance().getDateName();
         ViewDatabase viewDatabase = new ViewDatabase(name,getViews(),record_title.getText().toString().trim());
         viewDatabase.save();
         ToastUtil.makeToast(getContext(),  "保存成功!");

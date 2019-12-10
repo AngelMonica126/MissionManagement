@@ -31,7 +31,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import cn.monica.missionimpossible.R;
-import cn.monica.missionimpossible.RecordDatabase;
+import cn.monica.missionimpossible.bean.RecordDatabase;
 import cn.monica.missionimpossible.activity.MainActivity;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.FileUtil;

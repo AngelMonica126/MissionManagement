@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.JsonReader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 
-
+import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -36,7 +37,9 @@ import cn.finalteam.rxgalleryfinal.rxbus.RxBusResultDisposable;
 import cn.finalteam.rxgalleryfinal.rxbus.event.ImageMultipleResultEvent;
 import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.bean.FileBean;
-import cn.monica.missionimpossible.RecordDatabase;
+import cn.monica.missionimpossible.bean.RecordDatabase;
+import cn.monica.missionimpossible.bean.TitleViewStruct;
+import cn.monica.missionimpossible.bean.TitleViewType;
 import cn.monica.missionimpossible.bean.ViewDatabase;
 import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.ContentValueUtil;
@@ -60,6 +63,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
     private GridLayout gridLayout;
     private Button confirm;
     private TagContainerLayout mTagContainerLayout;
+    private LinearLayout linearLayout;
     private EditText record_title;
     protected int res;
     private Bitmap bitmap;
@@ -73,6 +77,13 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
     private final int maxTagSize = 3;
     private List<FileBean> fileBeanList;
     private List<MediaBean> mediaBeanList;
+    private List<TitleView>titleViews;
+    private EditText add_record_fragment_remarks;
+    private TitleView add_record_fragment_remind_time;
+    private TitleView add_record_fragment_deadline;
+    private NavigationTabStrip add_record_fragment_step;
+    private RatingBar add_record_fragment_rating;
+
     public static AddRecordFragment newInstance(int resId, ViewDatabase viewDatabase) {
         AddRecordFragment addRecordFragment = new AddRecordFragment();
         Bundle bundle = new Bundle();
@@ -122,73 +133,87 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
     }
 
     private void saveInfo() {
-        String name = "v" + CalenderUtil.getInstance().getDateName();
+        String name = R.string.angel + CalenderUtil.getInstance().getDateName();
         String title = record_title.getText().toString().trim();
         savePicture(name);
-        saveDescribe(name);
+        saveRemarks(name);
         saveTags(name);
-        int createDay = CalenderUtil.getInstance().getDayFromOriginal();
-        RecordDatabase recordDatabase = new RecordDatabase();
+        saveDIY(name);
+        RecordDatabase recordDatabase = new RecordDatabase();//6
         recordDatabase.setName(name);
         recordDatabase.setTitle(title);
-        recordDatabase.setStage(0);
-        recordDatabase.setCreateDay(createDay);
-        recordDatabase.setShouldStudyTime(createDay+ContentValueUtil.reviewStage[0]);
-        recordDatabase.setLateVisitDay(createDay);
-        recordDatabase.setVisitTimes(0);
-        recordDatabase.setRightTimes(0);
-        recordDatabase.setVagueTimes(0);
-        recordDatabase.setErrorTimes(0);
+        recordDatabase.setDeadline(add_record_fragment_deadline.getInfo().getInfo());
+        recordDatabase.setRemain_time(add_record_fragment_remind_time.getInfo().getInfo());
+        recordDatabase.setStep(add_record_fragment_step.getTabIndex());
+        recordDatabase.setPriority(add_record_fragment_rating.getNumStars());
         recordDatabase.save();
         ToastUtil.makeToast(getContext(),  "保存成功!");
         clearFragment();
     }
 
+    private void saveDIY(String name) {
+        name = name + ContentValueUtil.DIY;
+        JSONArray jsonArray = new JSONArray();
+        try {
+            for(TitleView titleView:titleViews)
+            {
+                JSONObject jsonObject = new JSONObject();
+                TitleViewStruct struct = titleView.getInfo();
+                int type = struct.getType().ordinal();
+                jsonObject.put("type",type);
+                jsonObject.put("title",struct.getTitle());
+                jsonObject.put("info",struct.getInfo());
+                jsonArray.put(jsonObject);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        File file = new File(getContext().getFilesDir(), name);
+        FileUtil.writeFile(file, jsonArray.toString().trim());
+    }
+
     private void clearFragment() {
         picture_describe.setText(desText + "(" + 0 + "/" + maxSize + ")");
+        mark_tv.setText(markText + "(" + 0 + "/" + maxTagSize + ")");
         record_title.setText("");
         gridLayout.removeAllViews();
         createImageButton();
         mTagContainerLayout.removeAllTags();
         fileBeanList.clear();
         mediaBeanList.clear();
+        titleViews.clear();
+        linearLayout.removeAllViews();
     }
 
     private void saveTags(String name) {
-        name = name + ContentValueUtil.TAG;
-        StringBuilder sb = new StringBuilder();
+        String tagsName = name + ContentValueUtil.TAG;
+        JSONArray array = new JSONArray();
         for (String info : mTagContainerLayout.getTags()) {
-            sb.append(info);
-            sb.append(ContentValueUtil.DIVIDE);
+            array.put(info);
         }
-        String info = sb.toString();
-        File file = new File(getContext().getFilesDir(), name);
-        FileUtil.writeFile(file, info);
+        File file = new File(getContext().getFilesDir(), tagsName);
+        FileUtil.writeFile(file, array.toString());
     }
 
-    private void saveDescribe(String name) {
-//        name = name + ContentValueUtil.DESCRIBE;
-//        String info = record_describe.getText().toString().trim();
-//        File file = new File(getContext().getFilesDir(), name);
-//        FileUtil.writeFile(file, info);
+    private void saveRemarks(String name) {
+        String remarksName = name + ContentValueUtil.REMARKS;
+        String info = add_record_fragment_remarks.getText().toString().trim();
+        File file = new File(getContext().getFilesDir(), remarksName);
+        FileUtil.writeFile(file, info);
     }
 
     private void savePicture(String name) {
         String thumbnailBigPath = name + ContentValueUtil.THUMBNAILPICTURE;
         String originalPath = name+ ContentValueUtil.ORIGINALPICTURE;
-        StringBuilder originalSB = new StringBuilder();
-        StringBuilder thumbnailSB = new StringBuilder();
+        JSONArray originalSB = new JSONArray();
+        JSONArray thumbnailSB = new JSONArray();
         for (FileBean fileBean:fileBeanList)
         {
-            originalSB.append(fileBean.getOriginalPath());
-            originalSB.append(ContentValueUtil.DIVIDE);
-
-            thumbnailSB.append(fileBean.getThumbnailBigPath());
-            thumbnailSB.append(ContentValueUtil.DIVIDE);
+            originalSB.put(fileBean.getOriginalPath());
+            thumbnailSB.put(fileBean.getThumbnailBigPath());
         }
         File thumbnailFile = new File(getContext().getFilesDir(), thumbnailBigPath);
         FileUtil.writeFile(thumbnailFile, thumbnailSB.toString().trim());
-
         File originalFile = new File(getContext().getFilesDir(), originalPath);
         FileUtil.writeFile(originalFile, originalSB.toString().trim());
     }
@@ -351,13 +376,15 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         mark_tv = (TextView) rootView.findViewById(R.id.mark_tv);
         mark_tv.setText(markText + "(" + 0 + "/" + maxTagSize + ")");
         mTagContainerLayout = (TagContainerLayout) rootView.findViewById(R.id.record_tag);
-        setInfo();
+        linearLayout = (LinearLayout) rootView.findViewById(R.id.add_record_fragment_linearlayout);
+        add_record_fragment_step = (NavigationTabStrip) rootView.findViewById(R.id.add_record_fragment_step);
+        add_record_fragment_step.setTabIndex(0);
+        add_record_fragment_remarks = (EditText)rootView.findViewById(R.id.add_record_fragment_remarks);
+        add_record_fragment_remind_time = (TitleView)rootView.findViewById(R.id.add_record_fragment_remind_time);
+        add_record_fragment_deadline = (TitleView)rootView.findViewById(R.id.add_record_fragment_deadline);
+        add_record_fragment_rating = (RatingBar)rootView.findViewById(R.id.add_record_fragment_rating);
         createImageButton();
         setViewDatebase();
-    }
-
-    private void setInfo() {
-        record_title.setText(data.getTitle());
     }
 
     private void setViewDatebase() {
@@ -366,8 +393,11 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
             for(int i = 0 ;i<array.length(); i++)
             {
                 JSONObject jsonObject = array.getJSONObject(i);
-                int type = jsonObject.getInt("type");
+                TitleViewType type= TitleViewType.values()[jsonObject.getInt("type")];
                 String title = jsonObject.getString("title");
+                TitleView view = new TitleView(getContext(),new TitleViewStruct(type,title,null));
+                linearLayout.addView(view);
+                titleViews.add(view);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -394,6 +424,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
     private void initData() {
         fileBeanList = new ArrayList<>();
         mediaBeanList = new ArrayList<>();
+        titleViews = new ArrayList<>();
     }
 
     @Override

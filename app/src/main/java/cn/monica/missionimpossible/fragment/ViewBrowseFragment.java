@@ -20,6 +20,7 @@ import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.activity.MainActivity;
 import cn.monica.missionimpossible.adapter.RecordAdapter;
 import cn.monica.missionimpossible.adapter.ViewAdapter;
+import cn.monica.missionimpossible.bean.ViewDatabase;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.engine.ViewManager;
@@ -78,13 +79,14 @@ public class ViewBrowseFragment extends Fragment implements ScreenShotable {
     }
 
     public ScreenShotable replaceAddInfoFragment(int position) {
+        ViewDatabase viewDatabase = ViewManager.getInstance().getViews().get(position);
         MainActivity.res = R.drawable.view_bk;
         MainActivity.topId = R.drawable.view_top;
         MainActivity.color = "#122c24";
-        MainActivity.topTitle.setText(R.string.add_record);
+        MainActivity.topTitle.setText(viewDatabase.getTitle());
         ImmerseUtil.setImmerse(getActivity(), MainActivity.color);
         MainActivity.toolbar.setBackgroundResource(MainActivity.topId);
-        addRecordFragment = AddRecordFragment.newInstance(this.res, ViewManager.getInstance().getViews().get(position));
+        addRecordFragment = AddRecordFragment.newInstance(this.res, viewDatabase);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, addRecordFragment).commit();
         return addRecordFragment;
      }

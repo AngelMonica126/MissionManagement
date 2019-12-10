@@ -1,7 +1,6 @@
 package cn.monica.missionimpossible.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,20 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.io.File;
 import java.util.List;
 
 import cn.monica.missionimpossible.R;
-import cn.monica.missionimpossible.RecordDatabase;
 import cn.monica.missionimpossible.bean.ViewDatabase;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
-import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.engine.ViewManager;
-import cn.monica.missionimpossible.util.CalenderUtil;
-import cn.monica.missionimpossible.util.ContentValueUtil;
-import cn.monica.missionimpossible.util.FileUtil;
 import cn.monica.missionimpossible.util.ToastUtil;
-import co.lujun.androidtagview.TagContainerLayout;
 
 /**
  * Created by dream on 2018/7/4.

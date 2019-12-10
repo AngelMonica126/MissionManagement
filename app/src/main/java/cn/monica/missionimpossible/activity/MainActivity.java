@@ -12,6 +12,7 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -35,6 +36,7 @@ import java.util.List;
 
 import cn.monica.missionimpossible.R;
 
+import cn.monica.missionimpossible.bean.FragmentType;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.engine.SimpleRxGalleryFinal;
@@ -62,11 +64,9 @@ import io.codetail.animation.ViewAnimationUtils;
 import yalantis.com.sidemenu.interfaces.Resourceble;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 import yalantis.com.sidemenu.util.ViewAnimator;
-
 public class MainActivity extends ActionBarActivity implements ViewAnimator.ViewAnimatorListener,  Animator.AnimatorListener {
-
+    private FragmentType type;
     private yalantis.com.sidemenu.util.ViewAnimator viewAnimator;
-
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private List<SlideMenuItem> list = new ArrayList<>();
@@ -166,6 +166,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     }
 
     private void initData() {
+        type = FragmentType.ChooseClassFragment;
         LockDialogHelper.getInstance().init(this);
         SugarContext.init(getApplicationContext());
         SchemaGenerator schemaGenerator = new SchemaGenerator(this);
@@ -229,7 +230,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         list.add(menuItem0);
         SlideMenuItem menuItem = new SlideMenuItem(ContentValueUtil.HOSTPAGE, R.drawable.host_page);
         list.add(menuItem);
-        SlideMenuItem menuItem1 = new SlideMenuItem(ContentValueUtil.ADDRECORD, R.drawable.add_record);
+        SlideMenuItem menuItem1 = new SlideMenuItem(ContentValueUtil.VIEWBROWSE, R.drawable.add_record);
         list.add(menuItem1);
         SlideMenuItem menuItem2 = new SlideMenuItem(ContentValueUtil.RECORDBROWSE, R.drawable.record_browse);
         list.add(menuItem2);
@@ -305,8 +306,8 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
                 return screenShotable;
             case ContentValueUtil.HOSTPAGE:
                 return replaceChooseClassFragment(screenShotable, position);
-            case ContentValueUtil.ADDRECORD:
-                return replaceAddRecordFragment(screenShotable, position);
+            case ContentValueUtil.VIEWBROWSE:
+                return replaceViewBrowseFragment(screenShotable, position);
             case ContentValueUtil.RECORDBROWSE:
                 return replaceRecordBrowseFragment(screenShotable, position);
             case ContentValueUtil.ADDVIEW:
@@ -317,8 +318,9 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     }
 
     private ScreenShotable replaceRecordBrowseFragment(ScreenShotable screenShotable, int position) {
-        if (res == R.drawable.browse_bk)
+        if (this.type == FragmentType.RecordBrowseFragment)
             return recordBrowseFragment;
+        type = FragmentType.RecordBrowseFragment;
         res = R.drawable.browse_bk;
         topId = R.drawable.browse_top;
         color = "#085959";
@@ -338,8 +340,9 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     }
 
     private ScreenShotable replaceAddViewFragment(ScreenShotable screenShotable, int position) {
-        if (res == R.drawable.view_bk)
+        if (this.type == FragmentType.AddViewFragment)
             return addViewFragment;
+        this.type = FragmentType.AddViewFragment;
         res = R.drawable.view_bk;
         topId = R.drawable.view_top;
         color = "#122c24";
@@ -357,9 +360,10 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         animator.start();
         return addViewFragment;
     }
-    private ScreenShotable replaceAddRecordFragment(ScreenShotable screenShotable, int position) {
-        if (res == R.drawable.view_browse_bk)
+    private ScreenShotable replaceViewBrowseFragment(ScreenShotable screenShotable, int position) {
+        if (this.type == FragmentType.ViewBrowseFragment)
             return viewBrowseFragment;
+        type = FragmentType.ViewBrowseFragment;
         res = R.drawable.view_browse_bk;
         topId = R.drawable.view_browse_top;
         color = "#085959";
@@ -381,8 +385,9 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     }
 
     private ScreenShotable replaceChooseClassFragment(ScreenShotable screenShotable, int position) {
-        if (this.res == R.drawable.main_bk)
+        if (this.type == FragmentType.ChooseClassFragment)
             return chooseClassFragment;
+        type = FragmentType.ChooseClassFragment;
         return changeToHost(0, position);
 
     }
@@ -424,7 +429,6 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     }
 
     private ChooseClassFragment changeToHost(int width, int height) {
-
         res = R.drawable.main_bk;
         topId = R.drawable.main_top;
         color = "#d23b20";

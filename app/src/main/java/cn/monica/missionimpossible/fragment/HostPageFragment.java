@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 
 import cn.monica.missionimpossible.R;
-import cn.monica.missionimpossible.RecordDatabase;
+import cn.monica.missionimpossible.bean.RecordDatabase;
 import cn.monica.missionimpossible.activity.MainActivity;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.util.ContentValueUtil;

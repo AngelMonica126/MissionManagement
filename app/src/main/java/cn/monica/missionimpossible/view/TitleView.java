@@ -26,7 +26,6 @@ public class TitleView extends RelativeLayout {
     private  TextView time_textview;
     private  ImageButton time_button;
     private  LinearLayout time_picker;
-    private  ImageButton delete;
     private  EditText   editText;
     private TitleViewStruct struct;
     public TitleView(Context context) {
@@ -72,7 +71,6 @@ public class TitleView extends RelativeLayout {
     private void initUI(Context context) {
         View view = (View) View.inflate(context, R.layout.title_view, this);
         title = (TextView) view.findViewById(R.id.title);
-        delete = (ImageButton) view.findViewById(R.id.item_delete);
         editText = (EditText) view.findViewById(R.id.edittext);
         textview = (TextView) view.findViewById(R.id.textview);
         time_textview = (TextView) view.findViewById(R.id.time_textview);
