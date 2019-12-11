@@ -49,8 +49,9 @@ public class TitleView extends RelativeLayout {
         if(attrs==null) return;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TitleView);
         TitleViewType type= TitleViewType.values()[a.getInteger(R.styleable.TitleView_ttype,0)];
-        setType(type);
+        this.struct = new TitleViewStruct(type,a.getString(R.styleable.TitleView_ttitle),null);
         title.setText(a.getString(R.styleable.TitleView_ttitle));
+        setType(type);
     }
 
     private void setOnclick() {
@@ -102,5 +103,10 @@ public class TitleView extends RelativeLayout {
                 break;
         }
         return new TitleViewStruct(this.struct.getType(),title.getText().toString().trim(),info);
+    }
+    public void clear()
+    {
+        editText.setText("请输入");
+        time_textview.setText("请选择时间");
     }
 }

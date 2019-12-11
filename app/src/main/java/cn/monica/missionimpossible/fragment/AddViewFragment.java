@@ -3,6 +3,7 @@ package cn.monica.missionimpossible.fragment;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -28,6 +29,7 @@ import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.bean.TitleViewStruct;
 import cn.monica.missionimpossible.bean.TitleViewType;
 import cn.monica.missionimpossible.bean.ViewDatabase;
+import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.myinterface.OnTitleViewDeletelistener;
 import cn.monica.missionimpossible.myinterface.OnViewChooseListener;
 import cn.monica.missionimpossible.util.CalenderUtil;
@@ -38,6 +40,7 @@ import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 
 public class AddViewFragment extends Fragment implements ScreenShotable {
+    private static OnMessageFragment messageFragment;
     private View containerView;
     private ImageButton imageButton;
     private ImageButton add_bt;
@@ -49,14 +52,12 @@ public class AddViewFragment extends Fragment implements ScreenShotable {
     private LinearLayout view;
     private GridLayout gridLayout;
     private EditText record_title;
-    private TitleShowView add_view_fragment_remind_time;
-    private TitleShowView add_view_fragment_deadline;
-    private NavigationTabStrip navigationTabStrip;
-    public static AddViewFragment newInstance(int resId) {
+    public static AddViewFragment newInstance(int resId, OnMessageFragment onMessageFragment) {
         AddViewFragment addRecordFragment = new AddViewFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Integer.class.getName(), resId);
         addRecordFragment.setArguments(bundle);
+        messageFragment = onMessageFragment;
         return addRecordFragment;
     }
 
@@ -110,21 +111,24 @@ public class AddViewFragment extends Fragment implements ScreenShotable {
         viewDatabase.save();
         ToastUtil.makeToast(getContext(),  "保存成功!");
         clearFragment();
+        Message message = new Message();
+        message.what = 0;
+        messageFragment.setMassage(message);
     }
 
     private String getViews() {
         JSONArray array = new JSONArray();
         try {
-        for(TitleShowView titleView:titleViews)
-        {
-            TitleViewStruct struct = titleView.getInfo();
-            JSONObject object = new JSONObject();
-            TitleViewType msgType = struct.getType();
-            int type = msgType.ordinal();
-            object.put("type",type);
-            object.put("title",struct.getTitle());
-            array.put(object);
-        }
+            for(TitleShowView titleView:titleViews)
+            {
+                TitleViewStruct struct = titleView.getInfo();
+                JSONObject object = new JSONObject();
+                TitleViewType msgType = struct.getType();
+                int type = msgType.ordinal();
+                object.put("type",type);
+                object.put("title",struct.getTitle());
+                array.put(object);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -146,8 +150,6 @@ public class AddViewFragment extends Fragment implements ScreenShotable {
         view = (LinearLayout) rootView.findViewById(R.id.view);
         gridLayout = (GridLayout) rootView.findViewById(R.id.record_gridlayout);
         record_title = (EditText) rootView.findViewById(R.id.record_title);
-        add_view_fragment_remind_time  = (TitleShowView) rootView.findViewById(R.id.add_view_fragment_remind_time);
-        add_view_fragment_deadline = (TitleShowView) rootView.findViewById(R.id.add_view_fragment_deadline) ;
         createImageButton();
     }
 

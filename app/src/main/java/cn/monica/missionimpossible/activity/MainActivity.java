@@ -9,10 +9,10 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 
 import android.os.Build;
+import android.os.Message;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -37,16 +37,15 @@ import java.util.List;
 import cn.monica.missionimpossible.R;
 
 import cn.monica.missionimpossible.bean.FragmentType;
+import cn.monica.missionimpossible.bean.ResetTitleMessage;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
-import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.engine.SimpleRxGalleryFinal;
-import cn.monica.missionimpossible.engine.ViewManager;
-import cn.monica.missionimpossible.fragment.AddRecordFragment;
 import cn.monica.missionimpossible.fragment.AddViewFragment;
-import cn.monica.missionimpossible.fragment.ChooseClassFragment;
+import cn.monica.missionimpossible.fragment.MainFragment;
 import cn.monica.missionimpossible.fragment.RecordBrowseFragment;
 import cn.monica.missionimpossible.fragment.RecordInfoFragment;
 import cn.monica.missionimpossible.fragment.ViewBrowseFragment;
+import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.ImmerseUtil;
 import cn.monica.missionimpossible.util.SpUtil;
@@ -64,7 +63,7 @@ import io.codetail.animation.ViewAnimationUtils;
 import yalantis.com.sidemenu.interfaces.Resourceble;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 import yalantis.com.sidemenu.util.ViewAnimator;
-public class MainActivity extends ActionBarActivity implements ViewAnimator.ViewAnimatorListener,  Animator.AnimatorListener {
+public class MainActivity extends ActionBarActivity implements ViewAnimator.ViewAnimatorListener, Animator.AnimatorListener, OnMessageFragment {
     private FragmentType type;
     private yalantis.com.sidemenu.util.ViewAnimator viewAnimator;
     private DrawerLayout drawerLayout;
@@ -78,13 +77,12 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     public static TextView topTitle;
     private ViewBrowseFragment viewBrowseFragment;
     private AddViewFragment addViewFragment;
-    private ChooseClassFragment chooseClassFragment;
+    private MainFragment mainFragment;
     private RecordBrowseFragment recordBrowseFragment;
     private Toast toast = null;
     private TextView textView = null;
     private long firstTime = 0;
     private float scale;
-    private RecordInfoFragment recordInfoFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,7 +96,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         initUI();
         setActionBar();
         createMenuList();
-        viewAnimator = new yalantis.com.sidemenu.util.ViewAnimator<>(this, list, chooseClassFragment, drawerLayout, this);
+        viewAnimator = new yalantis.com.sidemenu.util.ViewAnimator<>(this, list, mainFragment, drawerLayout, this);
     }
 
     public void requestPower() {
@@ -166,12 +164,11 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     }
 
     private void initData() {
-        type = FragmentType.ChooseClassFragment;
+        type = FragmentType.MainFragment;
         LockDialogHelper.getInstance().init(this);
         SugarContext.init(getApplicationContext());
         SchemaGenerator schemaGenerator = new SchemaGenerator(this);
         schemaGenerator.createDatabase(new SugarDb(this).getDB());
-//        ViewManager.getInstance().init(getApplicationContext());
         scale = this.getResources().getDisplayMetrics().density;
     }
 
@@ -202,14 +199,13 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     private void initUI() {
         if (TextUtils.isEmpty(SpUtil.getString(this, ContentValueUtil.LOCK, null)))
             LockDialogHelper.getInstance().createLockDialog();
-//        boolean isNeedStudy = RecordManager.getInstance().isNeedStudy();
-        chooseClassFragment = ChooseClassFragment.newInstance(R.drawable.main_bk);
+        mainFragment = MainFragment.newInstance(R.drawable.main_bk);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, chooseClassFragment)
+                .replace(R.id.content_frame, mainFragment)
                 .commit();
-        viewBrowseFragment = ViewBrowseFragment.newInstance(this.res);
+        viewBrowseFragment = ViewBrowseFragment.newInstance(this.res,this);
         recordBrowseFragment = RecordBrowseFragment.newInstance(this.res);
-        addViewFragment = AddViewFragment.newInstance(this.res);
+        addViewFragment = AddViewFragment.newInstance(this.res,this);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         gridLayout = (GridLayout) findViewById(R.id.left_drawer);
@@ -320,16 +316,11 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     private ScreenShotable replaceRecordBrowseFragment(ScreenShotable screenShotable, int position) {
         if (this.type == FragmentType.RecordBrowseFragment)
             return recordBrowseFragment;
-        type = FragmentType.RecordBrowseFragment;
-        res = R.drawable.browse_bk;
-        topId = R.drawable.browse_top;
-        color = "#085959";
-        topTitle.setText(R.string.record_browse);
-        ImmerseUtil.setImmerse(this, color);
-        toolbar.setBackgroundResource(topId);
+        resetTitle(cn.monica.missionimpossible.util.Color.RECORD_BROWSE_COLOR,R.drawable.browse_top, ContentValueUtil.record_browse,FragmentType.RecordBrowseFragment);
+
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        recordBrowseFragment = recordBrowseFragment.newInstance(res);
+        recordBrowseFragment = recordBrowseFragment.newInstance(R.drawable.browse_bk);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, recordBrowseFragment).commit();
         Animator animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
@@ -342,16 +333,11 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     private ScreenShotable replaceAddViewFragment(ScreenShotable screenShotable, int position) {
         if (this.type == FragmentType.AddViewFragment)
             return addViewFragment;
-        this.type = FragmentType.AddViewFragment;
-        res = R.drawable.view_bk;
-        topId = R.drawable.view_top;
-        color = "#122c24";
-        topTitle.setText(R.string.add_view);
-        ImmerseUtil.setImmerse(this, color);
-        toolbar.setBackgroundResource(topId);
+        resetTitle(cn.monica.missionimpossible.util.Color.ADD_VIEW_COLOR,R.drawable.view_top, ContentValueUtil.add_view,FragmentType.AddViewFragment);
+
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        addViewFragment = AddViewFragment.newInstance(res);
+        addViewFragment = AddViewFragment.newInstance(R.drawable.view_bk,this);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, addViewFragment).commit();
         Animator  animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
@@ -363,16 +349,10 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     private ScreenShotable replaceViewBrowseFragment(ScreenShotable screenShotable, int position) {
         if (this.type == FragmentType.ViewBrowseFragment)
             return viewBrowseFragment;
-        type = FragmentType.ViewBrowseFragment;
-        res = R.drawable.view_browse_bk;
-        topId = R.drawable.view_browse_top;
-        color = "#085959";
-        topTitle.setText(R.string.browse_view);
-        ImmerseUtil.setImmerse(this, color);
-        toolbar.setBackgroundResource(topId);
+        resetTitle(cn.monica.missionimpossible.util.Color.VIEW_BROWSE_COLOR,R.drawable.view_browse_top, ContentValueUtil.browse_view,FragmentType.ViewBrowseFragment);
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        viewBrowseFragment = ViewBrowseFragment.newInstance(res);
+        viewBrowseFragment = ViewBrowseFragment.newInstance(R.drawable.view_browse_bk,this);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, viewBrowseFragment).commit();
 
         Animator  animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
@@ -380,14 +360,12 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         animator.setDuration(yalantis.com.sidemenu.util.ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
         animator.addListener(this);
         animator.start();
-        return viewBrowseFragment
-                ;
+        return viewBrowseFragment;
     }
 
     private ScreenShotable replaceChooseClassFragment(ScreenShotable screenShotable, int position) {
-        if (this.type == FragmentType.ChooseClassFragment)
-            return chooseClassFragment;
-        type = FragmentType.ChooseClassFragment;
+        if (this.type == FragmentType.MainFragment)
+            return mainFragment;
         return changeToHost(0, position);
 
     }
@@ -408,10 +386,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     public void onBackPressed() {
         long secondTime = System.currentTimeMillis();
         if (this.res != R.drawable.main_bk) {
-            WindowManager wm1 = this.getWindowManager();
-            int width = wm1.getDefaultDisplay().getWidth();
-            int height = wm1.getDefaultDisplay().getHeight();
-            changeToHost(width, height);
+            backToMain();
 
         } else {
             if (secondTime - firstTime > 2000) {
@@ -427,24 +402,32 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         }
 
     }
-
-    private ChooseClassFragment changeToHost(int width, int height) {
-        res = R.drawable.main_bk;
-        topId = R.drawable.main_top;
-        color = "#d23b20";
-        topTitle.setText(R.string.host_page);
+    private void backToMain()
+    {
+        WindowManager wm1 = this.getWindowManager();
+        int width = wm1.getDefaultDisplay().getWidth();
+        int height = wm1.getDefaultDisplay().getHeight();
+        changeToHost(width, height);
+    }
+    private void resetTitle(String color,int topId,String title,FragmentType type)
+    {
+        this.type = type;
         ImmerseUtil.setImmerse(this, color);
         toolbar.setBackgroundResource(topId);
+        topTitle.setText(title);
+    }
+    private MainFragment changeToHost(int width, int height) {
+        resetTitle(cn.monica.missionimpossible.util.Color.MAIN_COLOR,R.drawable.main_top, ContentValueUtil.host_page,FragmentType.MainFragment);
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        chooseClassFragment = ChooseClassFragment.newInstance(res);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, chooseClassFragment).commit();
+        mainFragment = MainFragment.newInstance(R.drawable.main_bk);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mainFragment).commit();
         Animator  animator = ViewAnimationUtils.createCircularReveal(view, width / 2, height, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.setDuration(yalantis.com.sidemenu.util.ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
         animator.addListener(this);
         animator.start();
-        return chooseClassFragment;
+        return mainFragment;
     }
 
 
@@ -481,5 +464,19 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     @Override
     public void onAnimationRepeat(Animator animator) {
 
+    }
+
+    @Override
+    public void setMassage(Message massage) {
+        switch (massage.what)
+        {
+            case 0:
+                backToMain();
+                break;
+            case 1:
+                ResetTitleMessage titleMessage = (ResetTitleMessage) massage.obj;
+                resetTitle(titleMessage.getColor(),titleMessage.getTopId(),titleMessage.getTitle(),titleMessage.getType());
+                break;
+        }
     }
 }

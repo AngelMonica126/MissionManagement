@@ -20,10 +20,14 @@ import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.activity.MainActivity;
 import cn.monica.missionimpossible.adapter.RecordAdapter;
 import cn.monica.missionimpossible.adapter.ViewAdapter;
+import cn.monica.missionimpossible.bean.FragmentType;
+import cn.monica.missionimpossible.bean.ResetTitleMessage;
 import cn.monica.missionimpossible.bean.ViewDatabase;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.engine.ViewManager;
+import cn.monica.missionimpossible.myinterface.OnMessageFragment;
+import cn.monica.missionimpossible.util.Color;
 import cn.monica.missionimpossible.util.ImmerseUtil;
 import cn.monica.missionimpossible.util.MyInterface;
 import cn.monica.missionimpossible.util.ProgressDialogUtil;
@@ -32,17 +36,19 @@ import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 
 public class ViewBrowseFragment extends Fragment implements ScreenShotable {
+    private static OnMessageFragment messageFragment;
     private View containerView;
     protected int res;
     private Bitmap bitmap;
     private ListView browse_lv;
     private ViewAdapter myAdapter;
     private AddRecordFragment addRecordFragment;
-    public static ViewBrowseFragment newInstance(int resId) {
+    public static ViewBrowseFragment newInstance(int resId, OnMessageFragment onMessageFragment) {
         ViewBrowseFragment hostPageFragment = new ViewBrowseFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Integer.class.getName(), resId);
         hostPageFragment.setArguments(bundle);
+        messageFragment = onMessageFragment;
         return hostPageFragment;
     }
 
@@ -80,13 +86,12 @@ public class ViewBrowseFragment extends Fragment implements ScreenShotable {
 
     public ScreenShotable replaceAddInfoFragment(int position) {
         ViewDatabase viewDatabase = ViewManager.getInstance().getViews().get(position);
-        MainActivity.res = R.drawable.view_bk;
-        MainActivity.topId = R.drawable.view_top;
-        MainActivity.color = "#122c24";
-        MainActivity.topTitle.setText(viewDatabase.getTitle());
-        ImmerseUtil.setImmerse(getActivity(), MainActivity.color);
-        MainActivity.toolbar.setBackgroundResource(MainActivity.topId);
-        addRecordFragment = AddRecordFragment.newInstance(this.res, viewDatabase);
+        ResetTitleMessage titleMessage = new ResetTitleMessage(Color.ADD_RECORD_COLOR,R.drawable.view_top,viewDatabase.getTitle(), FragmentType.AddRecordFragment);
+        Message message = new  Message();
+        message.what = 1;
+        message.obj = titleMessage;
+        messageFragment.setMassage(message);
+        addRecordFragment = AddRecordFragment.newInstance(R.drawable.view_bk, viewDatabase,messageFragment);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, addRecordFragment).commit();
         return addRecordFragment;
      }

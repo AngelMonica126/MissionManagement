@@ -9,4 +9,5 @@
     <string name="add_view">添加控件</string>
     <string name="host_page">主页</string>
     <string name="record_browse">记录浏览</string>
+    <string name="view_browse_color">#085959</string>
 </resources>

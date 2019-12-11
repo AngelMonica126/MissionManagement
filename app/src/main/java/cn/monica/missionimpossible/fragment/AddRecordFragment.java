@@ -3,6 +3,7 @@ package cn.monica.missionimpossible.fragment;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -36,11 +37,13 @@ import cn.finalteam.rxgalleryfinal.imageloader.ImageLoaderType;
 import cn.finalteam.rxgalleryfinal.rxbus.RxBusResultDisposable;
 import cn.finalteam.rxgalleryfinal.rxbus.event.ImageMultipleResultEvent;
 import cn.monica.missionimpossible.R;
+import cn.monica.missionimpossible.activity.MainActivity;
 import cn.monica.missionimpossible.bean.FileBean;
 import cn.monica.missionimpossible.bean.RecordDatabase;
 import cn.monica.missionimpossible.bean.TitleViewStruct;
 import cn.monica.missionimpossible.bean.TitleViewType;
 import cn.monica.missionimpossible.bean.ViewDatabase;
+import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.FileUtil;
@@ -57,6 +60,7 @@ import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 public class AddRecordFragment extends Fragment implements ScreenShotable, View.OnClickListener, View.OnLongClickListener {
     private static ViewDatabase data;
+    private static OnMessageFragment messageFragment;
     private View containerView;
     private ImageButton imageButton;
     private ImageButton tag_bt;
@@ -73,7 +77,6 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
     private TextView mark_tv;
     private String desText = "图片描述";
     private String markText = "标签选择";
-    private int tagSize = 0;
     private final int maxTagSize = 3;
     private List<FileBean> fileBeanList;
     private List<MediaBean> mediaBeanList;
@@ -84,12 +87,13 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
     private NavigationTabStrip add_record_fragment_step;
     private RatingBar add_record_fragment_rating;
 
-    public static AddRecordFragment newInstance(int resId, ViewDatabase viewDatabase) {
+    public static AddRecordFragment newInstance(int resId, ViewDatabase viewDatabase, OnMessageFragment onMessageFragment) {
         AddRecordFragment addRecordFragment = new AddRecordFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Integer.class.getName(), resId);
         addRecordFragment.setArguments(bundle);
         data = viewDatabase;
+        messageFragment = onMessageFragment;
         return addRecordFragment;
     }
 
@@ -122,7 +126,6 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
             @Override
             public void onTagLongClick(int position, String text) {
                 mTagContainerLayout.removeTag(position);
-                tagSize--;
             }
 
             @Override
@@ -149,6 +152,10 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         recordDatabase.save();
         ToastUtil.makeToast(getContext(),  "保存成功!");
         clearFragment();
+        Message message = new Message();
+        message.what = 0;
+        messageFragment.setMassage(message);
+
     }
 
     private void saveDIY(String name) {
@@ -177,12 +184,18 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         mark_tv.setText(markText + "(" + 0 + "/" + maxTagSize + ")");
         record_title.setText("");
         gridLayout.removeAllViews();
-        createImageButton();
         mTagContainerLayout.removeAllTags();
         fileBeanList.clear();
         mediaBeanList.clear();
         titleViews.clear();
         linearLayout.removeAllViews();
+        add_record_fragment_deadline.clear();
+        add_record_fragment_remind_time.clear();
+        add_record_fragment_step.setTabIndex(0);
+        add_record_fragment_rating.setRating(1);
+        add_record_fragment_remarks.setText("");
+        createImageButton();
+
     }
 
     private void saveTags(String name) {

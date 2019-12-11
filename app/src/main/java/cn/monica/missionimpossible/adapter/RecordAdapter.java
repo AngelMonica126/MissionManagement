@@ -70,7 +70,7 @@ public class RecordAdapter extends BaseAdapter {
             viewHolder.item_tag.removeAllTags();
         }
         viewHolder.item_tv.setText(recordDatabases.get(position).getTitle());
-        String date = CalenderUtil.getInstance().changeToDate(recordDatabases.get(position).getCreateDay());
+        String date = null;
         viewHolder.item_createDay.setText(date);
         String name = recordDatabases.get(position).getName();
         File file = new File(context.getFilesDir(), name + ContentValueUtil.TAG);
@@ -93,7 +93,6 @@ public class RecordAdapter extends BaseAdapter {
                         recordDatabases.remove(recordDatabase);
                         recordDatabase.delete();
                         notifyDataSetChanged();
-
                     }
 
                     @Override

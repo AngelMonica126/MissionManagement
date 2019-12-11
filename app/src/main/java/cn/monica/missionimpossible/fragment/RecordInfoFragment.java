@@ -123,49 +123,8 @@ public class RecordInfoFragment extends Fragment implements ScreenShotable, MyTh
     }
 
     private void setData(int count, float range) {
-        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
-        float[] num = new float[]{record.getRightTimes(), record.getVagueTimes(), record.getErrorTimes()};
-        for (int i = 0; i < count; i++) {
 
-            entries.add(new PieEntry((num[i] / (float) record.getVisitTimes()), mParties[i % mParties.length]));
-            PieDataSet dataSet = new PieDataSet(entries, "");
-            dataSet.setSliceSpace(3f);//--饼状图
-            dataSet.setSelectionShift(15f);//--选中饼状图时，向外扩张的大小.
 
-            ArrayList<Integer> colors = new ArrayList<Integer>();
-
-            for (int c : ColorTemplate.VORDIPLOM_COLORS)
-                colors.add(c);
-
-            for (int c : ColorTemplate.JOYFUL_COLORS)
-                colors.add(c);
-
-            for (int c : ColorTemplate.COLORFUL_COLORS)
-                colors.add(c);
-
-            for (int c : ColorTemplate.LIBERTY_COLORS)
-                colors.add(c);
-
-            for (int c : ColorTemplate.PASTEL_COLORS)
-                colors.add(c);
-
-            colors.add(ColorTemplate.getHoloBlue());
-
-            dataSet.setColors(colors);
-
-            PieData data = new PieData(dataSet);
-            data.setValueFormatter(new PercentFormatter());
-            data.setValueTextSize(15);       //--设置字体大小
-            data.setValueTextColor(Color.BLACK);//--设置饼状图其中各个块上的百分比颜色
-            data.setValueTypeface(mTfLight);  //--设置字体
-            record_info_pie.setData(data);
-
-            // undo all highlights
-            record_info_pie.highlightValues(null);
-
-            record_info_pie.invalidate();
-
-        }
     }
 
 
@@ -183,8 +142,6 @@ public class RecordInfoFragment extends Fragment implements ScreenShotable, MyTh
         record_info_pie.setDragDecelerationFrictionCoef(0.95f);
 
         record_info_pie.setCenterTextTypeface(mTfLight);
-
-        record_info_pie.setCenterText(String.format("%.2f", record.getCarryLevel()));//--设置中心点文字
 
         record_info_pie.setDrawHoleEnabled(true);
         record_info_pie.setHoleColor(0xef3614);
@@ -276,7 +233,7 @@ public class RecordInfoFragment extends Fragment implements ScreenShotable, MyTh
 
     private void loadDescribe() {
 
-        File file = new File(getContext().getFilesDir(), name + ContentValueUtil.DESCRIBE);
+        File file = new File(getContext().getFilesDir(), name + ContentValueUtil.REMARKS);
         String des = FileUtil.readFile(file);
         record_info_describe.setText(des);
     }

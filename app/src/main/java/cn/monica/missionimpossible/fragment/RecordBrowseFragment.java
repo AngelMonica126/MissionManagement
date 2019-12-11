@@ -138,29 +138,12 @@ public class RecordBrowseFragment extends Fragment implements ScreenShotable, Vi
                     @Override
                     public void Text(String text) {
 
-                        RecordManager.getInstance().sortByTag(new MyInterface.onLoadRecordListener() {
-                            ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(getContext(),"稍等","正在整理数据");
-                            @Override
-                            public void onBegin() {
-                                setProgress();
-                                progressDialogUtil.show();
-                            }
-
-                            @Override
-                            public void onEnd() {
-                                progressDialogUtil.cancel();
-                                hander.sendEmptyMessage(0);
-                            }
-                        }, text);
                     }
                 });
             }
         });
     }
 
-    private void setProgress() {
-
-    }
 
     @Override
     public void takeScreenShot() {
@@ -174,9 +157,7 @@ public class RecordBrowseFragment extends Fragment implements ScreenShotable, Vi
                 RecordBrowseFragment.this.bitmap = bitmap;
             }
         };
-
         thread.start();
-
     }
 
     @Override
@@ -186,27 +167,6 @@ public class RecordBrowseFragment extends Fragment implements ScreenShotable, Vi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.browse_date:
-                RecordManager.getInstance().sortByDate();
-                break;
-            case R.id.browse_level:
-                RecordManager.getInstance().sortByToday();
-                break;
-            case R.id.browse_study:
-                RecordManager.getInstance().sortByStudy(RecordManager.getInstance().getRecordDatabases());
-                break;
-            case R.id.last_day:
-                RecordManager.getInstance().sortByDay();
-                break;
-            case R.id.last_mounth:
-                RecordManager.getInstance().sortByMounth();
-                break;
-            case R.id.last_week:
-                RecordManager.getInstance().sortByWeek();
-                break;
-
-        }
         myAdapter.notifyDataSetChanged();
     }
 
