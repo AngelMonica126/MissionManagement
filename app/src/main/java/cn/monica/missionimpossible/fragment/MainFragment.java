@@ -60,7 +60,7 @@ public class MainFragment extends Fragment implements ScreenShotable {
     }
 
     private void initListView() {
-        mainListAdapter =new MainListAdapter(getContext());
+        mainListAdapter =new MainListAdapter(getContext(),null);
         choose_lv.setAdapter(mainListAdapter);
         choose_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(getContext(),"稍等","正在整理数据!");

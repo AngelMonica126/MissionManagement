@@ -18,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.text.TextUtils;
@@ -63,7 +64,7 @@ import io.codetail.animation.ViewAnimationUtils;
 import yalantis.com.sidemenu.interfaces.Resourceble;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 import yalantis.com.sidemenu.util.ViewAnimator;
-public class MainActivity extends ActionBarActivity implements ViewAnimator.ViewAnimatorListener, Animator.AnimatorListener, OnMessageFragment {
+public class MainActivity extends AppCompatActivity implements ViewAnimator.ViewAnimatorListener, Animator.AnimatorListener, OnMessageFragment {
     private FragmentType type;
     private yalantis.com.sidemenu.util.ViewAnimator viewAnimator;
     private DrawerLayout drawerLayout;
