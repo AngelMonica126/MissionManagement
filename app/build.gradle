@@ -16,7 +16,7 @@ repositories {
 }
 android {
     compileSdkVersion 25
-    buildToolsVersion "28.0.3"
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "cn.monica.missionimpossible"
         minSdkVersion 15
@@ -40,16 +40,16 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'com.android.support:appcompat-v7:25.3.0'
     implementation ('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true;
     }
-    compile 'com.android.support:appcompat-v7:28.0.3'
     compile 'com.yalantis:sidemenu:1.0'
-    compile 'com.github.ozodrukh:CircularReveal:1.0.4'
     testCompile 'junit:junit:4.12'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'cn.finalteam.rxgalleryfinal:library:1.0.9'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
     compile files('libs/Xutils3.0.jar')
     compile 'co.lujun:androidtagview:1.1.4'
     compile 'com.github.satyan:sugar:1.5'
@@ -57,7 +57,5 @@ dependencies {
     compile 'com.nantaphop:hoverTouchView:0.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     compile 'com.andrognito.patternlockview:patternlockview:1.0.0'
-    compile 'com.ramotion.foldingcell:folding-cell:1.2.3'
     compile 'com.github.devlight.navigationtabstrip:navigationtabstrip:+'
-
 }
