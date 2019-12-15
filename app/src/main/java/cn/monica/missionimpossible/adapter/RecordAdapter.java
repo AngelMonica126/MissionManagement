@@ -53,7 +53,6 @@ public class RecordAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
         View view;
         ViewHolder viewHolder;
         if (convertView == null) {

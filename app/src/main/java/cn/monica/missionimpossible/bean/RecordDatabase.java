@@ -11,34 +11,32 @@ import java.io.Serializable;
 
 public class RecordDatabase extends SugarRecord implements Serializable {
     @Unique
-    private Long id;
     private String name;
     private String title;
     private String remain_time;
     private String deadline;
-    private int Priority;
+    private String begin_time;
+    private int priority;
     private int step;
     public RecordDatabase() {
     }
 
-    public RecordDatabase(Long id, String name, String title, String remain_time, String deadline, int priority, int step) {
-        this.id = id;
+    public RecordDatabase(String name, String title, String remain_time, String deadline, String begin_time, int priority, int step) {
         this.name = name;
         this.title = title;
         this.remain_time = remain_time;
         this.deadline = deadline;
-        Priority = priority;
+        this.begin_time = begin_time;
+        this.priority = priority;
         this.step = step;
     }
 
-    @Override
-    public Long getId() {
-        return id;
+    public String getBegin_time() {
+        return begin_time;
     }
 
-    @Override
-    public void setId(Long id) {
-        this.id = id;
+    public void setBegin_time(String begin_time) {
+        this.begin_time = begin_time;
     }
 
     public String getName() {
@@ -74,11 +72,11 @@ public class RecordDatabase extends SugarRecord implements Serializable {
     }
 
     public int getPriority() {
-        return Priority;
+        return priority;
     }
 
     public void setPriority(int priority) {
-        Priority = priority;
+        this.priority = priority;
     }
 
     public int getStep() {
@@ -91,7 +89,7 @@ public class RecordDatabase extends SugarRecord implements Serializable {
 
     @Override
     public String toString() {
-        return "id:" + id + " name:" +
+        return "id:" + getId() + " name:" +
                 name + " title:" + title ;
 
     }

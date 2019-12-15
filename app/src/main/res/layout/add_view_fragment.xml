@@ -2,7 +2,8 @@
 <io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:hedgehog="http://schemas.android.com/tools">
 
     <FrameLayout
         android:id="@+id/container"
@@ -135,14 +136,22 @@
                     android:layout_marginTop="@dimen/padding"
                     android:text="优先级选择" />
 
-                <RatingBar
-                    android:isIndicator="true"
-                    android:rating = "1"
-                    android:numStars="5"
-                    android:stepSize="1"
+                <com.hedgehog.ratingbar.RatingBar
+                    android:id="@+id/ratingbar"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    ></RatingBar>
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="50dp"
+                    hedgehog:clickable="false"
+                    hedgehog:halfstart="false"
+                    hedgehog:starCount="5"
+                    hedgehog:starEmpty="@mipmap/star_empty"
+                    hedgehog:starFill="@mipmap/star_full"
+                    hedgehog:starHalf="@mipmap/star_half"
+                    hedgehog:starImageHeight="90dp"
+                    hedgehog:starImageWidth="70dp"
+                    hedgehog:starImagePadding="20dp"/>
                 <View
                     style="@style/LineView"
                     android:layout_marginTop="@dimen/padding"></View>

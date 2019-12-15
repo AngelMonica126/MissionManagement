@@ -67,7 +67,6 @@
                     android:gravity="top"
                     android:hint="请输入备注"
                     android:imeOptions="flagNoExtractUi"
-                    android:maxLines="10"
                     android:textColor="#d1d2d1"
                     android:textColorHint="@color/record_hint" />
                 <LinearLayout

@@ -15,6 +15,7 @@
     <color name="white">#ffffff</color>
     <color name="record_hint">#cdcdcd</color>
     <color name="tag">#d1d2d1</color>
+    <color name="title">#6F706F</color>
     <color name="tag_bk">#40b2f8c5</color>
     <color name="tag_broad">#c57fe7e9</color>
     <color name="tag_back">#20b2f8c5</color>
@@ -24,7 +25,11 @@
     <color name="immerseAdd">#97094b48</color>
     <color name="immerseBrowse">#085959</color>
     <color name="add_info">#122c24</color>
-
-
+    <color name="wait_bk">#40F8B2B2</color>
+    <color name="wait_broad">#C3F10A29</color>
+    <color name="finish_bk">#40b2f8c5</color>
+    <color name="finish_broad">#c57fe7e9</color>
+    <color name="ongoing_bk">#40F8D6B2</color>
+    <color name="ongoing_broad">#C5EE8318</color>
 
 </resources>

@@ -9,21 +9,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.adapter.MainListAdapter;
+import cn.monica.missionimpossible.adapter.RecordExpandableAdapter;
+import cn.monica.missionimpossible.bean.RecordDatabase;
+import cn.monica.missionimpossible.myinterface.OnRecordExpandableReplaceFragment;
 import cn.monica.missionimpossible.util.ProgressDialogUtil;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 
-public class MainFragment extends Fragment implements ScreenShotable {
+public class MainFragment extends Fragment implements ScreenShotable, OnRecordExpandableReplaceFragment {
 
     private View containerView;
-    private ListView choose_lv;
+    private ExpandableListView expandableListView;
     protected int res;
     private Bitmap bitmap;
-    private MainListAdapter mainListAdapter;
+    private RecordExpandableAdapter recordExpandableAdapter;
     public static MainFragment newInstance(int resId) {
         MainFragment contentFragment = new MainFragment();
         Bundle bundle = new Bundle();
@@ -52,7 +56,6 @@ public class MainFragment extends Fragment implements ScreenShotable {
         initUI(rootView);
         initListView();
         init();
-
         return rootView;
     }
 
@@ -60,19 +63,12 @@ public class MainFragment extends Fragment implements ScreenShotable {
     }
 
     private void initListView() {
-        mainListAdapter =new MainListAdapter(getContext(),null);
-        choose_lv.setAdapter(mainListAdapter);
-        choose_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            ProgressDialogUtil progressDialogUtil = new ProgressDialogUtil(getContext(),"稍等","正在整理数据!");
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
+        recordExpandableAdapter =new RecordExpandableAdapter(getContext(),this);
+        expandableListView.setAdapter(recordExpandableAdapter);
     }
 
     private void initUI(View rootView) {
-        choose_lv = (ListView) rootView.findViewById(R.id.choose_lv);
+        expandableListView = (ExpandableListView) rootView.findViewById(R.id.main_fragment_expand_listview);
     }
 
     @Override
@@ -87,14 +83,17 @@ public class MainFragment extends Fragment implements ScreenShotable {
                 MainFragment.this.bitmap = bitmap;
             }
         };
-
         thread.start();
-
     }
 
     @Override
     public Bitmap getBitmap() {
         return bitmap;
+    }
+
+    @Override
+    public void onClick(RecordDatabase recordDatabase) {
+
     }
 }
 

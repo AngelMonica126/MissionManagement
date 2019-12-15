@@ -1,46 +1,61 @@
 package cn.monica.missionimpossible.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.File;
+import java.util.List;
+
 import cn.monica.missionimpossible.R;
+import cn.monica.missionimpossible.bean.RecordDatabase;
+import cn.monica.missionimpossible.engine.LockDialogHelper;
+import cn.monica.missionimpossible.engine.RecordManager;
+import cn.monica.missionimpossible.myinterface.OnRecordExpandableReplaceFragment;
+import cn.monica.missionimpossible.util.ContentValueUtil;
+import cn.monica.missionimpossible.util.FileUtil;
+import cn.monica.missionimpossible.util.ToastUtil;
+import co.lujun.androidtagview.TagContainerLayout;
 
 public class RecordExpandableAdapter extends BaseExpandableListAdapter {
-    private String[] groups;
-    private String[][] childs;
-    Context mcotext;
-    public RecordExpandableAdapter(Context mcotext, String[] groups, String[][] childs) {
-        this.mcotext=mcotext;
-        this.groups=groups;
-        this.childs=childs;
+    private OnRecordExpandableReplaceFragment onRecordExpandableReplaceFragment;
+    private List<RecordDatabase>recordDatabases;
+    private Context context;
+    private String steps[] = {"未开始","已开始","已完成"};
+    public RecordExpandableAdapter(Context mcotext, OnRecordExpandableReplaceFragment onRecordExpandableReplaceFragment) {
+        this.context =mcotext;
+        this.onRecordExpandableReplaceFragment = onRecordExpandableReplaceFragment;
+        recordDatabases = RecordManager.getInstance().getRecordDatabases();
     }
 
     // 获取分组的个数
     @Override
     public int getGroupCount() {
-        return groups.length;
+        return recordDatabases.size();
     }
     //获取指定分组中的子选项的个数
     @Override
     public int getChildrenCount(int groupPosition) {
-        return childs[groupPosition].length;
+        return 1;
     }
 
     //获取指定的分组数据
     @Override
     public Object getGroup(int groupPosition) {
-        return groups[groupPosition];
+        return recordDatabases.get(groupPosition);
     }
 
     //获取指定分组中的指定子选项数据
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return childs[groupPosition][childPosition];
+        return recordDatabases.get(groupPosition);
     }
 
     //获取指定分组的ID, 这个ID必须是唯一的
@@ -72,18 +87,82 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
      */
 // 获取显示指定分组的视图
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        if(convertView==null){
-            convertView= LayoutInflater.from(mcotext).inflate(R.layout.group_layout,null);
-            holder=new ViewHolder();
-            holder.iv= (ImageView) convertView.findViewById(R.id.iv);
-            holder.tv= (TextView) convertView.findViewById(R.id.tv);
-            convertView.setTag(holder);
-        }else{
-            holder= (ViewHolder) convertView.getTag();
+    public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        View view;
+        ViewHolder viewHolder;
+        if (convertView == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.record_item, null);
+            viewHolder = new ViewHolder();
+            viewHolder.item_tv = (TextView) view.findViewById(R.id.item_tv);
+            viewHolder.item_tag = (TagContainerLayout) view.findViewById(R.id.item_tag);
+            viewHolder.item_delete = (ImageButton) view.findViewById(R.id.item_delete);
+            viewHolder.item_createDay = (TextView) view.findViewById(R.id.item_createDay);
+            viewHolder.record_item_parent = (LinearLayout) view.findViewById(R.id.record_item_parent);
+            viewHolder.item_image = (ImageView) view.findViewById(R.id.record_item_image)   ;
+            view.setTag(viewHolder);
+        } else {
+            view = convertView;
+            viewHolder = (ViewHolder) view.getTag();
+            viewHolder.item_tag.removeAllTags();
         }
-        holder.tv.setText(groups[groupPosition]);
-        return convertView;
+        viewHolder.item_tv.setText(recordDatabases.get(groupPosition).getTitle());
+        int step = recordDatabases.get(groupPosition).getStep();
+        switch (step)
+        {
+            case 0:
+                viewHolder.record_item_parent.setBackgroundResource(R.drawable.wait_shape);
+                break;
+            case 1:
+                viewHolder.record_item_parent.setBackgroundResource(R.drawable.ongoing_shape);
+                break;
+            case 2:
+                viewHolder.record_item_parent.setBackgroundResource(R.drawable.finish_shape);
+                break;
+        }
+        viewHolder.item_createDay.setText(steps[step]);
+        String name = recordDatabases.get(groupPosition).getName();
+        File file = new File(context.getFilesDir(), name + ContentValueUtil.TAG);
+        String res = FileUtil.readFile(file);
+        if (!TextUtils.isEmpty(res)) {
+            String[] stings = res.split(ContentValueUtil.DIVIDE);
+            for (String s : stings) {
+                if (!TextUtils.isEmpty(s)) {
+                    viewHolder.item_tag.addTag(s);
+                }
+            }
+        }
+        viewHolder.item_delete.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                final RecordDatabase recordDatabase = recordDatabases.get(groupPosition);
+                LockDialogHelper.getInstance().createUnLockDialog(new LockDialogHelper.UnLockListener() {
+                    @Override
+                    public void onSuccess() {
+                        recordDatabases.remove(recordDatabase);
+                        recordDatabase.delete();
+                        notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        ToastUtil.makeToast(context,"密码错误！");
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        ToastUtil.makeToast(context,"取消！");
+                    }
+                });
+                return true;
+            }
+        });
+        viewHolder.item_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRecordExpandableReplaceFragment.onClick(recordDatabases.get(groupPosition));
+            }
+        });
+        return view;
     }
 
     /**
@@ -104,16 +183,6 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        if(convertView==null){
-            convertView= LayoutInflater.from(mcotext).inflate(R.layout.childs_layout,null);
-            holder=new ViewHolder();
-            holder.iv= (ImageView) convertView.findViewById(R.id.iv);
-            holder.tv= (TextView) convertView.findViewById(R.id.tv);
-            convertView.setTag(holder);
-        }else{
-            holder= (ViewHolder) convertView.getTag();
-        }
-        holder.tv.setText(childs[groupPosition][childPosition]);
         return convertView;
     }
 
@@ -122,9 +191,12 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    ViewHolder holder;
-    class ViewHolder{
-        TextView tv;
-        ImageView iv;
+    class ViewHolder {
+        LinearLayout   record_item_parent;
+        TextView item_tv;
+        TagContainerLayout item_tag;
+        ImageButton item_delete;
+        TextView item_createDay;
+        ImageView item_image;
     }
 }
