@@ -59,7 +59,7 @@ public class RecordAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.record_item, null);
             viewHolder = new ViewHolder();
             viewHolder.item_tv = (TextView) view.findViewById(R.id.item_tv);
-            viewHolder.item_tag = (TagContainerLayout) view.findViewById(R.id.item_tag);
+//            viewHolder.item_tag = (TagContainerLayout) view.findViewById(R.id.item_tag);
             viewHolder.item_delete = (ImageButton) view.findViewById(R.id.item_delete);
             viewHolder.item_createDay = (TextView) view.findViewById(R.id.item_createDay);
             view.setTag(viewHolder);

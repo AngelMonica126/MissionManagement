@@ -2,7 +2,8 @@
 <io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:hedgehog="http://schemas.android.com/tools">
 
     <FrameLayout
         android:id="@+id/container"
@@ -134,14 +135,20 @@
                     android:layout_marginTop="@dimen/padding"
                     android:text="优先级选择" />
 
-                <RatingBar
-                    android:id="@+id/add_record_fragment_rating"
-                    android:rating = "1"
-                    android:numStars="5"
-                    android:stepSize="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    ></RatingBar>
+                <cn.monica.missionimpossible.view.MyRatingBar
+                    android:layout_marginTop="@dimen/padding"
+                    android:id="@+id/add_record_fragment_rating_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:clickable="true"
+                    app:halfstart="false"
+                    app:starCount="5"
+                    app:starEmpty="@drawable/ratingbar_monica_empty"
+                    app:starFill="@drawable/ratingbar_monica_fill"
+                    app:starImageHeight="50dp"
+                    app:starImageWidth="50dp"
+                    />
                 <View
                     style="@style/LineView"
                     android:layout_marginTop="@dimen/padding"></View>

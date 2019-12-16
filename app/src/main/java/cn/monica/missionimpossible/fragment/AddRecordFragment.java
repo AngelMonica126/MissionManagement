@@ -16,11 +16,11 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
+import com.hedgehog.ratingbar.RatingBar;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -48,6 +48,7 @@ import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.FileUtil;
 import cn.monica.missionimpossible.util.ToastUtil;
+import cn.monica.missionimpossible.view.MyRatingBar;
 import cn.monica.missionimpossible.view.TitleView;
 import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
@@ -85,7 +86,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
     private TitleView add_record_fragment_remind_time;
     private TitleView add_record_fragment_deadline;
     private NavigationTabStrip add_record_fragment_step;
-    private RatingBar add_record_fragment_rating;
+    private MyRatingBar add_record_fragment_rating;
 
     public static AddRecordFragment newInstance(int resId, ViewDatabase viewDatabase, OnMessageFragment onMessageFragment) {
         AddRecordFragment addRecordFragment = new AddRecordFragment();
@@ -148,7 +149,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         recordDatabase.setDeadline(add_record_fragment_deadline.getInfo().getInfo());
         recordDatabase.setRemain_time(add_record_fragment_remind_time.getInfo().getInfo());
         recordDatabase.setStep(add_record_fragment_step.getTabIndex());
-        recordDatabase.setPriority(add_record_fragment_rating.getNumStars());
+        recordDatabase.setPriority((int) add_record_fragment_rating.getCount());
         recordDatabase.save();
         ToastUtil.makeToast(getContext(),  "保存成功!");
         clearFragment();
@@ -192,7 +193,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         add_record_fragment_deadline.clear();
         add_record_fragment_remind_time.clear();
         add_record_fragment_step.setTabIndex(0);
-        add_record_fragment_rating.setRating(1);
+        add_record_fragment_rating.setStarCount(1);
         add_record_fragment_remarks.setText("");
         createImageButton();
 
@@ -395,7 +396,8 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         add_record_fragment_remarks = (EditText)rootView.findViewById(R.id.add_record_fragment_remarks);
         add_record_fragment_remind_time = (TitleView)rootView.findViewById(R.id.add_record_fragment_remind_time);
         add_record_fragment_deadline = (TitleView)rootView.findViewById(R.id.add_record_fragment_deadline);
-        add_record_fragment_rating = (RatingBar)rootView.findViewById(R.id.add_record_fragment_rating);
+        add_record_fragment_rating = (MyRatingBar) rootView.findViewById(R.id.add_record_fragment_rating_bar);
+        add_record_fragment_rating.setStar(1);
         createImageButton();
         setViewDatebase();
     }

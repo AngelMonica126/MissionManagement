@@ -137,21 +137,19 @@
                     android:text="优先级选择" />
 
                 <com.hedgehog.ratingbar.RatingBar
-                    android:id="@+id/ratingbar"
-                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/padding"
+                    android:id="@+id/add_view_fragment_rating_bar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
                     android:layout_gravity="center"
-                    android:layout_marginTop="50dp"
-                    hedgehog:clickable="false"
-                    hedgehog:halfstart="false"
-                    hedgehog:starCount="5"
-                    hedgehog:starEmpty="@mipmap/star_empty"
-                    hedgehog:starFill="@mipmap/star_full"
-                    hedgehog:starHalf="@mipmap/star_half"
-                    hedgehog:starImageHeight="90dp"
-                    hedgehog:starImageWidth="70dp"
-                    hedgehog:starImagePadding="20dp"/>
+                    app:clickable="false"
+                    app:halfstart="false"
+                    app:starCount="5"
+                    app:starEmpty="@drawable/ratingbar_monica_empty"
+                    app:starFill="@drawable/ratingbar_monica_fill"
+                    app:starImageHeight="50dp"
+                    app:starImageWidth="50dp"
+                    />
                 <View
                     style="@style/LineView"
                     android:layout_marginTop="@dimen/padding"></View>

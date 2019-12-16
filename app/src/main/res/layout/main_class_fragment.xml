@@ -24,10 +24,9 @@
                         android:layout_width="match_parent"
                         android:id="@+id/main_fragment_expand_listview"
                         android:layout_height="match_parent"
-                        android:layoutDirection="rtl">
+                        >
                     </ExpandableListView>
             </LinearLayout>
-
         </RelativeLayout>
     </FrameLayout>
 </io.codetail.widget.RevealFrameLayout>

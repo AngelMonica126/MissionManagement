@@ -15,6 +15,7 @@
         android:textSize="10sp"
         android:text="备注" />
     <TextView
+        android:id="@+id/record_child_item_remarks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
@@ -41,6 +42,7 @@
                 android:textSize="10sp"
                 android:text="开始时间" />
             <TextView
+                android:id="@+id/record_child_item_begintime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -63,6 +65,7 @@
                 android:textSize="10sp"
                 android:text="截止时间" />
             <TextView
+                android:id="@+id/record_child_item_deadline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -73,6 +76,43 @@
                 android:textColorHint="@color/record_hint" />
         </LinearLayout>
     </LinearLayout>
+    <View style="@style/LineView"></View>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:textColor="@color/title"
+        android:textSize="10sp"
+        android:text="标签" />
 
+    <co.lujun.androidtagview.TagContainerLayout
+        android:id="@+id/record_child_item_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:container_max_lines="1"
+        app:tag_clickable = "false"
+        app:tag_theme = "none"
+        app:tag_text_color = "@color/tag"
+        app:tag_border_color = "@color/tag_broad"
+        app:container_background_color = "@color/tag_back"
+        app:container_enable_drag = "true"
+        app:horizontal_interval = "10dp" />
+    <View style="@style/LineView"></View>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:textColor="@color/title"
+        android:textSize="10sp"
+        android:text="完成情况" />
+    <com.gigamole.navigationtabstrip.NavigationTabStrip
+        android:id="@+id/record_chile_item_step"
+        android:layout_width = "match_parent"
+        android:layout_height = "30dp"
+        app:nts_titles="@array/titles"
+        app:nts_size="15sp"
+        app:nts_weight="3dp"
+        app:nts_factor="2.5"
+        ></com.gigamole.navigationtabstrip.NavigationTabStrip>
 </LinearLayout>
 

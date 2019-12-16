@@ -30,21 +30,24 @@
             android:textColor="@color/tag"
             android:textSize="18sp" />
 
-        <co.lujun.androidtagview.TagContainerLayout
-            android:id="@+id/item_tag"
-            style="@style/Tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <cn.monica.missionimpossible.view.MyRatingBar
+            android:layout_marginLeft="20dp"
             android:layout_below="@+id/item_tv"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/item_delete"
             android:layout_toRightOf="@+id/item_createDay"
-            app:container_background_color="@color/colorTranplant"
-            app:container_border_color="@color/colorTranplant"
-            app:container_enable_drag="false"
-            app:container_max_lines="1"
-            app:tag_text_size="8sp" />
+            android:layout_marginTop="@dimen/padding"
+            android:id="@+id/record_item_rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:clickable="false"
+            app:halfstart="false"
+            app:starCount="5"
+            app:starEmpty="@null"
+            app:starFill="@drawable/ratingbar_monica_fill"
+            app:starImageHeight="30dp"
+            app:starImageWidth="30dp"
+            />
         <!--        <RatingBar-->
         <!--            android:scrollbarSize="10dp"-->
         <!--            android:id="@+id/add_record_fragment_rating"-->

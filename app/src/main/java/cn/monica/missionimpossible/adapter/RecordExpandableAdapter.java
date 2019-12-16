@@ -1,5 +1,6 @@
 package cn.monica.missionimpossible.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gigamole.navigationtabstrip.NavigationTabStrip;
+
 import java.io.File;
 import java.util.List;
 
@@ -19,9 +22,11 @@ import cn.monica.missionimpossible.bean.RecordDatabase;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.myinterface.OnRecordExpandableReplaceFragment;
+import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.FileUtil;
 import cn.monica.missionimpossible.util.ToastUtil;
+import cn.monica.missionimpossible.view.MyRatingBar;
 import co.lujun.androidtagview.TagContainerLayout;
 
 public class RecordExpandableAdapter extends BaseExpandableListAdapter {
@@ -94,7 +99,7 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.record_item, null);
             viewHolder = new ViewHolder();
             viewHolder.item_tv = (TextView) view.findViewById(R.id.item_tv);
-            viewHolder.item_tag = (TagContainerLayout) view.findViewById(R.id.item_tag);
+            viewHolder.item_rating_bar = (MyRatingBar) view.findViewById(R.id.record_item_rating_bar);
             viewHolder.item_delete = (ImageButton) view.findViewById(R.id.item_delete);
             viewHolder.item_createDay = (TextView) view.findViewById(R.id.item_createDay);
             viewHolder.record_item_parent = (LinearLayout) view.findViewById(R.id.record_item_parent);
@@ -103,7 +108,6 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
         } else {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
-            viewHolder.item_tag.removeAllTags();
         }
         viewHolder.item_tv.setText(recordDatabases.get(groupPosition).getTitle());
         int step = recordDatabases.get(groupPosition).getStep();
@@ -119,18 +123,8 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
                 viewHolder.record_item_parent.setBackgroundResource(R.drawable.finish_shape);
                 break;
         }
+        viewHolder.item_rating_bar.setStar(recordDatabases.get(groupPosition).getPriority());
         viewHolder.item_createDay.setText(steps[step]);
-        String name = recordDatabases.get(groupPosition).getName();
-        File file = new File(context.getFilesDir(), name + ContentValueUtil.TAG);
-        String res = FileUtil.readFile(file);
-        if (!TextUtils.isEmpty(res)) {
-            String[] stings = res.split(ContentValueUtil.DIVIDE);
-            for (String s : stings) {
-                if (!TextUtils.isEmpty(s)) {
-                    viewHolder.item_tag.addTag(s);
-                }
-            }
-        }
         viewHolder.item_delete.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -183,18 +177,74 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        return convertView;
+        View view;
+        ViewChildHolder viewHolder;
+        if (convertView == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.record_chlid_item, null);
+            viewHolder = new ViewChildHolder();
+            viewHolder.record_child_item_begintime   = (TextView) view.findViewById(R.id.record_child_item_begintime);
+            viewHolder.record_child_item_deadline    = (TextView) view.findViewById(R.id.record_child_item_deadline);
+            viewHolder.record_child_item_remarks     = (TextView) view.findViewById(R.id.record_child_item_remarks);
+            viewHolder.record_child_item_tag         = (TagContainerLayout) view.findViewById(R.id.record_child_item_tag);
+            viewHolder.record_chile_item_step        = (NavigationTabStrip) view.findViewById(R.id.record_chile_item_step);
+            viewHolder.record_child_item_parent        = (LinearLayout) view.findViewById(R.id.record_child_item_parent);
+            view.setTag(viewHolder);
+        } else {
+            view = convertView;
+            viewHolder = (ViewChildHolder) view.getTag();
+            viewHolder.record_child_item_tag.removeAllTags();
+        }
+        int step = recordDatabases.get(groupPosition).getStep();
+        switch (step)
+        {
+            case 0:
+                viewHolder.record_child_item_parent.setBackgroundResource(R.drawable.wait_shape);
+                break;
+            case 1:
+                viewHolder.record_child_item_parent.setBackgroundResource(R.drawable.ongoing_shape);
+                break;
+            case 2:
+                viewHolder.record_child_item_parent.setBackgroundResource(R.drawable.finish_shape);
+                break;
+        }
+//        int beginTime = Integer.parseInt(recordDatabases.get(groupPosition).getBegin_time());
+//        viewHolder.record_child_item_begintime.setText(beginTime>-1? CalenderUtil.getInstance().changeToDate(beginTime):"未开始");
+        viewHolder.record_child_item_deadline.setText(recordDatabases.get(groupPosition).getDeadline());
+        String name = recordDatabases.get(groupPosition).getName();
+        File refile = new File(context.getFilesDir(), name + ContentValueUtil.REMARKS);
+        String des = FileUtil.readFile(refile);
+        viewHolder.record_child_item_remarks.setText(des);
+
+        File tagfile = new File(context.getFilesDir(), name + ContentValueUtil.TAG);
+        String res = FileUtil.readFile(tagfile);
+        if (!TextUtils.isEmpty(res)) {
+            String[] stings = res.split(ContentValueUtil.DIVIDE);
+            for (String s : stings) {
+                if (!TextUtils.isEmpty(s)) {
+                    viewHolder.record_child_item_tag.addTag(s);
+                }
+            }
+        }
+        viewHolder.record_chile_item_step.setTabIndex(recordDatabases.get(groupPosition).getStep());
+        return view;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
-
+    class ViewChildHolder {
+        LinearLayout record_child_item_parent;
+        TextView   record_child_item_remarks;
+        TextView record_child_item_deadline;
+        TextView record_child_item_begintime;
+        TagContainerLayout record_child_item_tag;
+        NavigationTabStrip record_chile_item_step;
+    }
     class ViewHolder {
         LinearLayout   record_item_parent;
         TextView item_tv;
-        TagContainerLayout item_tag;
+        MyRatingBar item_rating_bar;
         ImageButton item_delete;
         TextView item_createDay;
         ImageView item_image;
