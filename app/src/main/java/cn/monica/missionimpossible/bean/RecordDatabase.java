@@ -15,13 +15,13 @@ public class RecordDatabase extends SugarRecord implements Serializable {
     private String title;
     private String remain_time;
     private String deadline;
-    private String begin_time;
+    private int begin_time;
     private int priority;
     private int step;
     public RecordDatabase() {
     }
 
-    public RecordDatabase(String name, String title, String remain_time, String deadline, String begin_time, int priority, int step) {
+    public RecordDatabase(String name, String title, String remain_time, String deadline, int begin_time, int priority, int step) {
         this.name = name;
         this.title = title;
         this.remain_time = remain_time;
@@ -31,11 +31,11 @@ public class RecordDatabase extends SugarRecord implements Serializable {
         this.step = step;
     }
 
-    public String getBegin_time() {
+    public int getBegin_time() {
         return begin_time;
     }
 
-    public void setBegin_time(String begin_time) {
+    public void setBegin_time(int begin_time) {
         this.begin_time = begin_time;
     }
 

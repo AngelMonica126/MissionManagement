@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/dialog_shape"
-    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
+
     android:id="@+id/record_child_item_parent"
    >
     <TextView
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding"
@@ -15,6 +17,8 @@
         android:textSize="10sp"
         android:text="备注" />
     <TextView
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
         android:id="@+id/record_child_item_remarks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,6 +30,8 @@
         android:textColorHint="@color/record_hint" />
     <View style="@style/LineView"></View>
     <LinearLayout
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -78,14 +84,17 @@
     </LinearLayout>
     <View style="@style/LineView"></View>
     <TextView
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding"
         android:textColor="@color/title"
         android:textSize="10sp"
         android:text="标签" />
-
     <co.lujun.androidtagview.TagContainerLayout
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
         android:id="@+id/record_child_item_tag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -94,25 +103,31 @@
         app:tag_theme = "none"
         app:tag_text_color = "@color/tag"
         app:tag_border_color = "@color/tag_broad"
+        app:tag_background_color = "@color/tag_bk"
         app:container_background_color = "@color/tag_back"
         app:container_enable_drag = "true"
         app:horizontal_interval = "10dp" />
     <View style="@style/LineView"></View>
     <TextView
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding"
         android:textColor="@color/title"
         android:textSize="10sp"
         android:text="完成情况" />
+
+
+
     <com.gigamole.navigationtabstrip.NavigationTabStrip
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
         android:id="@+id/record_chile_item_step"
         android:layout_width = "match_parent"
         android:layout_height = "30dp"
+        style="@style/Step"
         app:nts_titles="@array/titles"
-        app:nts_size="15sp"
-        app:nts_weight="3dp"
-        app:nts_factor="2.5"
         ></com.gigamole.navigationtabstrip.NavigationTabStrip>
 </LinearLayout>
 

@@ -69,6 +69,15 @@ public class MainFragment extends Fragment implements ScreenShotable, OnRecordEx
 
     private void initUI(View rootView) {
         expandableListView = (ExpandableListView) rootView.findViewById(R.id.main_fragment_expand_listview);
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                for(int j = 0 ;j<expandableListView.getChildCount();j++)
+                    expandableListView.collapseGroup(j);
+                expandableListView.expandGroup(i);
+                return true;
+            }
+        });
     }
 
     @Override

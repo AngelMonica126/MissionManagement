@@ -150,6 +150,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         recordDatabase.setRemain_time(add_record_fragment_remind_time.getInfo().getInfo());
         recordDatabase.setStep(add_record_fragment_step.getTabIndex());
         recordDatabase.setPriority((int) add_record_fragment_rating.getCount());
+        recordDatabase.setBegin_time(-1);
         recordDatabase.save();
         ToastUtil.makeToast(getContext(),  "保存成功!");
         clearFragment();
@@ -356,7 +357,6 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         String info = sb.toString();
         File file = new File(getContext().getFilesDir(), "tags");
         FileUtil.writeFile(file, info);
-
     }
 
     private void loadTags(TagContainerLayout bottom) {
