@@ -18,10 +18,11 @@ public class RecordDatabase extends SugarRecord implements Serializable {
     private int begin_time;
     private int priority;
     private int step;
+    private long view_id;
     public RecordDatabase() {
     }
 
-    public RecordDatabase(String name, String title, String remain_time, String deadline, int begin_time, int priority, int step) {
+    public RecordDatabase(String name, String title, String remain_time, String deadline, int begin_time, int priority, int step, long view_id) {
         this.name = name;
         this.title = title;
         this.remain_time = remain_time;
@@ -29,6 +30,15 @@ public class RecordDatabase extends SugarRecord implements Serializable {
         this.begin_time = begin_time;
         this.priority = priority;
         this.step = step;
+        this.view_id = view_id;
+    }
+
+    public long getView_id() {
+        return view_id;
+    }
+
+    public void setView_id(long view_id) {
+        this.view_id = view_id;
     }
 
     public int getBegin_time() {

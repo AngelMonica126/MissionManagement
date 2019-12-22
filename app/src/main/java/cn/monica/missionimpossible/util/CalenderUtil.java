@@ -8,8 +8,8 @@ import java.text.SimpleDateFormat;
 //3600000
 public class CalenderUtil {
     private static CalenderUtil calenderUtil = new CalenderUtil();
-    private long trans = 86400000;
-    private SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmss");
+    private long trans = 60000;
+    private SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private SimpleDateFormat createDate = new SimpleDateFormat("yyyy-MM-dd");
 
     public static CalenderUtil getInstance() {
@@ -27,6 +27,6 @@ public class CalenderUtil {
 
     public String changeToDate(int createDay) {
         long now =createDay*trans;
-        return createDate.format(now);
+        return date.format(now);
     }
 }

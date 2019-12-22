@@ -68,7 +68,11 @@ public class TitleView extends RelativeLayout {
             }
         });
     }
-
+    public void setInfo(String info)
+    {
+        time_textview.setText(info);
+        editText.setText(info);
+    }
     private void initUI(Context context) {
         View view = (View) View.inflate(context, R.layout.title_view, this);
         title = (TextView) view.findViewById(R.id.title);

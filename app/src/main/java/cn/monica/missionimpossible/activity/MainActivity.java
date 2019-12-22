@@ -38,8 +38,10 @@ import java.util.List;
 import cn.monica.missionimpossible.R;
 
 import cn.monica.missionimpossible.bean.FragmentType;
+import cn.monica.missionimpossible.bean.RecordDatabase;
 import cn.monica.missionimpossible.bean.ResetTitleMessage;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
+import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.engine.SimpleRxGalleryFinal;
 import cn.monica.missionimpossible.fragment.AddViewFragment;
 import cn.monica.missionimpossible.fragment.MainFragment;
@@ -200,7 +202,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     private void initUI() {
         if (TextUtils.isEmpty(SpUtil.getString(this, ContentValueUtil.LOCK, null)))
             LockDialogHelper.getInstance().createLockDialog();
-        mainFragment = MainFragment.newInstance(R.drawable.main_bk);
+        mainFragment = MainFragment.newInstance(R.drawable.main_bk,this);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, mainFragment)
                 .commit();
@@ -418,10 +420,11 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         topTitle.setText(title);
     }
     private MainFragment changeToHost(int width, int height) {
+        RecordManager.getInstance().Update();
         resetTitle(cn.monica.missionimpossible.util.Color.MAIN_COLOR,R.drawable.main_top, ContentValueUtil.host_page,FragmentType.MainFragment);
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        mainFragment = MainFragment.newInstance(R.drawable.main_bk);
+        mainFragment = MainFragment.newInstance(R.drawable.main_bk,this);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mainFragment).commit();
         Animator  animator = ViewAnimationUtils.createCircularReveal(view, width / 2, height, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());

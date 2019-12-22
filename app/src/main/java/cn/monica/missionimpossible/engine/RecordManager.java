@@ -12,6 +12,7 @@ public class RecordManager {
     public List<RecordDatabase> getRecordDatabases() {
         return recordDatabases;
     }
+    public void Update(){ recordDatabases = RecordDatabase.listAll(RecordDatabase.class);}
     public static RecordManager getInstance() {
         return recordManager;
     }

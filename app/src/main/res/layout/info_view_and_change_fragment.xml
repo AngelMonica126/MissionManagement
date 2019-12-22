@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:hedgehog="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/view_and_change_bk">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:padding="@dimen/padding">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View style="@style/LineView"></View>
+
+                <TextView
+                    style="@style/TextViewBack"
+                    android:layout_marginTop="@dimen/padding"
+                    android:text="标题" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageButton
+                        android:id="@+id/view_and_change_fragment_bt"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:scaleType="fitCenter"
+                        android:background="@color/colorTranplant"
+                        android:src="@drawable/add_record_mark" />
+                    <EditText
+                        android:id="@+id/view_and_change_fragment_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/view_and_change_fragment_bt"
+                        android:background="@null"
+                        android:hint="请输入标题"
+                        android:imeOptions="flagNoExtractUi"
+                        android:maxLines="1"
+                        android:textColor="#d1d2d1"
+                        android:textColorHint="@color/record_hint" />
+
+                </RelativeLayout>
+                <TextView
+                    style="@style/TextViewBack"
+                    android:layout_marginTop="@dimen/padding"
+                    android:text="备注" />
+
+                <EditText
+                    android:id="@+id/view_and_change_fragment_remarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="请输入备注"
+                    android:imeOptions="flagNoExtractUi"
+                    android:textColor="#d1d2d1"
+                    android:textColorHint="@color/record_hint" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/view_and_change_fragment_linearlayout"
+                    android:layout_marginTop="@dimen/padding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </LinearLayout>
+
+
+                <cn.monica.missionimpossible.view.TitleView
+                    app:ttype="1"
+                    app:ttitle="提醒时间"
+                    app:tinfo="请选择提醒时间"
+                    android:id="@+id/view_and_change_fragment_remind_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    ></cn.monica.missionimpossible.view.TitleView>
+
+                <cn.monica.missionimpossible.view.TitleView
+                    app:ttype="1"
+                    app:ttitle="截止时间"
+                    app:tinfo="请选择截止时间"
+                    android:id="@+id/view_and_change_fragment_deadline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    ></cn.monica.missionimpossible.view.TitleView>
+                <View
+                    style="@style/LineView"
+                    android:layout_marginTop="@dimen/padding"></View>
+
+                <TextView
+                    android:id="@+id/view_and_change_fragment_tv"
+                    style="@style/TextViewBack"
+                    android:layout_marginTop="@dimen/padding"
+                    android:text="标签选择" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="@dimen/padding">
+
+                    <co.lujun.androidtagview.TagContainerLayout
+                        android:id="@+id/view_and_change_fragment_tag"
+                        style="@style/Tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        app:container_max_lines="1" />
+
+                    <ImageButton
+                        style="@style/FunctionButton"
+                        android:id="@+id/view_and_change_fragment_tag_bt"
+                        android:layout_alignParentRight="true"
+                        />
+
+                </RelativeLayout>
+                <View
+                    style="@style/LineView"
+                    android:layout_marginTop="@dimen/padding"></View>
+                <TextView
+                    style="@style/TextViewBack"
+                    android:layout_marginTop="@dimen/padding"
+                    android:text="优先级选择" />
+
+                <cn.monica.missionimpossible.view.MyRatingBar
+                    android:layout_marginTop="@dimen/padding"
+                    android:id="@+id/view_and_change_fragment_rating_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:clickable="true"
+                    app:halfstart="false"
+                    app:starCount="5"
+                    app:starEmpty="@drawable/ratingbar_monica_empty"
+                    app:starFill="@drawable/ratingbar_monica_fill"
+                    app:starImageHeight="50dp"
+                    app:starImageWidth="50dp"
+                    />
+                <View
+                    style="@style/LineView"
+                    android:layout_marginTop="@dimen/padding"></View>
+                <TextView
+                    android:id="@+id/view_and_change_fragment_picture_describe"
+                    style="@style/TextViewBack"
+                    android:layout_marginTop="@dimen/padding"
+                    android:text="图片描述" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding">
+
+                    <GridLayout
+                        android:id="@+id/view_and_change_fragment_gridlayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:rowCount="1"></GridLayout>
+                </HorizontalScrollView>
+                <View
+                    style="@style/LineView"
+                    android:layout_marginTop="@dimen/padding"></View>
+                <TextView
+                    style="@style/TextViewBack"
+                    android:layout_marginTop="@dimen/padding"
+                    android:text="完成情况" />
+                <com.gigamole.navigationtabstrip.NavigationTabStrip
+                    android:id="@+id/view_and_change_fragment_step"
+                    style="@style/Step"
+                    app:nts_titles="@array/titles"
+                    ></com.gigamole.navigationtabstrip.NavigationTabStrip>
+                <View
+                    style="@style/LineView"
+                    android:layout_marginTop="@dimen/padding"></View>
+                <Button
+                    android:id="@+id/view_and_change_fragment_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="@dimen/padding"
+                    android:background="@drawable/confirm_shape"
+                    android:text="保存"
+                    android:textColor="@color/tag"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+</io.codetail.widget.RevealFrameLayout>

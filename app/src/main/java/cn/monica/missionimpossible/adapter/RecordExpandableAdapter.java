@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
+import com.hedgehog.ratingbar.RatingBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -106,7 +107,6 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
         viewHolder.item_createDay = (TextView) view.findViewById(R.id.item_createDay);
         viewHolder.record_item_parent = (LinearLayout) view.findViewById(R.id.record_item_parent);
         viewHolder.item_image = (ImageView) view.findViewById(R.id.record_item_image)   ;
-
         viewHolder.item_tv.setText(recordDatabases.get(groupPosition).getTitle());
         int step = recordDatabases.get(groupPosition).getStep();
         switch (step)
@@ -122,6 +122,14 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
                 break;
         }
         viewHolder.item_rating_bar.setStar(recordDatabases.get(groupPosition).getPriority());
+        viewHolder.item_rating_bar.setOnRatingChangeListener(new RatingBar.OnRatingChangeListener() {
+            RecordDatabase recordDatabase = recordDatabases.get(groupPosition);
+            @Override
+            public void onRatingChange(float RatingCount) {
+                recordDatabase.setPriority((int) RatingCount);
+                recordDatabase.save();
+            }
+        });
         viewHolder.item_createDay.setText(steps[step]);
         viewHolder.item_delete.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -149,9 +157,10 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
             }
         });
         viewHolder.item_delete.setOnClickListener(new View.OnClickListener() {
+            RecordDatabase recordDatabase = recordDatabases.get(groupPosition);
             @Override
             public void onClick(View view) {
-                onRecordExpandableReplaceFragment.onClick(recordDatabases.get(groupPosition));
+                onRecordExpandableReplaceFragment.onClick(recordDatabase);
             }
         });
         return view;
@@ -176,6 +185,13 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
         View view = LayoutInflater.from(context).inflate(R.layout.record_chlid_item, null);
+        view.setOnClickListener(new View.OnClickListener() {
+            RecordDatabase recordDatabase = recordDatabases.get(groupPosition);
+            @Override
+            public void onClick(View view) {
+                onRecordExpandableReplaceFragment.onClick(recordDatabase);
+            }
+        });
         viewHolder = new ViewChildHolder();
         viewHolder.record_child_item_begintime   = (TextView) view.findViewById(R.id.record_child_item_begintime);
         viewHolder.record_child_item_deadline    = (TextView) view.findViewById(R.id.record_child_item_deadline);
@@ -216,27 +232,38 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
         viewHolder.record_chile_item_step.setOnTabStripSelectedIndexListener(new NavigationTabStrip.OnTabStripSelectedIndexListener() {
             LinearLayout temp = viewHolder.record_child_item_parent;
             View parentLayout = parent.getChildAt(groupPosition);
+            TextView createDay = (TextView) parentLayout.findViewById(R.id.item_createDay);
+            NavigationTabStrip strip = viewHolder.record_chile_item_step;
+            RecordDatabase recordDatabase = recordDatabases.get(groupPosition);
+            TextView textView = viewHolder.record_child_item_begintime;
             @Override
             public void onStartTabSelected(String title, int index) {
             }
 
             @Override
             public void onEndTabSelected(String title, int index) {
+                createDay.setText(steps[index]);
+                recordDatabase.setStep(index);
                 switch (index)
                 {
                     case 0:
                         temp.setBackgroundResource(R.drawable.wait_shape);
                         parentLayout.setBackgroundResource(R.drawable.wait_shape);
+                        textView.setText(steps[0]);
+                        recordDatabase.setBegin_time(-1);
                         break;
                     case 1:
                         temp.setBackgroundResource(R.drawable.ongoing_shape);
                         parentLayout.setBackgroundResource(R.drawable.ongoing_shape);
+                        recordDatabase.setBegin_time(CalenderUtil.getInstance().getDayFromOriginal());
+                        textView.setText(CalenderUtil.getInstance().changeToDate(CalenderUtil.getInstance().getDayFromOriginal()));
                         break;
                     case 2:
                         temp.setBackgroundResource(R.drawable.finish_shape);
                         parentLayout.setBackgroundResource(R.drawable.finish_shape);
                         break;
                 }
+                recordDatabase.save();
             }
         });
         return view;
