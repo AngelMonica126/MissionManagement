@@ -231,8 +231,6 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         list.add(menuItem);
         SlideMenuItem menuItem1 = new SlideMenuItem(ContentValueUtil.VIEWBROWSE, R.drawable.add_record);
         list.add(menuItem1);
-        SlideMenuItem menuItem2 = new SlideMenuItem(ContentValueUtil.RECORDBROWSE, R.drawable.record_browse);
-        list.add(menuItem2);
         SlideMenuItem menuItem3 = new SlideMenuItem(ContentValueUtil.ADDVIEW, R.drawable.add_view);
         list.add(menuItem3);
     }
@@ -307,8 +305,6 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
                 return replaceChooseClassFragment(screenShotable, position);
             case ContentValueUtil.VIEWBROWSE:
                 return replaceViewBrowseFragment(screenShotable, position);
-            case ContentValueUtil.RECORDBROWSE:
-                return replaceRecordBrowseFragment(screenShotable, position);
             case ContentValueUtil.ADDVIEW:
                 return replaceAddViewFragment(screenShotable, position);
             default:
@@ -393,7 +389,6 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
 
         } else {
             if (secondTime - firstTime > 2000) {
-
                 textView.setText("再按一次退出程序");
                 toast.show();
                 firstTime = secondTime;

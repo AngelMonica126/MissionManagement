@@ -1,63 +1,89 @@
 package cn.monica.missionimpossible.activity;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 
 import com.serchinastico.coolswitch.CoolSwitch;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Date;
+import java.util.Properties;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.adapter.RecordExpandableAdapter;
+import cn.monica.missionimpossible.test.MyScheduledExecutor;
+import cn.monica.missionimpossible.util.SendMailUtil;
+import cn.monica.missionimpossible.util.ShareUtils;
 
-public class TestActivity extends AppCompatActivity implements CoolSwitch.AnimationListener {
-    private String[] groups={"好友","同学"};
-    private String[][] childs={{"Tom","Jerry","Jeck"},{"XY","WX","YH"}};
-    android.widget.ExpandableListView ExpandableListView;
-    RecordExpandableAdapter adapter;
-    private CoolSwitch coolSwitch;
+public class TestActivity extends AppCompatActivity  {
+    private EditText sendAddEt, mailAuthCode,
+            sendServer, sendPortNumber, toAddEt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_main);
-        mapViews();
-        coolSwitch.addAnimationListener(this);
-//        ExpandableListView= (ExpandableListView) findViewById(R.id.expand_listview);
-//        adapter=new RecordExpandableAdapter(getBaseContext(),groups,childs);
-//        ExpandableListView.setAdapter(adapter);
-//        //设置子项布局监听
-//        ExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-//            @Override
-//            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-//                Toast.makeText(TestActivity.this,
-//                        "当前位置"+childs[groupPosition][childPosition], Toast.LENGTH_SHORT).show();
-//                return true;
-//            }
-//        });
-        // get our folding cell
+
     }
 
-    @Override
-    public void onCheckedAnimationFinished() {
-        // Empty
+    public void senTextMail(View view) {
+
+        sendAddEt = (EditText) findViewById(R.id.sendAddEt);
+        mailAuthCode = (EditText) findViewById(R.id.mailAuthCode);
+        sendServer = (EditText) findViewById(R.id.sendServer);
+        sendPortNumber = (EditText) findViewById(R.id.sendPortNumber);
+        toAddEt = (EditText) findViewById(R.id.toAddEt);
+        ShareUtils.putString(this, "FROM_ADD", sendAddEt.getText().toString().trim());
+        ShareUtils.putString(this, "FROM_PSW", mailAuthCode.getText().toString().trim());
+        ShareUtils.putString(this, "HOST", sendServer.getText().toString().trim());
+        ShareUtils.putString(this, "PORT", sendPortNumber.getText().toString().trim());
+        SendMailUtil.send(toAddEt.getText().toString());
+        Toast.makeText(TestActivity.this, "邮件已发送", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onUncheckedAnimationFinished() {
-        // Empty
-    }
+    public void sendFileMail(View view) {
 
-    private void mapViews() {
-        coolSwitch = (CoolSwitch) findViewById(R.id.cool_switch_foo);
-    }
+        sendAddEt = (EditText) findViewById(R.id.sendAddEt);
+        mailAuthCode = (EditText) findViewById(R.id.mailAuthCode);
+        sendServer = (EditText) findViewById(R.id.sendServer);
+        sendPortNumber = (EditText) findViewById(R.id.sendPortNumber);
+        toAddEt = (EditText) findViewById(R.id.toAddEt);
+        ShareUtils.putString(this, "FROM_ADD", sendAddEt.getText().toString().trim());
+        ShareUtils.putString(this, "FROM_PSW", mailAuthCode.getText().toString().trim());
+        ShareUtils.putString(this, "HOST", sendServer.getText().toString().trim());
+        ShareUtils.putString(this, "PORT", sendPortNumber.getText().toString().trim());
 
-    @Override
-    protected void onDestroy() {
-        coolSwitch.removeAnimationListener(this);
-
-        super.onDestroy();
+        File file = new File("这里填写要添加附件的本地文件的路径地址");
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(file);
+            String str = "hello world";
+            byte[] data = str.getBytes();
+            os.write(data);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (os != null) os.close();
+            } catch (IOException e) {
+            }
+        }
+        SendMailUtil.send(file, toAddEt.getText().toString());
+        Toast.makeText(this, "邮件已发送", Toast.LENGTH_SHORT).show();
     }
 }
