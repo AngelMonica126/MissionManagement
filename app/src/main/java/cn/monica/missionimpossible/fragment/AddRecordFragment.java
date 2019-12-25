@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -537,6 +538,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
                 break;
             }
         }
+        Log.e(fileBeanList.get(i).getOriginalPath(),fileBeanList.get(i).getThumbnailBigPath());
         fileBeanList.remove(i);
         mediaBeanList.remove(i);
         picture_describe.setText(desText + "(" + gridLayout.getChildCount() + "/" + maxSize + ")");

@@ -17,21 +17,21 @@
         android:hint="发送方邮箱的地址" />
 
     <EditText
-        android:text="pdxjdagojazbbeii"
+        android:text="xkyvockokcfhbdbj"
         android:id="@+id/mailAuthCode"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="发送方邮箱的授权码" />
 
     <EditText
-        android:text="pop.qq.com"
+        android:text="smtp.qq.com"
         android:id="@+id/sendServer"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="发送方的邮箱服务器" />
 
     <EditText
-        android:text="995"
+        android:text="465"
         android:id="@+id/sendPortNumber"
         android:layout_width="match_parent"
         android:layout_height="50dp"

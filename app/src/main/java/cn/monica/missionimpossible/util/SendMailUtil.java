@@ -34,14 +34,12 @@ public class SendMailUtil {
 
     @NonNull
     private static MailInfo creatMail(String toAdd) {
-
-
         final MailInfo mailInfo = new MailInfo();
-        mailInfo.setMailServerHost("pop.qq.com");//发送方邮箱服务器
-        mailInfo.setMailServerPort("995");//发送方邮箱端口号
+        mailInfo.setMailServerHost("smtp.qq.com");//发送方邮箱服务器
+        mailInfo.setMailServerPort("465");//发送方邮箱端口号
         mailInfo.setValidate(true);
         mailInfo.setUserName("angelmonica@foxmail.com"); // 发送者邮箱地址
-        mailInfo.setPassword("pdxjdagojazbbeii");// 发送者邮箱授权码
+        mailInfo.setPassword("zxcvbnm,./753159");// 发送者邮箱授权码
         mailInfo.setFromAddress("angelmonica@foxmail.com"); // 发送者邮箱
         mailInfo.setToAddress("1071209504@qq.com"); // 接收者邮箱
         mailInfo.setSubject("Android应用测试"); // 邮件主题

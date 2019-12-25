@@ -1,7 +1,15 @@
 package cn.monica.missionimpossible.activity;
-
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -23,67 +31,35 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.MimeMessage;
+
 import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.adapter.RecordExpandableAdapter;
 import cn.monica.missionimpossible.test.MyScheduledExecutor;
+import cn.monica.missionimpossible.util.EmailUtil;
 import cn.monica.missionimpossible.util.SendMailUtil;
 import cn.monica.missionimpossible.util.ShareUtils;
 
 public class TestActivity extends AppCompatActivity  {
     private EditText sendAddEt, mailAuthCode,
             sendServer, sendPortNumber, toAddEt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_main);
 
     }
-
     public void senTextMail(View view) {
-
-        sendAddEt = (EditText) findViewById(R.id.sendAddEt);
-        mailAuthCode = (EditText) findViewById(R.id.mailAuthCode);
-        sendServer = (EditText) findViewById(R.id.sendServer);
-        sendPortNumber = (EditText) findViewById(R.id.sendPortNumber);
-        toAddEt = (EditText) findViewById(R.id.toAddEt);
-        ShareUtils.putString(this, "FROM_ADD", sendAddEt.getText().toString().trim());
-        ShareUtils.putString(this, "FROM_PSW", mailAuthCode.getText().toString().trim());
-        ShareUtils.putString(this, "HOST", sendServer.getText().toString().trim());
-        ShareUtils.putString(this, "PORT", sendPortNumber.getText().toString().trim());
-        SendMailUtil.send(toAddEt.getText().toString());
-        Toast.makeText(TestActivity.this, "邮件已发送", Toast.LENGTH_SHORT).show();
-    }
-
-    public void sendFileMail(View view) {
-
-        sendAddEt = (EditText) findViewById(R.id.sendAddEt);
-        mailAuthCode = (EditText) findViewById(R.id.mailAuthCode);
-        sendServer = (EditText) findViewById(R.id.sendServer);
-        sendPortNumber = (EditText) findViewById(R.id.sendPortNumber);
-        toAddEt = (EditText) findViewById(R.id.toAddEt);
-        ShareUtils.putString(this, "FROM_ADD", sendAddEt.getText().toString().trim());
-        ShareUtils.putString(this, "FROM_PSW", mailAuthCode.getText().toString().trim());
-        ShareUtils.putString(this, "HOST", sendServer.getText().toString().trim());
-        ShareUtils.putString(this, "PORT", sendPortNumber.getText().toString().trim());
-
-        File file = new File("这里填写要添加附件的本地文件的路径地址");
-        OutputStream os = null;
-        try {
-            os = new FileOutputStream(file);
-            String str = "hello world";
-            byte[] data = str.getBytes();
-            os.write(data);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (os != null) os.close();
-            } catch (IOException e) {
-            }
-        }
-        SendMailUtil.send(file, toAddEt.getText().toString());
-        Toast.makeText(this, "邮件已发送", Toast.LENGTH_SHORT).show();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                EmailUtil.autoSendFileMail("Monica","好想我的小章鱼哦！！！！\n mua~~~~~~","1124270948@qq.com", new String[]{"/storage/emulated/0/Tencent/Tim_Images/IMG_20191222_101023.jpg"});
+//            }
+//        }).start();
     }
 }
