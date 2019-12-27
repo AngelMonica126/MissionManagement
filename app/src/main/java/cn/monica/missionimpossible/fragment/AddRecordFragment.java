@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 
@@ -88,6 +89,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
     private TitleView add_record_fragment_deadline;
     private NavigationTabStrip add_record_fragment_step;
     private MyRatingBar add_record_fragment_rating;
+    private RadioGroup add_record_fragment_group;
 
     public static AddRecordFragment newInstance(int resId, ViewDatabase viewDatabase, OnMessageFragment onMessageFragment) {
         AddRecordFragment addRecordFragment = new AddRecordFragment();
@@ -144,6 +146,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         saveRemarks(name);
         saveTags(name);
         saveDIY(name);
+        int alarm = getAlarm();
         RecordDatabase recordDatabase = new RecordDatabase();//6
         recordDatabase.setName(name);
         recordDatabase.setTitle(title);
@@ -153,6 +156,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         recordDatabase.setPriority((int) add_record_fragment_rating.getCount());
         recordDatabase.setBegin_time(-1);
         recordDatabase.setView_id(data.getId());
+        recordDatabase.setAlarm(alarm);
         recordDatabase.save();
         ToastUtil.makeToast(getContext(),  "保存成功!");
         clearFragment();
@@ -160,6 +164,22 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         message.what = 0;
         messageFragment.setMassage(message);
 
+    }
+
+    private int getAlarm() {
+        int alarm = 0;
+        switch (add_record_fragment_group.getCheckedRadioButtonId())
+        {
+            case R.id.add_record_fragment_email:
+                alarm = 0;
+                break;
+            case R.id.add_record_fragment_alarm:
+                alarm = 1;
+                break;
+            case R.id.add_record_fragment_no:
+                alarm = 2;
+        }
+        return alarm;
     }
 
     private void saveDIY(String name) {
@@ -199,7 +219,6 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         add_record_fragment_rating.setStarCount(1);
         add_record_fragment_remarks.setText("");
         createImageButton();
-
     }
 
     private void saveTags(String name) {
@@ -399,6 +418,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         add_record_fragment_remind_time = (TitleView)rootView.findViewById(R.id.add_record_fragment_remind_time);
         add_record_fragment_deadline = (TitleView)rootView.findViewById(R.id.add_record_fragment_deadline);
         add_record_fragment_rating = (MyRatingBar) rootView.findViewById(R.id.add_record_fragment_rating_bar);
+        add_record_fragment_group = (RadioGroup) rootView.findViewById(R.id.add_record_fragment_group);
         add_record_fragment_rating.setStar(1);
         createImageButton();
         setViewDatebase();

@@ -1,10 +1,14 @@
 package cn.monica.missionimpossible.activity;
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -52,7 +56,12 @@ public class TestActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_main);
-
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(TestActivity.this);
+        builder.setSmallIcon(R.mipmap.ic_home_fill)
+                .setContentTitle("我是通知的标题")//设置通知标题
+                .setContentText("我是一个通知");//设置通知内容
+        NotificationManager notifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notifyManager.notify(1, builder.build());
     }
     public void senTextMail(View view) {
 //        new Thread(new Runnable() {

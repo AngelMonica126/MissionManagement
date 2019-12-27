@@ -184,6 +184,37 @@
                 <View
                     style="@style/LineView"
                     android:layout_marginTop="@dimen/padding"></View>
+                <TextView
+                    style="@style/TextViewBack"
+                    android:layout_marginTop="@dimen/padding"
+                    android:text="提醒方式" />
+                <RadioGroup
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <RadioButton
+                        android:textColor="#d1d2d1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="邮件提醒"/>
+                    <RadioButton
+                        android:textColor="#d1d2d1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="闹钟提醒"/>
+                    <RadioButton
+                        android:textColor="#d1d2d1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="不提醒"/>
+                </RadioGroup>
+                <View
+                    style="@style/LineView"
+                    android:layout_marginTop="@dimen/padding"></View>
                 <Button
                     android:id="@+id/record_confirm"
                     android:layout_width="match_parent"

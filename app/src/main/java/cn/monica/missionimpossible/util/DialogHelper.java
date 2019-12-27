@@ -106,7 +106,8 @@ public class DialogHelper {
                 if(TextUtils.isEmpty(editText.getText().toString()))
                     ToastUtil.makeToast(context,"请输入标题");
                 else
-                {   int id = 0;
+                {
+                    int id = 0;
                     switch (group.getCheckedRadioButtonId())
                     {
                         case R.id.radio1:

@@ -11,6 +11,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
@@ -40,6 +41,7 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
     private List<RecordDatabase>recordDatabases;
     private Context context;
     private String steps[] = {"未开始","已开始","已完成"};
+    private int id[] = {R.id.record_chile_item_email,R.id.record_chile_item_alarm,R.id.record_chile_item_no};
     public RecordExpandableAdapter(Context mcotext, OnRecordExpandableReplaceFragment onRecordExpandableReplaceFragment) {
         this.context =mcotext;
         this.onRecordExpandableReplaceFragment = onRecordExpandableReplaceFragment;
@@ -199,6 +201,7 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
         viewHolder.record_child_item_tag         = (TagContainerLayout) view.findViewById(R.id.record_child_item_tag);
         viewHolder.record_chile_item_step        = (NavigationTabStrip) view.findViewById(R.id.record_chile_item_step);
         viewHolder.record_child_item_parent        = (LinearLayout) view.findViewById(R.id.record_child_item_parent);
+        viewHolder.record_chile_item_group      =    (RadioGroup) view.findViewById(R.id.record_chile_item_group    );
         int step = recordDatabases.get(groupPosition).getStep();
         switch (step)
         {
@@ -215,6 +218,7 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
         int beginTime = recordDatabases.get(groupPosition).getBegin_time();
         viewHolder.record_child_item_begintime.setText(beginTime>-1? CalenderUtil.getInstance().changeToDate(beginTime):"未开始");
         viewHolder.record_child_item_deadline.setText(recordDatabases.get(groupPosition).getDeadline());
+        viewHolder.record_chile_item_group.check(id[recordDatabases.get(groupPosition).getAlarm()]);
         String name = recordDatabases.get(groupPosition).getName();
         File refile = new File(context.getFilesDir(), name + ContentValueUtil.REMARKS);
         String des = FileUtil.readFile(refile);
@@ -266,6 +270,26 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
                 recordDatabase.save();
             }
         });
+        viewHolder.record_chile_item_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            RecordDatabase recordDatabase = recordDatabases.get(groupPosition);
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                int alarm = 0;
+                switch (i)
+                {
+                    case R.id.record_chile_item_email:
+                        alarm = 0;
+                        break;
+                    case R.id.record_chile_item_alarm:
+                        alarm = 1;
+                        break;
+                    case R.id.record_chile_item_no:
+                        alarm = 2;
+                }
+                recordDatabase.setAlarm(alarm);
+                recordDatabase.save();
+            }
+        });
         return view;
     }
 
@@ -280,6 +304,7 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
         TextView record_child_item_begintime;
         TagContainerLayout record_child_item_tag;
         NavigationTabStrip record_chile_item_step;
+        RadioGroup record_chile_item_group;
     }
     class ViewHolder {
         LinearLayout   record_item_parent;

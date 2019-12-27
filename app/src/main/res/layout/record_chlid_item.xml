@@ -129,5 +129,43 @@
         style="@style/Step"
         app:nts_titles="@array/titles"
         ></com.gigamole.navigationtabstrip.NavigationTabStrip>
+    <View style="@style/LineView"></View>
+    <TextView
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:textColor="@color/title"
+        android:textSize="10sp"
+        android:text="提醒方式" />
+    <RadioGroup
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:id="@+id/record_chile_item_group"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <RadioButton
+            android:textColor="#d1d2d1"
+            android:id="@+id/record_chile_item_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="邮件提醒"/>
+        <RadioButton
+            android:textColor="#d1d2d1"
+            android:id="@+id/record_chile_item_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="闹钟提醒"/>
+        <RadioButton
+            android:textColor="#d1d2d1"
+            android:id="@+id/record_chile_item_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="不提醒"/>
+    </RadioGroup>
 </LinearLayout>
 
