@@ -59,9 +59,7 @@ public class TestActivity extends AppCompatActivity  {
         setContentView(R.layout.test_main);
         RemoteViews views = new RemoteViews(getPackageName(),R.layout.notification_content);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(TestActivity.this);
-        builder.setContent(views).setSmallIcon(R.mipmap.ic_home_fill)
-                .setContentTitle("我是通知的标题")//设置通知标题
-                .setContentText("我是一个通知");//设置通知内容
+        builder.setSmallIcon(R.mipmap.ic_home_fill).setContent(views);//设置通知内容
         NotificationManager notifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notifyManager.notify(111, builder.build());
     }
