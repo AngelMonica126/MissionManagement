@@ -1,76 +1,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/record_item_parent"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:background="@drawable/dialog_shape"
-    android:descendantFocusability="blocksDescendants"
-    android:orientation="horizontal"
-    android:padding="2dp">
+    android:layout_height="wrap_content"
+    >
 
     <ImageView
-        android:id="@+id/notification_record_item_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/flower" />
-
-    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:src="@android:drawable/stat_notify_chat" />
 
-        <TextView
-            android:id="@+id/notification_item_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Monica"
-            android:textColor="@color/tag"
-            android:textSize="18sp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="play"
+        android:onClick="nonClick"
+        />
 
-        <cn.monica.missionimpossible.view.MyRatingBar
-            android:layout_marginLeft="20dp"
-            android:layout_below="@+id/item_tv"
-            android:layout_toLeftOf="@+id/notification_item_delete"
-            android:layout_toRightOf="@+id/notification_item_createDay"
-            android:layout_marginTop="@dimen/padding"
-            android:id="@+id/record_item_rating_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:clickable="false"
-            app:halfstart="false"
-            app:starCount="5"
-            app:starEmpty="@null"
-            app:starFill="@drawable/ratingbar_monica_fill"
-            app:starImageHeight="30dp"
-            app:starImageWidth="30dp"
-            />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="stop"
+        android:onClick="nonClick"
+        />
 
-        <TextView
-            android:id="@+id/notification_item_createDay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/notification_item_tv"
-            android:layout_alignLeft="@+id/notification_item_tv"
-            android:layout_marginTop="15dp"
-            android:text="Monica"
-            android:textColor="@color/record_hint"
-            android:textSize="12sp" />
-
-        <ImageButton
-            android:id="@+id/notification_item_delete"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@color/colorTranplant"
-            android:scaleType="fitCenter"
-            android:src="@drawable/add_record_mark" />
-
-    </RelativeLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="quit"
+        android:onClick="nonClick"
+        />
 </LinearLayout>
-

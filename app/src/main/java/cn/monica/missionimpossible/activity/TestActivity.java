@@ -2,7 +2,9 @@ package cn.monica.missionimpossible.activity;
 import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -57,11 +59,28 @@ public class TestActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_main);
-        RemoteViews views = new RemoteViews(getPackageName(),R.layout.notification_content);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(TestActivity.this);
-        builder.setSmallIcon(R.mipmap.ic_home_fill).setContent(views);//设置通知内容
-        NotificationManager notifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notifyManager.notify(111, builder.build());
+//        RemoteViews views = new RemoteViews(getPackageName(),R.layout.notification_content);
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(TestActivity.this);
+//        builder.setSmallIcon(R.mipmap.ic_home_fill).setContent(views);//设置通知内容
+//        NotificationManager notifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        notifyManager.notify(111, builder.build());
+        try {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            Notification notification = new Notification();
+//notification.icon=R.drawable.ic_launcher;
+            notification.flags = Notification.FLAG_AUTO_CANCEL;
+            RemoteViews remoteView = new RemoteViews(getPackageName(), R.layout.notification_content);
+            notification.icon=R.drawable.ic_launcher;
+            notification.contentView = remoteView;//显示布局
+            Intent inte = new Intent(getApplicationContext(), MainActivity.class);
+            inte.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent pi = PendingIntent.getActivity(this, 0, inte, 0);
+            notification.contentIntent = pi;
+            notificationManager.notify(100, notification);
+            Log.d("testDIY", "ok");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void senTextMail(View view) {
 //        new Thread(new Runnable() {
