@@ -23,14 +23,14 @@
         tools:replace="android:icon,android:theme">
         <activity android:name="cn.monica.missionimpossible.activity.MainActivity"
             android:windowSoftInputMode="stateUnspecified|adjustPan">
-
-        </activity>
-        <activity android:name=".activity.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".activity.TestActivity">
+
         </activity>
         <activity
             android:name="cn.finalteam.rxgalleryfinal.ui.activity.MediaActivity"

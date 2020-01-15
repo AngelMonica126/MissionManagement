@@ -3,6 +3,9 @@ package cn.monica.missionimpossible.activity;
 
 import android.Manifest;
 import android.animation.Animator;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -19,6 +22,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 
 import android.text.TextUtils;
@@ -92,6 +96,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         requestPower();
+        initNotifycation();
         initData();
         setImmsere();
         initToast();
@@ -100,6 +105,20 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         setActionBar();
         createMenuList();
         viewAnimator = new yalantis.com.sidemenu.util.ViewAnimator<>(this, list, mainFragment, drawerLayout, this);
+    }
+
+    private void initNotifycation() {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        mBuilder.setContentTitle("mua~~~~~~~");
+        mBuilder.setAutoCancel(false);
+        mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
+        mBuilder.setOngoing(true);
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        mBuilder.setContentIntent(pIntent);
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(970126, mBuilder.build());
     }
 
     public void requestPower() {
