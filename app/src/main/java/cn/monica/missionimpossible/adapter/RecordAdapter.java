@@ -16,7 +16,6 @@ import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.bean.RecordDatabase;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
-import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.FileUtil;
 import cn.monica.missionimpossible.util.ToastUtil;
@@ -33,7 +32,7 @@ public class RecordAdapter extends BaseAdapter {
 
     public RecordAdapter(Context context) {
         this.context = context;
-        this.recordDatabases = RecordManager.getInstance().getRecordDatabases();
+        this.recordDatabases = RecordManager.getInstance().getAllRecordDatabases();
     }
 
     @Override

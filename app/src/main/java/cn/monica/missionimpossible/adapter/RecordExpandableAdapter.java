@@ -1,9 +1,6 @@
 package cn.monica.missionimpossible.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +18,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.monica.missionimpossible.R;
@@ -45,7 +41,7 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
     public RecordExpandableAdapter(Context mcotext, OnRecordExpandableReplaceFragment onRecordExpandableReplaceFragment) {
         this.context =mcotext;
         this.onRecordExpandableReplaceFragment = onRecordExpandableReplaceFragment;
-        recordDatabases = RecordManager.getInstance().getRecordDatabases();
+        recordDatabases = RecordManager.getInstance().getAllRecordDatabases();
     }
 
     // 获取分组的个数

@@ -21,8 +21,6 @@ import cn.monica.missionimpossible.adapter.RecordAdapter;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.util.ImmerseUtil;
-import cn.monica.missionimpossible.util.MyInterface;
-import cn.monica.missionimpossible.util.ProgressDialogUtil;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 /**
@@ -109,7 +107,7 @@ public class RecordBrowseFragment extends Fragment implements ScreenShotable, Vi
         MainActivity.topTitle.setText(R.string.record_browse);
         ImmerseUtil.setImmerse(getActivity(), MainActivity.color);
         MainActivity.toolbar.setBackgroundResource(MainActivity.topId);
-        recordInfoFragment = RecordInfoFragment.newInstance(this.res, RecordManager.getInstance().getRecordDatabases().get(position));
+        recordInfoFragment = RecordInfoFragment.newInstance(this.res, RecordManager.getInstance().getAllRecordDatabases().get(position));
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, recordInfoFragment).commit();
         return recordInfoFragment;
     }

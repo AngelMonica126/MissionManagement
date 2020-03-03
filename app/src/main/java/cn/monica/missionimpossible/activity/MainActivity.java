@@ -53,6 +53,7 @@ import cn.monica.missionimpossible.fragment.RecordBrowseFragment;
 import cn.monica.missionimpossible.fragment.RecordInfoFragment;
 import cn.monica.missionimpossible.fragment.ViewBrowseFragment;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
+import cn.monica.missionimpossible.service.NotifyService;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.ImmerseUtil;
 import cn.monica.missionimpossible.util.SpUtil;
@@ -96,6 +97,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         requestPower();
+        setData();
         initNotifycation();
         initData();
         setImmsere();
@@ -104,7 +106,12 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         initUI();
         setActionBar();
         createMenuList();
+        startService();
         viewAnimator = new yalantis.com.sidemenu.util.ViewAnimator<>(this, list, mainFragment, drawerLayout, this);
+    }
+
+    private void setData() {
+
     }
 
     private void initNotifycation() {
@@ -201,11 +208,21 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         type = FragmentType.MainFragment;
         LockDialogHelper.getInstance().init(this);
         SugarContext.init(getApplicationContext());
-        SchemaGenerator schemaGenerator = new SchemaGenerator(this);
-        schemaGenerator.createDatabase(new SugarDb(this).getDB());
+        SchemaGenerator schemaGenerator = new SchemaGenerator(getApplicationContext());
+        schemaGenerator.createDatabase(new SugarDb(getApplicationContext()).getDB());
         scale = this.getResources().getDisplayMetrics().density;
+        RecordManager.getInstance().Update();
+
+    }
+    // Method to start the service
+    public void startService() {
+        startService(new Intent(getBaseContext(), NotifyService.class));
     }
 
+    // Method to stop the service
+    public void stopService() {
+        stopService(new Intent(getBaseContext(), NotifyService.class));
+    }
     private void initToast() {
         toast = new Toast(this);
         textView = new TextView(this);
@@ -264,6 +281,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         list.add(menuItem1);
         SlideMenuItem menuItem3 = new SlideMenuItem(ContentValueUtil.ADDVIEW, R.drawable.add_view);
         list.add(menuItem3);
+
     }
 
     private void setActionBar() {
@@ -384,7 +402,6 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
         viewBrowseFragment = ViewBrowseFragment.newInstance(R.drawable.view_browse_bk,this);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, viewBrowseFragment).commit();
-
         Animator  animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.setDuration(yalantis.com.sidemenu.util.ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
@@ -446,7 +463,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         topTitle.setText(title);
     }
     private MainFragment changeToHost(int width, int height) {
-        RecordManager.getInstance().Update();
+        RecordManager.getInstance().getAllRecordDatabases();
         resetTitle(cn.monica.missionimpossible.util.Color.MAIN_COLOR,R.drawable.main_top, ContentValueUtil.host_page,FragmentType.MainFragment);
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
