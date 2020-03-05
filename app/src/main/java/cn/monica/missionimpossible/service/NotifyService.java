@@ -11,6 +11,7 @@ import android.widget.Toast;
 import cn.monica.missionimpossible.bean.RecordDatabase;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.util.CalenderUtil;
+import cn.monica.missionimpossible.util.RemindUtil;
 import cn.monica.missionimpossible.util.SemaphoreUtil;
 import cn.monica.missionimpossible.util.ToastUtil;
 
@@ -35,9 +36,12 @@ public class NotifyService extends Service {
                         RecordDatabase remainTime = RecordManager.getInstance().getRemainData();
                         if(remainTime!=null&&CalenderUtil.getInstance().getDateName().equals(remainTime.getRemain_time()))
                         {
+                            Log.e("monica",12+"Monica");
                             ToastUtil.makeToast(getBaseContext(),"Monica");
+                            RemindUtil.getInstance().Remind(0,remainTime);
                         }
                         SemaphoreUtil.getInstance().UnLock();
+                        Log.e("monica",12+"");
                         sleep(1000);
                     }
                 } catch (InterruptedException e) {
