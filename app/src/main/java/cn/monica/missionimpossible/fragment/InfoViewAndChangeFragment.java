@@ -42,7 +42,7 @@ import cn.monica.missionimpossible.bean.FileBean;
 import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.bean.TitleViewStruct;
 import cn.monica.missionimpossible.bean.TitleViewType;
-import cn.monica.missionimpossible.database.ViewDatabase;
+import cn.monica.missionimpossible.bean.ViewDatabase;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.FileUtil;

@@ -43,8 +43,8 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <service android:name=".service.NotifyService"></service>
 
-        <meta-data android:name="DATABASE" android:value="monica_missionimpossible.db"/>
-        <meta-data android:name="VERSION" android:value="6"/>
+        <meta-data android:name="DATABASE" android:value="monica.db"/>
+        <meta-data android:name="VERSION" android:value="1"/>
         <meta-data android:name="QUERY_LOG" android:value="true"/>
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="cn.monica.missionimpossible.database"/>
     </application>

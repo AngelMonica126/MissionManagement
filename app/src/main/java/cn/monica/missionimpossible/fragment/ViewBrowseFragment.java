@@ -16,7 +16,7 @@ import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.adapter.ViewAdapter;
 import cn.monica.missionimpossible.bean.FragmentType;
 import cn.monica.missionimpossible.bean.ResetTitleMessage;
-import cn.monica.missionimpossible.database.ViewDatabase;
+import cn.monica.missionimpossible.bean.ViewDatabase;
 import cn.monica.missionimpossible.engine.ViewManager;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.util.Color;

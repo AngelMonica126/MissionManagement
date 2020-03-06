@@ -5,9 +5,6 @@ import com.orm.dsl.Unique;
 
 import java.io.Serializable;
 
-/**
- * Created by dream on 2018/7/4.
- */
 
 public class RecordDatabase extends SugarRecord implements Serializable {
     @Unique

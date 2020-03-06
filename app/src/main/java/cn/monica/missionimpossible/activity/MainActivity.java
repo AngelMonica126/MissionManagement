@@ -43,7 +43,7 @@ import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.bean.FragmentType;
 import cn.monica.missionimpossible.bean.ResetTitleMessage;
 import cn.monica.missionimpossible.database.RecordDatabase;
-import cn.monica.missionimpossible.database.ViewDatabase;
+import cn.monica.missionimpossible.bean.ViewDatabase;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.engine.SimpleRxGalleryFinal;
@@ -212,7 +212,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         scale = this.getResources().getDisplayMetrics().density;
         RecordDatabase   database = new RecordDatabase();
         ViewDatabase     viewDatabase = new ViewDatabase();
-        database.save();
+//        database.save();
         RecordManager.getInstance().Update();
 
     }

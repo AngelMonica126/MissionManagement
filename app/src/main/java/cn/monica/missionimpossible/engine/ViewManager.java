@@ -4,7 +4,7 @@ import android.content.Context;
 
 import java.util.List;
 
-import cn.monica.missionimpossible.database.ViewDatabase;
+import cn.monica.missionimpossible.bean.ViewDatabase;
 import cn.monica.missionimpossible.util.CalenderUtil;
 
 /**

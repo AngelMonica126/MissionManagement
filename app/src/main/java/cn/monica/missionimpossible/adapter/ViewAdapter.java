@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.monica.missionimpossible.R;
-import cn.monica.missionimpossible.database.ViewDatabase;
+import cn.monica.missionimpossible.bean.ViewDatabase;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.ViewManager;
 import cn.monica.missionimpossible.util.ToastUtil;
