@@ -19,7 +19,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import android.support.v7.app.NotificationCompat;
+=======
+import android.support.v7.app.AppCompatActivity;
+>>>>>>> parent of b0f30b1... Update
 =======
 import android.support.v7.app.AppCompatActivity;
 >>>>>>> parent of b0f30b1... Update
@@ -98,8 +102,11 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         setContentView(R.layout.activity_main);
         requestPower();
 <<<<<<< HEAD
+<<<<<<< HEAD
         setData();
         initNotifycation();
+=======
+>>>>>>> parent of b0f30b1... Update
 =======
 >>>>>>> parent of b0f30b1... Update
         initData();
@@ -113,6 +120,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         viewAnimator = new yalantis.com.sidemenu.util.ViewAnimator<>(this, list, mainFragment, drawerLayout, this);
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     private void setData() {
 
@@ -132,6 +140,8 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         mNotificationManager.notify(970126, mBuilder.build());
     }
 
+=======
+>>>>>>> parent of b0f30b1... Update
 =======
 >>>>>>> parent of b0f30b1... Update
     public void requestPower() {
