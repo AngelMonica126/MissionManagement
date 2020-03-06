@@ -30,7 +30,7 @@ public class NotifyService extends Service {
                 try {
                      while(true)
                     {
-                        SemaphoreUtil.getInstance().Lock();
+//                        SemaphoreUtil.getInstance().Lock();
                         RecordDatabase remainTime = RecordManager.getInstance().getRemainData();
                         if(remainTime!=null&&CalenderUtil.getInstance().getTimeByDate(remainTime.getRemain_time())<CalenderUtil.getInstance().getDayFromOriginal())
                         {
@@ -41,7 +41,7 @@ public class NotifyService extends Service {
                             remainTime.save();
                             RecordManager.getInstance().Update();
                         }
-                        SemaphoreUtil.getInstance().UnLock();
+//                        SemaphoreUtil.getInstance().UnLock();
                         Log.e("monica",12+"");
                         sleep(1000);
                     }

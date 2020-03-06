@@ -21,8 +21,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 
 import android.text.TextUtils;
@@ -43,14 +43,13 @@ import cn.monica.missionimpossible.R;
 
 import cn.monica.missionimpossible.bean.FragmentType;
 import cn.monica.missionimpossible.bean.ResetTitleMessage;
-import cn.monica.missionimpossible.database.RecordDatabase;
-import cn.monica.missionimpossible.bean.ViewDatabase;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.engine.SimpleRxGalleryFinal;
 import cn.monica.missionimpossible.fragment.AddViewFragment;
 import cn.monica.missionimpossible.fragment.MainFragment;
 import cn.monica.missionimpossible.fragment.RecordBrowseFragment;
+import cn.monica.missionimpossible.fragment.RecordInfoFragment;
 import cn.monica.missionimpossible.fragment.ViewBrowseFragment;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.service.NotifyService;
@@ -97,9 +96,6 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         requestPower();
-        setData();
-        initNotifycation();
-        setData();
         initNotifycation();
         initData();
         setImmsere();
@@ -108,12 +104,12 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         initUI();
         setActionBar();
         createMenuList();
-        startService();
+        initServeice();
         viewAnimator = new yalantis.com.sidemenu.util.ViewAnimator<>(this, list, mainFragment, drawerLayout, this);
     }
 
-    private void setData() {
-
+    private void initServeice() {
+        startService(new Intent(getBaseContext(), NotifyService.class));
     }
 
     private void initNotifycation() {
@@ -210,24 +206,11 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         type = FragmentType.MainFragment;
         LockDialogHelper.getInstance().init(this);
         SugarContext.init(getApplicationContext());
-        SchemaGenerator schemaGenerator = new SchemaGenerator(getApplicationContext());
-        schemaGenerator.createDatabase(new SugarDb(getApplicationContext()).getDB());
+        SchemaGenerator schemaGenerator = new SchemaGenerator(this);
+        schemaGenerator.createDatabase(new SugarDb(this).getDB());
         scale = this.getResources().getDisplayMetrics().density;
-        RecordDatabase   database = new RecordDatabase();
-        ViewDatabase     viewDatabase = new ViewDatabase();
-        database.save();
-        RecordManager.getInstance().Update();
-
-    }
-    // Method to start the service
-    public void startService() {
-//        startService(new Intent(getBaseContext(), NotifyService.class));
     }
 
-    // Method to stop the service
-    public void stopService() {
-        stopService(new Intent(getBaseContext(), NotifyService.class));
-    }
     private void initToast() {
         toast = new Toast(this);
         textView = new TextView(this);
@@ -286,7 +269,6 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         list.add(menuItem1);
         SlideMenuItem menuItem3 = new SlideMenuItem(ContentValueUtil.ADDVIEW, R.drawable.add_view);
         list.add(menuItem3);
-
     }
 
     private void setActionBar() {
@@ -407,6 +389,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
         viewBrowseFragment = ViewBrowseFragment.newInstance(R.drawable.view_browse_bk,this);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, viewBrowseFragment).commit();
+
         Animator  animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.setDuration(yalantis.com.sidemenu.util.ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
@@ -468,7 +451,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         topTitle.setText(title);
     }
     private MainFragment changeToHost(int width, int height) {
-        RecordManager.getInstance().getAllRecordDatabases();
+        RecordManager.getInstance().Update();
         resetTitle(cn.monica.missionimpossible.util.Color.MAIN_COLOR,R.drawable.main_top, ContentValueUtil.host_page,FragmentType.MainFragment);
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
