@@ -1,13 +1,9 @@
-package cn.monica.missionimpossible.bean;
+package cn.monica.missionimpossible.database;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.Unique;
 
 import java.io.Serializable;
-
-/**
- * Created by dream on 2018/7/4.
- */
 
 public class ViewDatabase extends SugarRecord implements Serializable {
     @Unique

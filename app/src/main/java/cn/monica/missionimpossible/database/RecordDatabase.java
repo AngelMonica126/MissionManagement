@@ -1,4 +1,4 @@
-package cn.monica.missionimpossible.bean;
+package cn.monica.missionimpossible.database;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.Unique;
@@ -20,10 +20,11 @@ public class RecordDatabase extends SugarRecord implements Serializable {
     private int step;
     private long view_id;
     private int alarm;
+    private int remind_times;
     public RecordDatabase() {
     }
 
-    public RecordDatabase(String name, String title, String remain_time, String deadline, int begin_time, int priority, int step, long view_id, int alarm) {
+    public RecordDatabase(String name, String title, String remain_time, String deadline, int begin_time, int priority, int step, long view_id, int alarm, int remind_times) {
         this.name = name;
         this.title = title;
         this.remain_time = remain_time;
@@ -33,6 +34,15 @@ public class RecordDatabase extends SugarRecord implements Serializable {
         this.step = step;
         this.view_id = view_id;
         this.alarm = alarm;
+        this.remind_times = remind_times;
+    }
+
+    public int getRemind_times() {
+        return remind_times;
+    }
+
+    public void setRemind_times(int remind_times) {
+        this.remind_times = remind_times;
     }
 
     public int getAlarm() {

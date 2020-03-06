@@ -1,37 +1,25 @@
 package cn.monica.missionimpossible.fragment;
 
-import android.animation.Animator;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 import cn.monica.missionimpossible.R;
-import cn.monica.missionimpossible.activity.MainActivity;
-import cn.monica.missionimpossible.adapter.RecordAdapter;
 import cn.monica.missionimpossible.adapter.ViewAdapter;
 import cn.monica.missionimpossible.bean.FragmentType;
 import cn.monica.missionimpossible.bean.ResetTitleMessage;
-import cn.monica.missionimpossible.bean.ViewDatabase;
-import cn.monica.missionimpossible.engine.LockDialogHelper;
-import cn.monica.missionimpossible.engine.RecordManager;
+import cn.monica.missionimpossible.database.ViewDatabase;
 import cn.monica.missionimpossible.engine.ViewManager;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.util.Color;
-import cn.monica.missionimpossible.util.ImmerseUtil;
-import cn.monica.missionimpossible.util.MyInterface;
-import cn.monica.missionimpossible.util.ProgressDialogUtil;
-import io.codetail.animation.ViewAnimationUtils;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 

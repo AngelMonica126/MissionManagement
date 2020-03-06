@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.List;
 
 import cn.monica.missionimpossible.R;
-import cn.monica.missionimpossible.bean.RecordDatabase;
+import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.FileUtil;
 import co.lujun.androidtagview.TagContainerLayout;

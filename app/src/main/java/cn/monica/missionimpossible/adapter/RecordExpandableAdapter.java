@@ -21,7 +21,7 @@ import java.io.File;
 import java.util.List;
 
 import cn.monica.missionimpossible.R;
-import cn.monica.missionimpossible.bean.RecordDatabase;
+import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.myinterface.OnRecordExpandableReplaceFragment;

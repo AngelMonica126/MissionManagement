@@ -19,19 +19,13 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.nantaphop.hovertouchview.HoverTouchHelper;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import cn.monica.missionimpossible.R;
-import cn.monica.missionimpossible.bean.RecordDatabase;
+import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.activity.MainActivity;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.FileUtil;

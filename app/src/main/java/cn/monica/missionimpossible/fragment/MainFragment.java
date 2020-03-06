@@ -10,22 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 
 import cn.monica.missionimpossible.R;
-import cn.monica.missionimpossible.adapter.MainListAdapter;
 import cn.monica.missionimpossible.adapter.RecordExpandableAdapter;
 import cn.monica.missionimpossible.bean.FragmentType;
-import cn.monica.missionimpossible.bean.RecordDatabase;
+import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.bean.ResetTitleMessage;
-import cn.monica.missionimpossible.bean.ViewDatabase;
-import cn.monica.missionimpossible.engine.ViewManager;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.myinterface.OnRecordExpandableReplaceFragment;
 import cn.monica.missionimpossible.util.Color;
-import cn.monica.missionimpossible.util.ProgressDialogUtil;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 
 

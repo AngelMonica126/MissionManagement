@@ -21,7 +21,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 
@@ -42,15 +41,15 @@ import java.util.List;
 import cn.monica.missionimpossible.R;
 
 import cn.monica.missionimpossible.bean.FragmentType;
-import cn.monica.missionimpossible.bean.RecordDatabase;
 import cn.monica.missionimpossible.bean.ResetTitleMessage;
+import cn.monica.missionimpossible.database.RecordDatabase;
+import cn.monica.missionimpossible.database.ViewDatabase;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.engine.SimpleRxGalleryFinal;
 import cn.monica.missionimpossible.fragment.AddViewFragment;
 import cn.monica.missionimpossible.fragment.MainFragment;
 import cn.monica.missionimpossible.fragment.RecordBrowseFragment;
-import cn.monica.missionimpossible.fragment.RecordInfoFragment;
 import cn.monica.missionimpossible.fragment.ViewBrowseFragment;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.service.NotifyService;
@@ -211,12 +210,15 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         SchemaGenerator schemaGenerator = new SchemaGenerator(getApplicationContext());
         schemaGenerator.createDatabase(new SugarDb(getApplicationContext()).getDB());
         scale = this.getResources().getDisplayMetrics().density;
+        RecordDatabase   database = new RecordDatabase();
+        ViewDatabase     viewDatabase = new ViewDatabase();
+        database.save();
         RecordManager.getInstance().Update();
 
     }
     // Method to start the service
     public void startService() {
-        startService(new Intent(getBaseContext(), NotifyService.class));
+//        startService(new Intent(getBaseContext(), NotifyService.class));
     }
 
     // Method to stop the service

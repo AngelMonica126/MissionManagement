@@ -16,8 +16,6 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import com.gigamole.navigationtabstrip.NavigationTabStrip;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +26,7 @@ import java.util.List;
 import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.bean.TitleViewStruct;
 import cn.monica.missionimpossible.bean.TitleViewType;
-import cn.monica.missionimpossible.bean.ViewDatabase;
+import cn.monica.missionimpossible.database.ViewDatabase;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.myinterface.OnTitleViewDeletelistener;
 import cn.monica.missionimpossible.myinterface.OnViewChooseListener;

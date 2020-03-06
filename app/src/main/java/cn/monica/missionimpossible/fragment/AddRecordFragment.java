@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
-import com.hedgehog.ratingbar.RatingBar;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -39,12 +38,11 @@ import cn.finalteam.rxgalleryfinal.imageloader.ImageLoaderType;
 import cn.finalteam.rxgalleryfinal.rxbus.RxBusResultDisposable;
 import cn.finalteam.rxgalleryfinal.rxbus.event.ImageMultipleResultEvent;
 import cn.monica.missionimpossible.R;
-import cn.monica.missionimpossible.activity.MainActivity;
 import cn.monica.missionimpossible.bean.FileBean;
-import cn.monica.missionimpossible.bean.RecordDatabase;
+import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.bean.TitleViewStruct;
 import cn.monica.missionimpossible.bean.TitleViewType;
-import cn.monica.missionimpossible.bean.ViewDatabase;
+import cn.monica.missionimpossible.database.ViewDatabase;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.ContentValueUtil;
@@ -157,6 +155,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         recordDatabase.setBegin_time(-1);
         recordDatabase.setView_id(data.getId());
         recordDatabase.setAlarm(alarm);
+        recordDatabase.setRemind_times(0);
         recordDatabase.save();
         ToastUtil.makeToast(getContext(),  "保存成功!");
         clearFragment();

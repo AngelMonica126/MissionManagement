@@ -2,19 +2,10 @@ package cn.monica.missionimpossible.util;
 
 
 import android.content.Context;
-import android.text.TextUtils;
-import android.view.ViewGroup;
-import android.widget.GridLayout;
-import android.widget.ImageButton;
-
-import com.nantaphop.hovertouchview.HoverTouchHelper;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
-import cn.monica.missionimpossible.R;
-import cn.monica.missionimpossible.bean.RecordDatabase;
-import cn.monica.missionimpossible.view.MyThumbnail;
+import cn.monica.missionimpossible.database.RecordDatabase;
 
 public class RemindUtil {
     private static RemindUtil remindUtil = new RemindUtil();

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import cn.monica.missionimpossible.bean.RecordDatabase;
+import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.SemaphoreUtil;
 
@@ -19,18 +19,22 @@ public class RecordManager {
         new Thread(){
             @Override
             public void run() {
+               if( RecordDatabase.count(RecordDatabase.class)<=0) return;
                 recordDatabases = RecordDatabase.listAll(RecordDatabase.class);
-
+                recordRemindDatabases.clear();
+                for(RecordDatabase recordDatabase:recordDatabases)
+                {
+                    if(recordDatabase.getStep() != 2&&
+                            recordDatabase.getRemind_times()==0&&
+                            recordDatabase.getAlarm() !=2&&
+                            CalenderUtil.getInstance().getTimeByDate(recordDatabase.getRemain_time())<CalenderUtil.getInstance().getDayFromOriginal()) recordRemindDatabases.add(recordDatabase);
+                }
+                sort(recordRemindDatabases);
+                if(recordRemindDatabases.size()>0)
+                    setRemainData(recordRemindDatabases.get(0));
             }
         }.start();
-        recordRemindDatabases.clear();
-        for(RecordDatabase recordDatabase:recordDatabases)
-        {
-            if(recordDatabase.getStep() != 2) recordRemindDatabases.add(recordDatabase);
-        }
-        sort(recordRemindDatabases);
-        if(recordRemindDatabases.size()>0)
-        setRemainData(recordRemindDatabases.get(0));
+
     }
     public List<RecordDatabase> getRemindDatabases()
     {
