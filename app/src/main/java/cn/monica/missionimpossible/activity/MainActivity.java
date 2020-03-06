@@ -3,9 +3,6 @@ package cn.monica.missionimpossible.activity;
 
 import android.Manifest;
 import android.animation.Animator;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -21,7 +18,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.support.v7.app.NotificationCompat;
+=======
+import android.support.v7.app.AppCompatActivity;
+>>>>>>> parent of b0f30b1... Update
 import android.support.v7.widget.Toolbar;
 
 import android.text.TextUtils;
@@ -96,8 +97,11 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         requestPower();
+<<<<<<< HEAD
         setData();
         initNotifycation();
+=======
+>>>>>>> parent of b0f30b1... Update
         initData();
         setImmsere();
         initToast();
@@ -109,6 +113,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         viewAnimator = new yalantis.com.sidemenu.util.ViewAnimator<>(this, list, mainFragment, drawerLayout, this);
     }
 
+<<<<<<< HEAD
     private void setData() {
 
     }
@@ -127,6 +132,8 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         mNotificationManager.notify(970126, mBuilder.build());
     }
 
+=======
+>>>>>>> parent of b0f30b1... Update
     public void requestPower() {
         //判断是否已经赋予权限
         if (ContextCompat.checkSelfPermission(this,
