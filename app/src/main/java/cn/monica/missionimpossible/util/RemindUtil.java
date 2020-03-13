@@ -25,9 +25,10 @@ public class RemindUtil {
             case 1:
                 break;
         }
+
     }
 
-    private void setEmail(final RecordDatabase remindData) {
+    public void setEmail(final RecordDatabase remindData) {
         File file = new File(context.getFilesDir(), remindData.getName() + ContentValueUtil.REMARKS);
         final String des = FileUtil.readFile(file);
 
@@ -37,7 +38,7 @@ public class RemindUtil {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                EmailUtil.autoSendFileMail(remindData.getTitle(),des+"\n mua~~~~~~",UesrUtil.getInstance().getEmail(), originalPaths);
+                EmailUtil.autoSendFileMail(remindData.getTitle(),des+"\n mua~~~~~~",UesrUtil.getInstance().getEmail(), null);
             }
         }).start();
     }

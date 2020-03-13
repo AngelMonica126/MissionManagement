@@ -17,6 +17,7 @@ import cn.monica.missionimpossible.adapter.RecordExpandableAdapter;
 import cn.monica.missionimpossible.bean.FragmentType;
 import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.bean.ResetTitleMessage;
+import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.myinterface.OnRecordExpandableReplaceFragment;
 import cn.monica.missionimpossible.util.Color;
@@ -58,6 +59,7 @@ public class MainFragment extends Fragment implements ScreenShotable, OnRecordEx
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_class_fragment, container, false);
+
         initUI(rootView);
         initListView();
         init();

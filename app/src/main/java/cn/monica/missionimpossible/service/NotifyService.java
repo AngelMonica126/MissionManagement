@@ -32,20 +32,20 @@ public class NotifyService extends Service {
                     {
 //                        SemaphoreUtil.getInstance().Lock();
                         RecordDatabase remainTime = RecordManager.getInstance().getRemainData();
-                        if(remainTime!=null&&CalenderUtil.getInstance().getTimeByDate(remainTime.getRemain_time())<CalenderUtil.getInstance().getDayFromOriginal())
+                        if(remainTime!=null&&CalenderUtil.getInstance().getTimeByDate(remainTime.getRemain_time())>CalenderUtil.getInstance().getDayFromOriginal())
                         {
                             Log.e("monica",12+"Monica");
-                            ToastUtil.makeToast(getBaseContext(),"Monica");
                             RemindUtil.getInstance().Remind(0,remainTime);
-                            remainTime.setRemind_times(remainTime.getRemind_times()+1);
-                            remainTime.save();
-                            RecordManager.getInstance().Update();
+                           // RemindUtil.getInstance().setEmail(remainTime);
+
+                       //     stopSelf();
+//                            RecordManager.getInstance().Update();
                         }
 //                        SemaphoreUtil.getInstance().UnLock();
-                        Log.e("monica",12+"");
-                        sleep(1000);
+                     //   Log.e("monica",12+"");
+                        sleep(100000);
                     }
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

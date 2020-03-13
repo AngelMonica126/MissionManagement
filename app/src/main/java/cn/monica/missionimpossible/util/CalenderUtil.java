@@ -1,5 +1,7 @@
 package cn.monica.missionimpossible.util;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,6 +31,7 @@ public class CalenderUtil {
     {
         try {
             Date temp =  date.parse(num);
+            Log.e("Monica",temp.getTime()+"");
             return temp.getTime();
         } catch(ParseException px) {
             px.printStackTrace();

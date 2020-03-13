@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import cn.monica.missionimpossible.database.RecordDatabase;
+import cn.monica.missionimpossible.myinterface.OnFinishLoadRecord;
 import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.SemaphoreUtil;
 
@@ -14,7 +15,7 @@ public class RecordManager {
     private static List<RecordDatabase> recordDatabases = new ArrayList<>();
     private static List<RecordDatabase> recordRemindDatabases = new ArrayList<>();
     private static RecordDatabase remainData;
-    public void Update()
+    public void Update(final OnFinishLoadRecord onFinishLoadRecord)
     {
         new Thread(){
             @Override
@@ -24,14 +25,18 @@ public class RecordManager {
                 recordRemindDatabases.clear();
                 for(RecordDatabase recordDatabase:recordDatabases)
                 {
+//                    &&CalenderUtil.getInstance().getTimeByDate(recordDatabase.getRemain_time())<
+//                            CalenderUtil.getInstance().getDayFromOriginal()
                     if(recordDatabase.getStep() != 2&&
                             recordDatabase.getRemind_times()==0&&
-                            recordDatabase.getAlarm() !=2&&
-                            CalenderUtil.getInstance().getTimeByDate(recordDatabase.getRemain_time())<CalenderUtil.getInstance().getDayFromOriginal()) recordRemindDatabases.add(recordDatabase);
+                            recordDatabase.getAlarm() !=2
+                           )
+                        recordRemindDatabases.add(recordDatabase);
                 }
                 sort(recordRemindDatabases);
                 if(recordRemindDatabases.size()>0)
                     setRemainData(recordRemindDatabases.get(0));
+                onFinishLoadRecord.onFinish();
             }
         }.start();
 
@@ -81,5 +86,10 @@ public class RecordManager {
                 return -1;
             }
         });
+    }
+    public void Remind(RecordDatabase remindData)
+    {
+        remindData.setRemind_times(remindData.getRemind_times()+1);
+        remindData.save();
     }
 }

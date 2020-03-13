@@ -51,11 +51,15 @@ import cn.monica.missionimpossible.fragment.MainFragment;
 import cn.monica.missionimpossible.fragment.RecordBrowseFragment;
 import cn.monica.missionimpossible.fragment.RecordInfoFragment;
 import cn.monica.missionimpossible.fragment.ViewBrowseFragment;
+import cn.monica.missionimpossible.myinterface.OnFinishLoadRecord;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.service.NotifyService;
 import cn.monica.missionimpossible.util.ContentValueUtil;
+import cn.monica.missionimpossible.util.EmailUtil;
 import cn.monica.missionimpossible.util.ImmerseUtil;
+import cn.monica.missionimpossible.util.RemindUtil;
 import cn.monica.missionimpossible.util.SpUtil;
+import cn.monica.missionimpossible.util.UesrUtil;
 import yalantis.com.sidemenu.model.SlideMenuItem;
 
 import android.view.animation.AccelerateInterpolator;
@@ -70,7 +74,8 @@ import io.codetail.animation.ViewAnimationUtils;
 import yalantis.com.sidemenu.interfaces.Resourceble;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 import yalantis.com.sidemenu.util.ViewAnimator;
-public class MainActivity extends ActionBarActivity implements ViewAnimator.ViewAnimatorListener, Animator.AnimatorListener, OnMessageFragment {
+
+public class MainActivity extends ActionBarActivity implements ViewAnimator.ViewAnimatorListener, Animator.AnimatorListener, OnMessageFragment, OnFinishLoadRecord {
     private FragmentType type;
     private yalantis.com.sidemenu.util.ViewAnimator viewAnimator;
     private DrawerLayout drawerLayout;
@@ -96,23 +101,23 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         requestPower();
-        initNotifycation();
         initData();
+        initNotifycation();
         setImmsere();
         initToast();
         initIconChooser();
         initUI();
-        setActionBar();
         createMenuList();
-        initServeice();
         viewAnimator = new yalantis.com.sidemenu.util.ViewAnimator<>(this, list, mainFragment, drawerLayout, this);
+        RecordManager.getInstance().Update(this);
     }
 
     private void initServeice() {
-        startService(new Intent(getBaseContext(), NotifyService.class));
+       startService(new Intent(getBaseContext(), NotifyService.class));
     }
 
     private void initNotifycation() {
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
         mBuilder.setSmallIcon(R.mipmap.ic_launcher);
         mBuilder.setContentTitle("mua~~~~~~~");
@@ -209,6 +214,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         SchemaGenerator schemaGenerator = new SchemaGenerator(this);
         schemaGenerator.createDatabase(new SugarDb(this).getDB());
         scale = this.getResources().getDisplayMetrics().density;
+        RemindUtil.getInstance().init(getApplicationContext());
     }
 
     private void initToast() {
@@ -238,13 +244,13 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     private void initUI() {
         if (TextUtils.isEmpty(SpUtil.getString(this, ContentValueUtil.LOCK, null)))
             LockDialogHelper.getInstance().createLockDialog();
-        mainFragment = MainFragment.newInstance(R.drawable.main_bk,this);
+        mainFragment = MainFragment.newInstance(R.drawable.main_bk, this);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, mainFragment)
                 .commit();
-        viewBrowseFragment = ViewBrowseFragment.newInstance(this.res,this);
+        viewBrowseFragment = ViewBrowseFragment.newInstance(this.res, this);
         recordBrowseFragment = RecordBrowseFragment.newInstance(this.res);
-        addViewFragment = AddViewFragment.newInstance(this.res,this);
+        addViewFragment = AddViewFragment.newInstance(this.res, this);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
         gridLayout = (GridLayout) findViewById(R.id.left_drawer);
@@ -254,24 +260,8 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
                 drawerLayout.closeDrawers();
             }
         });
-
         topTitle = (TextView) findViewById(R.id.top_title);
 
-    }
-
-
-    private void createMenuList() {
-        SlideMenuItem menuItem0 = new SlideMenuItem(ContentValueUtil.CLOSE, R.drawable.bk_transplant);
-        list.add(menuItem0);
-        SlideMenuItem menuItem = new SlideMenuItem(ContentValueUtil.HOSTPAGE, R.drawable.host_page);
-        list.add(menuItem);
-        SlideMenuItem menuItem1 = new SlideMenuItem(ContentValueUtil.VIEWBROWSE, R.drawable.add_record);
-        list.add(menuItem1);
-        SlideMenuItem menuItem3 = new SlideMenuItem(ContentValueUtil.ADDVIEW, R.drawable.add_view);
-        list.add(menuItem3);
-    }
-
-    private void setActionBar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -298,6 +288,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
                 if (slideOffset > 0.6 && gridLayout.getChildCount() == 0)
                     viewAnimator.showMenuContent();
             }
+
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -306,24 +297,40 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         drawerLayout.setDrawerListener(drawerToggle);
     }
 
+
+    private void createMenuList() {
+        SlideMenuItem menuItem0 = new SlideMenuItem(ContentValueUtil.CLOSE, R.drawable.bk_transplant);
+        list.add(menuItem0);
+        SlideMenuItem menuItem = new SlideMenuItem(ContentValueUtil.HOSTPAGE, R.drawable.host_page);
+        list.add(menuItem);
+        SlideMenuItem menuItem1 = new SlideMenuItem(ContentValueUtil.VIEWBROWSE, R.drawable.add_record);
+        list.add(menuItem1);
+        SlideMenuItem menuItem3 = new SlideMenuItem(ContentValueUtil.ADDVIEW, R.drawable.add_view);
+        list.add(menuItem3);
+    }
+
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
+        if (drawerToggle != null)
+            drawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
+        if (drawerToggle != null)
+            drawerToggle.onConfigurationChanged(newConfig);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
+        if (drawerToggle != null)
+            if (drawerToggle.onOptionsItemSelected(item)) {
+                return true;
+            }
         switch (item.getItemId()) {
             case R.id.action_settings:
                 return true;
@@ -351,7 +358,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     private ScreenShotable replaceRecordBrowseFragment(ScreenShotable screenShotable, int position) {
         if (this.type == FragmentType.RecordBrowseFragment)
             return recordBrowseFragment;
-        resetTitle(cn.monica.missionimpossible.util.Color.RECORD_BROWSE_COLOR,R.drawable.browse_top, ContentValueUtil.record_browse,FragmentType.RecordBrowseFragment);
+        resetTitle(cn.monica.missionimpossible.util.Color.RECORD_BROWSE_COLOR, R.drawable.browse_top, ContentValueUtil.record_browse, FragmentType.RecordBrowseFragment);
 
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
@@ -368,29 +375,30 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     private ScreenShotable replaceAddViewFragment(ScreenShotable screenShotable, int position) {
         if (this.type == FragmentType.AddViewFragment)
             return addViewFragment;
-        resetTitle(cn.monica.missionimpossible.util.Color.ADD_VIEW_COLOR,R.drawable.view_top, ContentValueUtil.add_view,FragmentType.AddViewFragment);
+        resetTitle(cn.monica.missionimpossible.util.Color.ADD_VIEW_COLOR, R.drawable.view_top, ContentValueUtil.add_view, FragmentType.AddViewFragment);
 
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        addViewFragment = AddViewFragment.newInstance(R.drawable.view_bk,this);
+        addViewFragment = AddViewFragment.newInstance(R.drawable.view_bk, this);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, addViewFragment).commit();
-        Animator  animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
+        Animator animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.setDuration(yalantis.com.sidemenu.util.ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
         animator.addListener(this);
         animator.start();
         return addViewFragment;
     }
+
     private ScreenShotable replaceViewBrowseFragment(ScreenShotable screenShotable, int position) {
         if (this.type == FragmentType.ViewBrowseFragment)
             return viewBrowseFragment;
-        resetTitle(cn.monica.missionimpossible.util.Color.VIEW_BROWSE_COLOR,R.drawable.view_browse_top, ContentValueUtil.browse_view,FragmentType.ViewBrowseFragment);
+        resetTitle(cn.monica.missionimpossible.util.Color.VIEW_BROWSE_COLOR, R.drawable.view_browse_top, ContentValueUtil.browse_view, FragmentType.ViewBrowseFragment);
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        viewBrowseFragment = ViewBrowseFragment.newInstance(R.drawable.view_browse_bk,this);
+        viewBrowseFragment = ViewBrowseFragment.newInstance(R.drawable.view_browse_bk, this);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, viewBrowseFragment).commit();
 
-        Animator  animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
+        Animator animator = ViewAnimationUtils.createCircularReveal(view, 0, position, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.setDuration(yalantis.com.sidemenu.util.ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
         animator.addListener(this);
@@ -436,28 +444,28 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         }
 
     }
-    private void backToMain()
-    {
+
+    private void backToMain() {
         WindowManager wm1 = this.getWindowManager();
         int width = wm1.getDefaultDisplay().getWidth();
         int height = wm1.getDefaultDisplay().getHeight();
         changeToHost(width, height);
     }
-    private void resetTitle(String color,int topId,String title,FragmentType type)
-    {
+
+    private void resetTitle(String color, int topId, String title, FragmentType type) {
         this.type = type;
         ImmerseUtil.setImmerse(this, color);
         toolbar.setBackgroundResource(topId);
         topTitle.setText(title);
     }
+
     private MainFragment changeToHost(int width, int height) {
-        RecordManager.getInstance().Update();
-        resetTitle(cn.monica.missionimpossible.util.Color.MAIN_COLOR,R.drawable.main_top, ContentValueUtil.host_page,FragmentType.MainFragment);
+        resetTitle(cn.monica.missionimpossible.util.Color.MAIN_COLOR, R.drawable.main_top, ContentValueUtil.host_page, FragmentType.MainFragment);
         View view = findViewById(R.id.content_frame);
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        mainFragment = MainFragment.newInstance(R.drawable.main_bk,this);
+        mainFragment = MainFragment.newInstance(R.drawable.main_bk, this);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mainFragment).commit();
-        Animator  animator = ViewAnimationUtils.createCircularReveal(view, width / 2, height, 0, finalRadius);
+        Animator animator = ViewAnimationUtils.createCircularReveal(view, width / 2, height, 0, finalRadius);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.setDuration(yalantis.com.sidemenu.util.ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
         animator.addListener(this);
@@ -503,15 +511,24 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
 
     @Override
     public void setMassage(Message massage) {
-        switch (massage.what)
-        {
+        switch (massage.what) {
             case 0:
                 backToMain();
                 break;
             case 1:
                 ResetTitleMessage titleMessage = (ResetTitleMessage) massage.obj;
-                resetTitle(titleMessage.getColor(),titleMessage.getTopId(),titleMessage.getTitle(),titleMessage.getType());
+                resetTitle(titleMessage.getColor(), titleMessage.getTopId(), titleMessage.getTitle(), titleMessage.getType());
                 break;
         }
+    }
+
+    @Override
+    public void onFinish() {
+        resetTitle(cn.monica.missionimpossible.util.Color.MAIN_COLOR, R.drawable.main_top, ContentValueUtil.host_page, FragmentType.MainFragment);
+        View view = findViewById(R.id.content_frame);
+        int finalRadius = Math.max(view.getWidth(), view.getHeight());
+        mainFragment = MainFragment.newInstance(R.drawable.main_bk, this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mainFragment).commit();
+       initServeice();
     }
 }
