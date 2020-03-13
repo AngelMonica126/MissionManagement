@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import cn.monica.missionimpossible.database.RecordDatabase;
+import cn.monica.missionimpossible.myinterface.OnFinishDeleteRecord;
 import cn.monica.missionimpossible.myinterface.OnFinishLoadRecord;
 import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.SemaphoreUtil;
@@ -13,60 +15,67 @@ import cn.monica.missionimpossible.util.SemaphoreUtil;
 public class RecordManager {
     private static RecordManager recordManager = new RecordManager();
     private static List<RecordDatabase> recordDatabases = new ArrayList<>();
-    private static List<RecordDatabase> recordRemindDatabases = new ArrayList<>();
-    private static RecordDatabase remainData;
-    public void Update(final OnFinishLoadRecord onFinishLoadRecord)
-    {
-        new Thread(){
+
+    public void Update(final OnFinishLoadRecord onFinishLoadRecord) {
+        new Thread() {
             @Override
             public void run() {
-               if( RecordDatabase.count(RecordDatabase.class)<=0) return;
-                recordDatabases = RecordDatabase.listAll(RecordDatabase.class);
-                recordRemindDatabases.clear();
-                for(RecordDatabase recordDatabase:recordDatabases)
-                {
-//                    &&CalenderUtil.getInstance().getTimeByDate(recordDatabase.getRemain_time())<
-//                            CalenderUtil.getInstance().getDayFromOriginal()
-                    if(recordDatabase.getStep() != 2&&
-                            recordDatabase.getRemind_times()==0&&
-                            recordDatabase.getAlarm() !=2
-                           )
-                        recordRemindDatabases.add(recordDatabase);
+                try {
+                    SemaphoreUtil.getInstance().Lock();
+                    if (RecordDatabase.count(RecordDatabase.class) <= 0) return;
+                    recordDatabases = RecordDatabase.listAll(RecordDatabase.class);
+                    SemaphoreUtil.getInstance().UnLock();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    onFinishLoadRecord.onFinish();
                 }
-                sort(recordRemindDatabases);
-                if(recordRemindDatabases.size()>0)
-                    setRemainData(recordRemindDatabases.get(0));
-                onFinishLoadRecord.onFinish();
             }
         }.start();
 
     }
-    public List<RecordDatabase> getRemindDatabases()
+    public void Delete(final RecordDatabase recordDatabase, final OnFinishDeleteRecord onFinishDeleteRecord)
     {
-        return recordRemindDatabases;
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    SemaphoreUtil.getInstance().Lock();
+                    recordDatabases.remove(recordDatabase);
+                    recordDatabase.delete();
+                    onFinishDeleteRecord.onFinish();
+                    SemaphoreUtil.getInstance().UnLock();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
+
     public List<RecordDatabase> getAllRecordDatabases() {
         return recordDatabases;
     }
-    public void setRemainData(RecordDatabase temp)
-    {
-        try {
-            SemaphoreUtil.getInstance().Lock();
-            remainData = temp;
-            SemaphoreUtil.getInstance().UnLock();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+    public void Add(final RecordDatabase recordDatabase) {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    SemaphoreUtil.getInstance().Lock();
+                    recordDatabase.save();
+                    SemaphoreUtil.getInstance().UnLock();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
-    public RecordDatabase getRemainData()
-    {
-        return remainData;
-    }
+
     public static RecordManager getInstance() {
         return recordManager;
     }
-    public void sort(List<RecordDatabase> databases)
-    {
+
+    public void sort(List<RecordDatabase> databases) {
         Collections.sort(databases, new Comparator<RecordDatabase>() {
             /*
              * int compare(Person p1, Person p2) 返回一个基本类型的整型，
@@ -76,7 +85,7 @@ public class RecordManager {
              */
             public int compare(RecordDatabase p1, RecordDatabase p2) {
                 long p1Time = CalenderUtil.getInstance().getTimeByDate(p1.getRemain_time());
-                long p2Time = CalenderUtil.getInstance() .getTimeByDate(p2.getRemain_time());
+                long p2Time = CalenderUtil.getInstance().getTimeByDate(p2.getRemain_time());
                 if (p1Time > p2Time) {
                     return 1;
                 }
@@ -87,9 +96,21 @@ public class RecordManager {
             }
         });
     }
-    public void Remind(RecordDatabase remindData)
-    {
-        remindData.setRemind_times(remindData.getRemind_times()+1);
-        remindData.save();
+
+    public void Remind(final RecordDatabase remindData) {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    SemaphoreUtil.getInstance().Lock();
+                    remindData.setRemind_times(remindData.getRemind_times() + 1);
+                    remindData.save();
+                    SemaphoreUtil.getInstance().UnLock();
+                } catch (
+                        InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 }

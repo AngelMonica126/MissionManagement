@@ -43,6 +43,7 @@ import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.bean.TitleViewStruct;
 import cn.monica.missionimpossible.bean.TitleViewType;
 import cn.monica.missionimpossible.database.ViewDatabase;
+import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.ContentValueUtil;
@@ -156,7 +157,7 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         recordDatabase.setView_id(data.getId());
         recordDatabase.setAlarm(alarm);
         recordDatabase.setRemind_times(0);
-        recordDatabase.save();
+        RecordManager.getInstance().Add(recordDatabase);
         ToastUtil.makeToast(getContext(),  "保存成功!");
         clearFragment();
         Message message = new Message();
@@ -468,11 +469,11 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         Thread thread = new Thread() {
             @Override
             public void run() {
-                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
-                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                containerView.draw(canvas);
-                AddRecordFragment.this.bitmap = bitmap;
+//                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
+//                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
+//                Canvas canvas = new Canvas(bitmap);
+//                containerView.draw(canvas);
+//                AddRecordFragment.this.bitmap = bitmap;
             }
         };
         thread.start();

@@ -459,17 +459,22 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         topTitle.setText(title);
     }
 
-    private MainFragment changeToHost(int width, int height) {
-        resetTitle(cn.monica.missionimpossible.util.Color.MAIN_COLOR, R.drawable.main_top, ContentValueUtil.host_page, FragmentType.MainFragment);
-        View view = findViewById(R.id.content_frame);
-        int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        mainFragment = MainFragment.newInstance(R.drawable.main_bk, this);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mainFragment).commit();
-        Animator animator = ViewAnimationUtils.createCircularReveal(view, width / 2, height, 0, finalRadius);
-        animator.setInterpolator(new AccelerateInterpolator());
-        animator.setDuration(yalantis.com.sidemenu.util.ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
-        animator.addListener(this);
-        animator.start();
+    private MainFragment changeToHost(final int width, final int height) {
+        RecordManager.getInstance().Update(new OnFinishLoadRecord() {
+            @Override
+            public void onFinish() {
+                resetTitle(cn.monica.missionimpossible.util.Color.MAIN_COLOR, R.drawable.main_top, ContentValueUtil.host_page, FragmentType.MainFragment);
+                View view = findViewById(R.id.content_frame);
+                int finalRadius = Math.max(view.getWidth(), view.getHeight());
+                mainFragment = MainFragment.newInstance(R.drawable.main_bk, MainActivity.this);
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mainFragment).commit();
+                Animator animator = ViewAnimationUtils.createCircularReveal(view, width / 2, height, 0, finalRadius);
+                animator.setInterpolator(new AccelerateInterpolator());
+                animator.setDuration(yalantis.com.sidemenu.util.ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
+                animator.addListener(MainActivity.this);
+                animator.start();
+            }
+        });
         return mainFragment;
     }
 
@@ -529,6 +534,6 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         int finalRadius = Math.max(view.getWidth(), view.getHeight());
         mainFragment = MainFragment.newInstance(R.drawable.main_bk, this);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mainFragment).commit();
-       initServeice();
+        initServeice();
     }
 }

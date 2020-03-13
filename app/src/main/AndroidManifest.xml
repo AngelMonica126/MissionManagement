@@ -23,6 +23,9 @@
         tools:replace="android:icon,android:theme">
         <activity android:name="cn.monica.missionimpossible.activity.MainActivity"
             android:windowSoftInputMode="stateUnspecified|adjustPan">
+
+        </activity>
+        <activity android:name=".activity.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

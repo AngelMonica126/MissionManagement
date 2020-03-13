@@ -6,6 +6,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.util.List;
+
 import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.util.CalenderUtil;
@@ -23,33 +25,31 @@ public class NotifyService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e("monica",123+"");
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 try {
-                     while(true)
-                    {
-//                        SemaphoreUtil.getInstance().Lock();
-                        RecordDatabase remainTime = RecordManager.getInstance().getRemainData();
-                        if(remainTime!=null&&CalenderUtil.getInstance().getTimeByDate(remainTime.getRemain_time())>CalenderUtil.getInstance().getDayFromOriginal())
-                        {
-                            Log.e("monica",12+"Monica");
-                            RemindUtil.getInstance().Remind(0,remainTime);
-                           // RemindUtil.getInstance().setEmail(remainTime);
-
-                       //     stopSelf();
-//                            RecordManager.getInstance().Update();
-                        }
-//                        SemaphoreUtil.getInstance().UnLock();
-                     //   Log.e("monica",12+"");
-                        sleep(100000);
+                    while (true) {
+                        List<RecordDatabase> remainData = RecordManager.getInstance().getAllRecordDatabases();
+                        if (remainData != null)
+                            for (RecordDatabase recordDatabase : remainData) {
+                                if (recordDatabase != null && recordDatabase.getStep() != 2&&
+                                        recordDatabase.getRemind_times()==0&&
+                                        recordDatabase.getAlarm() !=2&&
+                                        CalenderUtil.getInstance().getTimeByDate(recordDatabase.getRemain_time()) < CalenderUtil.getInstance().getDayFromOriginal())
+                                    RemindUtil.getInstance().Remind(recordDatabase);
+                            }
+                        sleep(60000);
                     }
-                } catch (Exception e) {
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
             }
-        }.start();
+        }.
+
+                start();
+
     }
 
     @Override

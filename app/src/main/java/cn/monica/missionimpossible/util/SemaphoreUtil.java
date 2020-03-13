@@ -4,7 +4,7 @@ import java.util.concurrent.Semaphore;
 
 public class SemaphoreUtil {
     private static SemaphoreUtil semaphoreUtil = new SemaphoreUtil();
-    final Semaphore semaphore = new Semaphore(1);
+    final Semaphore semaphore = new Semaphore(1,true);
     public static SemaphoreUtil getInstance() {
         return semaphoreUtil;
     }

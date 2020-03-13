@@ -31,15 +31,14 @@ public class CalenderUtil {
     {
         try {
             Date temp =  date.parse(num);
-            Log.e("Monica",temp.getTime()+"");
-            return temp.getTime();
+            return temp.getTime()/trans;
         } catch(ParseException px) {
             px.printStackTrace();
         }
             return -1;
     }
     public String changeToDate(int createDay) {
-        long now =createDay*trans;
+        long now = createDay * trans;
         return date.format(now);
     }
 }
