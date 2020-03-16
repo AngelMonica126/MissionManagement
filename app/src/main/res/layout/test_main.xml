@@ -1,61 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin">
+    android:baselineAligned="false"
+    android:orientation="vertical">
 
-    <EditText
-        android:text="angelmonica@foxmail.com"
-        android:id="@+id/sendAddEt"
+
+    <LinearLayout
+        android:paddingTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="发送方邮箱的地址" />
+        android:layout_height="70dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:text="请设置提示时间间隔:"
+            android:textSize="20sp"/>
+        <EditText
+            android:id="@+id/time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:text="分"
+            android:textSize="20sp"/>
+    </LinearLayout>
 
-    <EditText
-        android:text="xkyvockokcfhbdbj"
-        android:id="@+id/mailAuthCode"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="发送方邮箱的授权码" />
-
-    <EditText
-        android:text="smtp.qq.com"
-        android:id="@+id/sendServer"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="发送方的邮箱服务器" />
-
-    <EditText
-        android:text="465"
-        android:id="@+id/sendPortNumber"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="发送方的邮箱端口号" />
-
-    <EditText
-        android:text = "1071209504@qq.com"
-        android:id="@+id/toAddEt"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="接收方的邮箱地址" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:onClick="senTextMail"
-        android:text="点击发送文本邮件" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:onClick="sendFileMail"
-        android:text="点击发送带附件邮件" />
-
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/start_serice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="开启"/>
+        <Button
+            android:id="@+id/stop_serice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="结束"/>
+    </LinearLayout>
 </LinearLayout>

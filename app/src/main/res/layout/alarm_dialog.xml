@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:background="@drawable/record_dailog"
+    android:layout_height="wrap_content">
+    <TextView
+    android:layout_marginLeft="9dp"
+    android:layout_marginRight="9dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/padding"
+    android:textColor="@color/title"
+    android:textSize="10sp"
+    android:text="标题" />
+    <TextView
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
+        android:id="@+id/alarm_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="top"
+        android:text="Monica"
+        android:textColor="@color/tag"
+        android:textSize="18sp"
+        android:textColorHint="@color/record_hint" />
+    <View style="@style/LineView"></View>
+
+    <TextView
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:textColor="@color/title"
+        android:textSize="10sp"
+        android:text="标题" />
+    <TextView
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
+        android:id="@+id/alarm_remarks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="top"
+        android:text="Monica"
+        android:textColor="@color/tag"
+        android:textSize="18sp"
+        android:textColorHint="@color/record_hint" />
+    <View style="@style/LineView"></View>
+</LinearLayout>
