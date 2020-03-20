@@ -42,30 +42,30 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'com.android.support:appcompat-v7:25.3.0'
-    implementation ('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile ('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true;
     }
-    implementation 'com.yalantis:sidemenu:1.0'
-    testImplementation 'junit:junit:4.12'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-    implementation 'cn.finalteam.rxgalleryfinal:library:1.0.9'
-    implementation 'com.android.support:recyclerview-v7:24.2.0'
-    implementation files('libs/Xutils3.0.jar')
-    implementation 'co.lujun:androidtagview:1.1.4'
-    implementation 'com.github.satyan:sugar:1.5'
-    implementation 'com.devs:squaremenu:1.0.0'
-    implementation 'com.nantaphop:hoverTouchView:0.1'
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-    implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'
-    implementation 'com.github.devlight.navigationtabstrip:navigationtabstrip:+'
-    implementation 'com.github.serchinastico:coolswitch:1.0.1'
-    implementation 'com.hedgehog.ratingbar:app:1.1.2'
-    implementation 'com.sun.mail:android-mail:1.5.5'
-    implementation 'com.sun.mail:android-activation:1.5.5'
+    compile 'com.yalantis:sidemenu:1.0'
+    testCompile 'junit:junit:4.12'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    compile 'cn.finalteam.rxgalleryfinal:library:1.0.9'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile files('libs/Xutils3.0.jar')
+    compile 'co.lujun:androidtagview:1.1.4'
+    compile 'com.github.satyan:sugar:1.5'
+    compile 'com.devs:squaremenu:1.0.0'
+    compile 'com.nantaphop:hoverTouchView:0.1'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    compile 'com.andrognito.patternlockview:patternlockview:1.0.0'
+    compile 'com.github.devlight.navigationtabstrip:navigationtabstrip:+'
+    compile 'com.github.serchinastico:coolswitch:1.0.1'
+    compile 'com.hedgehog.ratingbar:app:1.1.2'
+    compile 'com.sun.mail:android-mail:1.5.5'
+    compile 'com.sun.mail:android-activation:1.5.5'
 }
