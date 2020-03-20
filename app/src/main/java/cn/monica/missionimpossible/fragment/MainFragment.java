@@ -17,6 +17,8 @@ import cn.monica.missionimpossible.adapter.RecordExpandableAdapter;
 import cn.monica.missionimpossible.bean.FragmentType;
 import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.bean.ResetTitleMessage;
+import cn.monica.missionimpossible.engine.RecordManager;
+import cn.monica.missionimpossible.myinterface.OnFinishLoadRecord;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.myinterface.OnRecordExpandableReplaceFragment;
 import cn.monica.missionimpossible.util.Color;
@@ -36,7 +38,7 @@ public class MainFragment extends Fragment implements ScreenShotable, OnRecordEx
         bundle.putInt(Integer.class.getName(), resId);
         contentFragment.setArguments(bundle);
         if(recordExpandableAdapter!=null)
-        recordExpandableAdapter.notifyDataSetChanged();
+            recordExpandableAdapter.notifyDataSetChanged();
         messageFragment = onMessageFragment;
         return contentFragment;
     }
@@ -57,15 +59,20 @@ public class MainFragment extends Fragment implements ScreenShotable, OnRecordEx
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.main_class_fragment, container, false);
+        final View rootView = inflater.inflate(R.layout.main_class_fragment, container, false);
         initUI(rootView);
         initListView();
-        init();
+        RecordManager.getInstance().Update(new OnFinishLoadRecord() {
+            @Override
+            public void onFinish() {
+                if(recordExpandableAdapter!=null)
+                    recordExpandableAdapter.Update();
+            }
+        });
+
         return rootView;
     }
 
-    private void init() {
-    }
 
     private void initListView() {
         recordExpandableAdapter =new RecordExpandableAdapter(getContext(),this);
@@ -96,11 +103,11 @@ public class MainFragment extends Fragment implements ScreenShotable, OnRecordEx
         Thread thread = new Thread() {
             @Override
             public void run() {
-                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
-                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                containerView.draw(canvas);
-                MainFragment.this.bitmap = bitmap;
+//                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
+//                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
+//                Canvas canvas = new Canvas(bitmap);
+//                containerView.draw(canvas);
+//                MainFragment.this.bitmap = bitmap;
             }
         };
         thread.start();
@@ -113,19 +120,11 @@ public class MainFragment extends Fragment implements ScreenShotable, OnRecordEx
 
     @Override
     public void onClick(RecordDatabase recordDatabase) {
-        replaceInfoViewAndChangeFragment(recordDatabase);
-        Log.e("monica","monica");
-    }
-
-    public ScreenShotable replaceInfoViewAndChangeFragment(RecordDatabase recordDatabase) {
-        ResetTitleMessage titleMessage = new ResetTitleMessage(Color.VIEW_AND_CHANGE_COLOR,R.drawable.view_and_change_top,recordDatabase.getTitle(), FragmentType.InfoViewAndChangeFragment);
         Message message = new  Message();
-        message.what = 1;
-        message.obj = titleMessage;
+        message.what = 2;
+        message.obj = recordDatabase;
         messageFragment.setMassage(message);
-       InfoViewAndChangeFragment infoViewAndChangeFragment = InfoViewAndChangeFragment.newInstance(R.drawable.view_bk, recordDatabase,messageFragment);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, infoViewAndChangeFragment).commit();
-        return infoViewAndChangeFragment;
+        Log.e("monica","monica");
     }
 }
 

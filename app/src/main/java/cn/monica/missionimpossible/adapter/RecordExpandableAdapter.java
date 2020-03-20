@@ -24,6 +24,7 @@ import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.engine.LockDialogHelper;
 import cn.monica.missionimpossible.engine.RecordManager;
+import cn.monica.missionimpossible.myinterface.OnFinishDeleteRecord;
 import cn.monica.missionimpossible.myinterface.OnRecordExpandableReplaceFragment;
 import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.ContentValueUtil;
@@ -43,7 +44,11 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
         this.onRecordExpandableReplaceFragment = onRecordExpandableReplaceFragment;
         recordDatabases = RecordManager.getInstance().getAllRecordDatabases();
     }
-
+    public void Update()
+    {
+        recordDatabases = RecordManager.getInstance().getAllRecordDatabases();
+        this.notifyDataSetChanged();
+    }
     // 获取分组的个数
     @Override
     public int getGroupCount() {
@@ -125,7 +130,7 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
             @Override
             public void onRatingChange(float RatingCount) {
                 recordDatabase.setPriority((int) RatingCount);
-                recordDatabase.save();
+                RecordManager.getInstance().Add(recordDatabase);
             }
         });
         viewHolder.item_createDay.setText(steps[step]);
@@ -136,11 +141,13 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
                 LockDialogHelper.getInstance().createUnLockDialog(new LockDialogHelper.UnLockListener() {
                     @Override
                     public void onSuccess() {
-                        recordDatabases.remove(recordDatabase);
-                        recordDatabase.delete();
-                        notifyDataSetChanged();
+                        RecordManager.getInstance().Delete(recordDatabase, new OnFinishDeleteRecord() {
+                            @Override
+                            public void onFinish() {
+                                notifyDataSetChanged();
+                            }
+                        });
                     }
-
                     @Override
                     public void onFailure() {
                         ToastUtil.makeToast(context,"密码错误！");
@@ -196,8 +203,8 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
         viewHolder.record_child_item_remarks     = (TextView) view.findViewById(R.id.record_child_item_remarks);
         viewHolder.record_child_item_tag         = (TagContainerLayout) view.findViewById(R.id.record_child_item_tag);
         viewHolder.record_chile_item_step        = (NavigationTabStrip) view.findViewById(R.id.record_chile_item_step);
-        viewHolder.record_child_item_parent        = (LinearLayout) view.findViewById(R.id.record_child_item_parent);
-        viewHolder.record_chile_item_group      =    (RadioGroup) view.findViewById(R.id.record_chile_item_group    );
+        viewHolder.record_child_item_parent      = (LinearLayout) view.findViewById(R.id.record_child_item_parent);
+        viewHolder.record_chile_item_group       = (RadioGroup) view.findViewById(R.id.record_chile_item_group    );
         int step = recordDatabases.get(groupPosition).getStep();
         switch (step)
         {
@@ -263,7 +270,7 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
                         parentLayout.setBackgroundResource(R.drawable.finish_shape);
                         break;
                 }
-                recordDatabase.save();
+                RecordManager.getInstance().Add(recordDatabase);
             }
         });
         viewHolder.record_chile_item_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -283,7 +290,7 @@ public class RecordExpandableAdapter extends BaseExpandableListAdapter {
                         alarm = 2;
                 }
                 recordDatabase.setAlarm(alarm);
-                recordDatabase.save();
+                RecordManager.getInstance().Add(recordDatabase);
             }
         });
         return view;

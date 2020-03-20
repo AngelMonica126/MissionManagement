@@ -1,4 +1,4 @@
-package cn.monica.missionimpossible.bean;
+package cn.monica.missionimpossible.database;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.Unique;

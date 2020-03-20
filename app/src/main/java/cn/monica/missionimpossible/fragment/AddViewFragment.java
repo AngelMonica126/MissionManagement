@@ -26,7 +26,7 @@ import java.util.List;
 import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.bean.TitleViewStruct;
 import cn.monica.missionimpossible.bean.TitleViewType;
-import cn.monica.missionimpossible.bean.ViewDatabase;
+import cn.monica.missionimpossible.database.ViewDatabase;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.myinterface.OnTitleViewDeletelistener;
 import cn.monica.missionimpossible.myinterface.OnViewChooseListener;
@@ -177,11 +177,11 @@ public class AddViewFragment extends Fragment implements ScreenShotable {
         Thread thread = new Thread() {
             @Override
             public void run() {
-                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
-                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                containerView.draw(canvas);
-                AddViewFragment.this.bitmap = bitmap;
+//                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
+//                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
+//                Canvas canvas = new Canvas(bitmap);
+//                containerView.draw(canvas);
+//                AddViewFragment.this.bitmap = bitmap;
             }
         };
         thread.start();

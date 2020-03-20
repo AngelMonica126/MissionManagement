@@ -1,5 +1,7 @@
 package cn.monica.missionimpossible.util;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,14 +31,14 @@ public class CalenderUtil {
     {
         try {
             Date temp =  date.parse(num);
-            return temp.getTime();
+            return temp.getTime()/trans;
         } catch(ParseException px) {
             px.printStackTrace();
         }
             return -1;
     }
     public String changeToDate(int createDay) {
-        long now =createDay*trans;
+        long now = createDay * trans;
         return date.format(now);
     }
 }

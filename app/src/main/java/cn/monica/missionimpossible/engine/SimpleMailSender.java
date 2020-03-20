@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMultipart;
 
 import cn.monica.missionimpossible.bean.MailAuthenticator;
 
-public class SimpleMailSender{
+public class SimpleMailSender {
 
     /**
      * 以文本格式发送邮件
@@ -66,7 +66,7 @@ public class SimpleMailSender{
      *
      * @param mailInfo 待发送的邮件的信息
      */
-    public boolean sendTextAndFileMail(MailSenderInfo mailInfo,String[] filePath) {
+    public boolean sendTextAndFileMail(MailSenderInfo mailInfo, String[] filePath) {
         // 判断是否需要身份认证
         MailAuthenticator authenticator = null;
         Properties pro = mailInfo.getProperties();
@@ -94,19 +94,20 @@ public class SimpleMailSender{
             // 添加附件体
             BodyPart messageBodyPart = new MimeBodyPart();
             // 设置邮件消息的主要内容
-            messageBodyPart.setContent(mailInfo.getContent(),  "text/html;charset=utf-8");
+            messageBodyPart.setContent(mailInfo.getContent(), "text/html;charset=utf-8");
             MimeMultipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
-            for (int i = 0; i < filePath.length; i++) {
-                MimeBodyPart bodyPart = new MimeBodyPart();
-                try {
-                    //绑定附件路径
-                    bodyPart.attachFile(filePath[i]);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if (filePath != null)
+                for (int i = 0; i < filePath.length; i++) {
+                    MimeBodyPart bodyPart = new MimeBodyPart();
+                    try {
+                        //绑定附件路径
+                        bodyPart.attachFile(filePath[i]);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    multipart.addBodyPart(bodyPart);
                 }
-                multipart.addBodyPart(bodyPart);
-            }
             mailMessage.setContent(multipart);
 
             // 发送邮件

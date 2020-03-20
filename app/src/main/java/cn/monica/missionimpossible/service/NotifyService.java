@@ -6,8 +6,13 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.util.List;
+
+import cn.monica.missionimpossible.activity.MainActivity;
+import cn.monica.missionimpossible.activity.TestActivity;
 import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.engine.RecordManager;
+import cn.monica.missionimpossible.myinterface.OnFinishLoadRecord;
 import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.RemindUtil;
 import cn.monica.missionimpossible.util.SemaphoreUtil;
@@ -23,33 +28,54 @@ public class NotifyService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e("monica",123+"");
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 try {
-                     while(true)
-                    {
-                        SemaphoreUtil.getInstance().Lock();
-                        RecordDatabase remainTime = RecordManager.getInstance().getRemainData();
-                        if(remainTime!=null&&CalenderUtil.getInstance().getTimeByDate(remainTime.getRemain_time())<CalenderUtil.getInstance().getDayFromOriginal())
-                        {
-                            Log.e("monica",12+"Monica");
-                            ToastUtil.makeToast(getBaseContext(),"Monica");
-                            RemindUtil.getInstance().Remind(0,remainTime);
-                            remainTime.setRemind_times(remainTime.getRemind_times()+1);
-                            remainTime.save();
-                            RecordManager.getInstance().Update();
+
+//                    while (true) {
+                    RecordManager.getInstance().Update(new OnFinishLoadRecord() {
+                        @Override
+                        public void onFinish() {
+                            new Thread() {
+                                @Override
+                                public void run() {
+                                    List<RecordDatabase> remainData = RecordManager.getInstance().getAllRecordDatabases();
+                                    try {
+                                        sleep(10000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Intent intent = new Intent(NotifyService.this, MainActivity.class);
+                                    intent.putExtra("message", true);
+                                    intent.putExtra("record",remainData.get(0));
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    NotifyService.this.startActivity(intent);
+                                    Log.e("Monica","Monica");
+                                }
+                            }.start();
                         }
-                        SemaphoreUtil.getInstance().UnLock();
-                        Log.e("monica",12+"");
-                        sleep(1000);
-                    }
-                } catch (InterruptedException e) {
+                    });
+
+//                        if (remainData != null)
+//                            for (RecordDatabase recordDatabase : remainData) {
+//                                if (recordDatabase != null && recordDatabase.getStep() != 2&&
+//                                        recordDatabase.getRemind_times()==0&&
+//                                        recordDatabase.getAlarm() !=2&&
+//                                        CalenderUtil.getInstance().getTimeByDate(recordDatabase.getRemain_time()) < CalenderUtil.getInstance().getDayFromOriginal())
+//                                    RemindUtil.getInstance().Remind(recordDatabase);
+//                            }
+
+//                        sleep(60000);
+//                    }
+                } catch (
+                        Exception e) {
                     e.printStackTrace();
                 }
             }
-        }.start();
+        }.
+
+                start();
     }
 
     @Override

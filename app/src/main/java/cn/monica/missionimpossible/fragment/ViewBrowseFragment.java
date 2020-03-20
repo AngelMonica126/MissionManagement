@@ -16,7 +16,7 @@ import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.adapter.ViewAdapter;
 import cn.monica.missionimpossible.bean.FragmentType;
 import cn.monica.missionimpossible.bean.ResetTitleMessage;
-import cn.monica.missionimpossible.bean.ViewDatabase;
+import cn.monica.missionimpossible.database.ViewDatabase;
 import cn.monica.missionimpossible.engine.ViewManager;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.util.Color;
@@ -93,11 +93,11 @@ public class ViewBrowseFragment extends Fragment implements ScreenShotable {
         Thread thread = new Thread() {
             @Override
             public void run() {
-                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
-                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                containerView.draw(canvas);
-                ViewBrowseFragment.this.bitmap = bitmap;
+//                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
+//                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
+//                Canvas canvas = new Canvas(bitmap);
+//                containerView.draw(canvas);
+//                ViewBrowseFragment.this.bitmap = bitmap;
             }
         };
         thread.start();

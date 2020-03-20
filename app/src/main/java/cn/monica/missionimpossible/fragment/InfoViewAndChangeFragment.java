@@ -42,7 +42,8 @@ import cn.monica.missionimpossible.bean.FileBean;
 import cn.monica.missionimpossible.database.RecordDatabase;
 import cn.monica.missionimpossible.bean.TitleViewStruct;
 import cn.monica.missionimpossible.bean.TitleViewType;
-import cn.monica.missionimpossible.bean.ViewDatabase;
+import cn.monica.missionimpossible.database.ViewDatabase;
+import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.FileUtil;
@@ -149,13 +150,12 @@ public class InfoViewAndChangeFragment extends Fragment implements ScreenShotabl
         record.setStep(view_and_change_fragment_step.getTabIndex());
         record.setPriority((int) view_and_change_fragment_rating.getCount());
         record.setBegin_time(-1);
-        record.save();
+        RecordManager.getInstance().Add(record);
         ToastUtil.makeToast(getContext(),  "保存成功!");
         clearFragment();
         Message message = new Message();
         message.what = 0;
         messageFragment.setMassage(message);
-
     }
 
     private void saveDIY(String name) {
@@ -533,11 +533,11 @@ public class InfoViewAndChangeFragment extends Fragment implements ScreenShotabl
         Thread thread = new Thread() {
             @Override
             public void run() {
-                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
-                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                containerView.draw(canvas);
-                InfoViewAndChangeFragment.this.bitmap = bitmap;
+//                Bitmap bitmap = Bitmap.createBitmap(containerView.getWidth(),
+//                        containerView.getHeight(), Bitmap.Config.ARGB_8888);
+//                Canvas canvas = new Canvas(bitmap);
+//                containerView.draw(canvas);
+//                InfoViewAndChangeFragment.this.bitmap = bitmap;
             }
         };
         thread.start();
