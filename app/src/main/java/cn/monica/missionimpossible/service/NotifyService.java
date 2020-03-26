@@ -32,44 +32,18 @@ public class NotifyService extends Service {
             @Override
             public void run() {
                 try {
-
-//                    while (true) {
-                    RecordManager.getInstance().Update(new OnFinishLoadRecord() {
-                        @Override
-                        public void onFinish() {
-                            new Thread() {
-                                @Override
-                                public void run() {
-                                    List<RecordDatabase> remainData = RecordManager.getInstance().getAllRecordDatabases();
-                                    try {
-                                        sleep(10000);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Intent intent = new Intent(NotifyService.this, MainActivity.class);
-                                    intent.putExtra("message", true);
-                                    intent.putExtra("record",remainData.get(0));
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    NotifyService.this.startActivity(intent);
-                                    Log.e("Monica","Monica");
-                                }
-                            }.start();
-                        }
-                    });
-
-//                        if (remainData != null)
-//                            for (RecordDatabase recordDatabase : remainData) {
-//                                if (recordDatabase != null && recordDatabase.getStep() != 2&&
-//                                        recordDatabase.getRemind_times()==0&&
-//                                        recordDatabase.getAlarm() !=2&&
-//                                        CalenderUtil.getInstance().getTimeByDate(recordDatabase.getRemain_time()) < CalenderUtil.getInstance().getDayFromOriginal())
-//                                    RemindUtil.getInstance().Remind(recordDatabase);
-//                            }
-
-//                        sleep(60000);
-//                    }
-                } catch (
-                        Exception e) {
+                    while (true) {
+                        List<RecordDatabase> remainData = RecordManager.getInstance().getAllRecordDatabases();
+                        if (remainData != null)
+                            for (RecordDatabase recordDatabase : remainData) {
+                                if (recordDatabase != null && recordDatabase.getStep() != 2 &&
+                                        recordDatabase.getRemind_times() == 0 &&
+                                        CalenderUtil.getInstance().getTimeByDate(recordDatabase.getRemain_time()) < CalenderUtil.getInstance().getDayFromOriginal())
+                                    RemindUtil.getInstance().Remind(recordDatabase);
+                            }
+                        sleep(60000);
+                    }
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

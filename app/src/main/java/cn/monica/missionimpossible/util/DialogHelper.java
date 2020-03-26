@@ -10,15 +10,25 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 
 import cn.monica.missionimpossible.R;
 import cn.monica.missionimpossible.bean.TitleViewType;
+import cn.monica.missionimpossible.database.RecordDatabase;
+import cn.monica.missionimpossible.myinterface.OnRemindActionListener;
 import cn.monica.missionimpossible.myinterface.OnTimePickerDialogInterface;
 import cn.monica.missionimpossible.myinterface.OnViewChooseListener;
+import cn.monica.missionimpossible.view.TitleShowView;
+import cn.monica.missionimpossible.view.TitleView;
+import co.lujun.androidtagview.TagContainerLayout;
 
 public class DialogHelper {
     private static DialogHelper dialogHelper = new DialogHelper();
@@ -63,6 +73,61 @@ public class DialogHelper {
                     onTimePickerDialogInterface.Save(datePicker.getYear(),datePicker.getMonth()+1,datePicker.getDayOfMonth(),timePicker.getHour(),timePicker.getMinute());
                     alertDialog.dismiss();
                 }
+            }
+        });
+    }
+
+    public void createRemindDialog(Context context, RecordDatabase recordDatabase, final OnRemindActionListener onRemindActionListener)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context );
+        final AlertDialog alertDialog = builder.create();
+        final View view = View.inflate(context, R.layout.remind_dialog, null);
+        alertDialog.setView(view);
+        alertDialog.show();
+        TextView  remind_dialog_title = (TextView) view.findViewById(R.id.remind_dialog_title);
+        TextView  remind_dialog_remarks = (TextView) view.findViewById(R.id.remind_dialog_remarks);
+        TitleView remind_dialog_deadline = (TitleView) view.findViewById(R.id.remind_dialog_deadline);
+        TagContainerLayout remind_dialog_tag = (TagContainerLayout) view.findViewById(R.id.remind_dialog_tag);
+        //setTitle
+        remind_dialog_title.setText(recordDatabase.getTitle());
+
+        File remarksFile = new File(context.getFilesDir(), recordDatabase.getName() + ContentValueUtil.REMARKS);
+        String remarks = FileUtil.readFile(remarksFile);
+        remind_dialog_remarks.setText(remarks);
+
+        remind_dialog_deadline.setInfo(recordDatabase.getDeadline());
+
+        File tagFile = new File(context.getFilesDir(), recordDatabase.getName() + ContentValueUtil.TAG);
+        try {
+            JSONArray jsonArray = new JSONArray(FileUtil.readFile(tagFile));
+            for(int i = 0 ;i <jsonArray.length();i++)
+                remind_dialog_tag.addTag(String.valueOf(jsonArray.get(i)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Button remind_dialog_confirm = (Button) view.findViewById(R.id.remind_dialog_confirm);
+        Button remind_dialog_delay = (Button) view.findViewById(R.id.remind_dialog_delay);
+        Button remind_dialog_view = (Button) view.findViewById(R.id.remind_dialog_view);
+        remind_dialog_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+                onRemindActionListener.Confirm();
+            }
+        });
+        remind_dialog_delay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+                onRemindActionListener.Delay();
+            }
+        });
+        remind_dialog_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+                onRemindActionListener.View();
             }
         });
     }

@@ -108,7 +108,24 @@ public class RecordManager {
             public void run() {
                 try {
                     SemaphoreUtil.getInstance().Lock();
-                    remindData.setRemind_times(remindData.getRemind_times() + 1);
+                    remindData.setRemind_times(1);
+                    remindData.save();
+                } catch (
+                        InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    SemaphoreUtil.getInstance().UnLock();
+                }
+            }
+        }.start();
+    }
+    public void UnRemind(final RecordDatabase remindData) {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    SemaphoreUtil.getInstance().Lock();
+                    remindData.setRemind_times(0);
                     remindData.save();
                 } catch (
                         InterruptedException e) {

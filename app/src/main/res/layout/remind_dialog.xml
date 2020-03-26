@@ -27,7 +27,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageButton
+                <ImageView
                     android:id="@+id/remind_dialog_title_bt"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -65,14 +65,14 @@
                 android:imeOptions="flagNoExtractUi"
                 android:textColor="#d1d2d1"
                 android:textColorHint="@color/record_hint" />
-            <cn.monica.missionimpossible.view.TitleShowView
+            <cn.monica.missionimpossible.view.TitleView
                 app:tstype="1"
                 app:tstitle="截止时间"
                 app:tsinfo="截止时间"
                 android:id="@+id/remind_dialog_deadline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                ></cn.monica.missionimpossible.view.TitleShowView>
+                ></cn.monica.missionimpossible.view.TitleView>
             <View
                 style="@style/LineView"
                 android:layout_marginTop="@dimen/padding"></View>
