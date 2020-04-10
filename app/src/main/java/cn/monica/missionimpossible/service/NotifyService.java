@@ -38,8 +38,8 @@ public class NotifyService extends Service {
                             for (RecordDatabase recordDatabase : remainData) {
                                 if (recordDatabase != null && recordDatabase.getStep() != 2 &&
                                         recordDatabase.getRemind_times() == 0 &&
-                                        CalenderUtil.getInstance().getTimeByDate(recordDatabase.getRemain_time()) < CalenderUtil.getInstance().getDayFromOriginal())
-                                    RemindUtil.getInstance().Remind(recordDatabase);
+                                        CalenderUtil.getInstance().getTimeByDate(recordDatabase.getRemain_time()) <= CalenderUtil.getInstance().getDayFromOriginal())
+                                    RemindUtil.getInstance().Remind(recordDatabase,getApplicationContext());
                             }
                         sleep(60000);
                     }

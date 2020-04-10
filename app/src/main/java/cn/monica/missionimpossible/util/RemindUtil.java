@@ -19,42 +19,37 @@ import cn.monica.missionimpossible.service.NotifyService;
 
 public class RemindUtil {
     private static RemindUtil remindUtil = new RemindUtil();
-    private Context context;
     private MediaPlayer mediaPlayer = new MediaPlayer();
     private Vibrator vib;
     public static RemindUtil getInstance() {
         return remindUtil;
     }
-    public  void init(Context context){
-        this.context = context;
+    public void Remind( RecordDatabase remindData,Context context)
+    {
         vib = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
-//        vib.vibrate(new long[]{1000, 1000, 1000, 1000},1);
-//        vib.cancel();
         File file = new File(UesrUtil.getInstance().getAlarmPath(),UesrUtil.getInstance().getAlarmFile());
         try {
             mediaPlayer.setDataSource(file.getPath());
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
-        }}
-    public void Remind( RecordDatabase remindData)
-    {
+        }
         switch (remindData.getAlarm())
         {
             case 0:
-                setEmail(remindData);
+                setEmail(remindData, context);
                 break;
             case 1:
-                setAlarm(remindData);
+                setAlarm(remindData,context);
                 break;
             case 2:
-                setEmail(remindData);
-                setAlarm(remindData);
+                setEmail(remindData,context);
+                setAlarm(remindData,context);
                 break;
         }
 
     }
-    public void setAlarm(final RecordDatabase recordDatabase)
+    public void setAlarm(final RecordDatabase recordDatabase, final Context context)
     {
         if (!mediaPlayer.isPlaying()){
             mediaPlayer.start();
@@ -89,11 +84,11 @@ public class RemindUtil {
                 intent.putExtra("record",recordDatabase);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
-                Log.e("Monica","Monica");
+
             }
         });
     }
-    public void setEmail(final RecordDatabase remindData) {
+    public void setEmail(final RecordDatabase remindData,Context context) {
         File file = new File(context.getFilesDir(), remindData.getName() + ContentValueUtil.REMARKS);
         final String des = FileUtil.readFile(file);
         Log.e("Monica",des);

@@ -16,6 +16,7 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.VIBRATE"
     tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/view_browse_bk"
@@ -25,13 +26,14 @@
         tools:replace="android:icon,android:theme">
         <activity android:name="cn.monica.missionimpossible.activity.MainActivity"
             android:windowSoftInputMode="stateUnspecified|adjustPan">
+
+        </activity>
+        <activity android:name=".activity.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".activity.TestActivity">
         </activity>
         <service android:name=".service.LongRunningService"></service>
         <service android:name=".service.NotifyService"></service>

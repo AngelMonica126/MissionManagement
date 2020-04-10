@@ -165,7 +165,7 @@
             android:id="@+id/record_chile_item_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="不提醒"/>
+            android:text="邮件和闹钟"/>
     </RadioGroup>
 </LinearLayout>
 

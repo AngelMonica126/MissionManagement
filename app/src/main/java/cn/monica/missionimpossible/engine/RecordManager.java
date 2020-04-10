@@ -1,5 +1,9 @@
 package cn.monica.missionimpossible.engine;
 
+import android.content.Context;
+
+import com.orm.SugarContext;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,13 +19,19 @@ import cn.monica.missionimpossible.util.SemaphoreUtil;
 public class RecordManager {
     private static RecordManager recordManager = new RecordManager();
     private static List<RecordDatabase> recordDatabases = new ArrayList<>();
-
+    public Context context;
+    public void init(Context context)
+    {
+        this.context = context;
+    }
     public void Update(final OnFinishLoadRecord onFinishLoadRecord) {
         new Thread() {
             @Override
             public void run() {
                 try {
                     SemaphoreUtil.getInstance().Lock();
+                    SugarContext.terminate();
+                    SugarContext.init(context);
                     if (RecordDatabase.count(RecordDatabase.class) <= 0) {
                         return;
                     }
@@ -43,6 +53,8 @@ public class RecordManager {
             public void run() {
                 try {
                     SemaphoreUtil.getInstance().Lock();
+                    SugarContext.terminate();
+                    SugarContext.init(context);
                     recordDatabases.remove(recordDatabase);
                     recordDatabase.delete();
                     onFinishDeleteRecord.onFinish();
@@ -66,6 +78,8 @@ public class RecordManager {
             public void run() {
                 try {
                     SemaphoreUtil.getInstance().Lock();
+                    SugarContext.terminate();
+                    SugarContext.init(context);
                     recordDatabase.save();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -108,6 +122,8 @@ public class RecordManager {
             public void run() {
                 try {
                     SemaphoreUtil.getInstance().Lock();
+                    SugarContext.terminate();
+                    SugarContext.init(context);
                     remindData.setRemind_times(1);
                     remindData.save();
                 } catch (
@@ -125,6 +141,8 @@ public class RecordManager {
             public void run() {
                 try {
                     SemaphoreUtil.getInstance().Lock();
+                    SugarContext.terminate();
+                    SugarContext.init(context);
                     remindData.setRemind_times(0);
                     remindData.save();
                 } catch (
@@ -136,4 +154,6 @@ public class RecordManager {
             }
         }.start();
     }
+
+
 }

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,18 +46,45 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         startService = (Button) findViewById(R.id.start_serice);
         stopService = (Button) findViewById(R.id.stop_serice);
         time = (EditText) findViewById(R.id.time);
+        RecordManager.getInstance().init(getApplicationContext());
+        SugarContext.init(getApplicationContext());
+        new Thread() {
+            @Override
+            public void run() {
+                try {
 
-        startService.setOnClickListener(this);
-        stopService.setOnClickListener(this);
+//                    while (true) {
+                    RecordManager.getInstance().Update(new OnFinishLoadRecord() {
+                        @Override
+                        public void onFinish() {
+                            List<RecordDatabase> remainData = RecordManager.getInstance().getAllRecordDatabases();
+//                        if (remainData != null)
+//                            for (RecordDatabase recordDatabase : remainData) {
+//                                if (recordDatabase != null && recordDatabase.getStep() != 2 &&
+//                                        recordDatabase.getRemind_times() == 0 &&
+//                                        CalenderUtil.getInstance().getTimeByDate(recordDatabase.getRemain_time()) <= CalenderUtil.getInstance().getDayFromOriginal())
+//                                    RemindUtil.getInstance().Remind(recordDatabase,getApplicationContext());
+//                            }
+                            RemindUtil.getInstance().Remind(remainData.get(0),getApplicationContext());
+                            Log.e("Monica","Ver");
+                        }
+                    });
+//                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.
+
+                start();
     }
     public void senTextMail(View view) {
-        RemindUtil.getInstance().init(getApplicationContext());
         SugarContext.init(getApplicationContext());
         RecordManager.getInstance().Update(new OnFinishLoadRecord() {
             @Override
             public void onFinish() {
                 List<RecordDatabase>recordDatabases = RecordManager.getInstance().getAllRecordDatabases();
-                RemindUtil.getInstance().Remind(recordDatabases.get(0));
+                RemindUtil.getInstance().Remind(recordDatabases.get(0),getApplicationContext());
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {

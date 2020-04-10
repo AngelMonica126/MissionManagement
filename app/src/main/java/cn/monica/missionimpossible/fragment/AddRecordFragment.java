@@ -153,7 +153,10 @@ public class AddRecordFragment extends Fragment implements ScreenShotable, View.
         recordDatabase.setRemain_time(add_record_fragment_remind_time.getInfo().getInfo());
         recordDatabase.setStep(add_record_fragment_step.getTabIndex());
         recordDatabase.setPriority((int) add_record_fragment_rating.getCount());
-        recordDatabase.setBegin_time(-1);
+        if(add_record_fragment_step.getTabIndex()!=0)
+            recordDatabase.setBegin_time(CalenderUtil.getInstance().getDayFromOriginal());
+        else
+            recordDatabase.setBegin_time(-1);
         recordDatabase.setView_id(data.getId());
         recordDatabase.setAlarm(alarm);
         recordDatabase.setRemind_times(0);

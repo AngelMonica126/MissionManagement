@@ -45,6 +45,7 @@ import cn.monica.missionimpossible.bean.TitleViewType;
 import cn.monica.missionimpossible.database.ViewDatabase;
 import cn.monica.missionimpossible.engine.RecordManager;
 import cn.monica.missionimpossible.myinterface.OnMessageFragment;
+import cn.monica.missionimpossible.util.CalenderUtil;
 import cn.monica.missionimpossible.util.ContentValueUtil;
 import cn.monica.missionimpossible.util.FileUtil;
 import cn.monica.missionimpossible.util.ToastUtil;
@@ -145,11 +146,16 @@ public class InfoViewAndChangeFragment extends Fragment implements ScreenShotabl
         saveDIY(name);
         record.setName(name);
         record.setTitle(title);
+        if(!record.getRemain_time().equals(view_and_change_fragment_remind_time.getInfo().getInfo()))
+            record.setRemind_times(0);
         record.setDeadline(view_and_change_fragment_deadline.getInfo().getInfo());
         record.setRemain_time(view_and_change_fragment_remind_time.getInfo().getInfo());
         record.setStep(view_and_change_fragment_step.getTabIndex());
         record.setPriority((int) view_and_change_fragment_rating.getCount());
-        record.setBegin_time(-1);
+        if(view_and_change_fragment_step.getTabIndex()!=0)
+            record.setBegin_time(CalenderUtil.getInstance().getDayFromOriginal());
+        else
+            record.setBegin_time(-1);
         RecordManager.getInstance().Add(record);
         ToastUtil.makeToast(getContext(),  "保存成功!");
         clearFragment();
